@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>홈화면</title>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <script src="{% static 'js/home.js' %}"></script>
+
+    <style>
+        * {margin:0;padding:0;}
+        .BannerWrap input[id*="slide"] {display:none;}
+        .BannerWrap .SliderWrap {max-width:1300px;margin:0 auto;}
+        .BannerWrap .slidelist {white-space:nowrap;font-size:0;overflow:hidden;position:relative;}
+        .BannerWrap .slidelist > li {display:inline-block;vertical-align:middle;width:100%;transition:all .5s;}
+        .BannerWrap .slidelist > li > a {display:block;position:relative;}
+        .BannerWrap .slidelist > li > a img {width:100%;}
+        .BannerWrap .slidelist label {position:absolute;z-index:10;top:50%;transform:translateY(-50%);padding:50px;cursor:pointer;}
+        
+        /* input에 체크되면 슬라이드 효과 */
+        .BannerWrap input[id="slide01"]:checked ~ .SliderWrap .slidelist > li {transform:translateX(0%);}
+        .BannerWrap input[id="slide02"]:checked ~ .SliderWrap .slidelist > li {transform:translateX(-100%);}
+        .BannerWrap input[id="slide03"]:checked ~ .SliderWrap .slidelist > li {transform:translateX(-200%);}
+        .BannerWrap input[id="slide04"]:checked ~ .SliderWrap .slidelist > li {transform:translateX(-300%);}
+    
+        /* 좌,우 슬라이드 버튼 */
+        .slide-control > div {display:none;}
+        .BannerWrap .left {left:-20px;background:url("{% static 'image/left.png' %}") center center / 60% no-repeat;}
+        .BannerWrap .right {right:-20px;background:url("{% static '/image/right.png' %}") center center / 60% no-repeat;}
+        .BannerWrap input[id="slide01"]:checked ~ .SliderWrap .slide-control > div:nth-child(1) {display:block;}
+        .BannerWrap input[id="slide02"]:checked ~ .SliderWrap .slide-control > div:nth-child(2) {display:block;}
+        .BannerWrap input[id="slide03"]:checked ~ .SliderWrap .slide-control > div:nth-child(3) {display:block;}
+        .BannerWrap input[id="slide04"]:checked ~ .SliderWrap .slide-control > div:nth-child(4) {display:block;}
+    
+        /* 페이징 */
+        .slide-pagelist {text-align:center;padding:20px;}
+        .slide-pagelist > li {display:inline-block;vertical-align:middle;}
+        .slide-pagelist > li > label {display:block;padding:8px 30px;border-radius:30px;background:#ccc;margin:20px 10px;cursor:pointer;}
+        .BannerWrap input[id="slide01"]:checked ~ .SliderWrap .slide-pagelist > li:nth-child(1) > label {background:#999;}
+        .BannerWrap input[id="slide02"]:checked ~ .SliderWrap .slide-pagelist > li:nth-child(2) > label {background:#999;}
+        .BannerWrap input[id="slide03"]:checked ~ .SliderWrap .slide-pagelist > li:nth-child(3) > label {background:#999;}
+        .BannerWrap input[id="slide04"]:checked ~ .SliderWrap .slide-pagelist > li:nth-child(4) > label {background:#999;}
+        </style>
+</head>
+
+<body>
+    {% include 'navbar.html' %}
+
+    {% block content %}
+
+    {% endblock %}
+
+    {% include 'footer.html' %}
+</body>
+
+</html>

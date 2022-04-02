@@ -1,0 +1,78 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block content %}
+   
+    <div id="contentWrap">
+        <div class="BannerWrap">
+            <input type="radio" name="slide" id="slide01" checked>
+            <input type="radio" name="slide" id="slide02">
+            <input type="radio" name="slide" id="slide03">
+            <input type="radio" name="slide" id="slide04">
+
+            <div class="SliderWrap">
+                <ul class="slidelist">
+                    <li class="slideitem">
+                        <a>
+                            <label for="slide04" class="left"></label>
+                            <img src="{% static '/image/001.jpg' %}">
+                            <label for="slide02" class="right"></label>
+                        </a>
+                    </li>
+                    <li class="slideitem">
+                        <a>
+                            <label for="slide01" class="left"></label>
+                            <img src="{% static '/image/002.jpg' %}">
+                            <label for="slide03" class="right"></label>
+                        </a>
+                    </li>
+                    <li class="slideitem">
+                        <a>
+                            <label for="slide02" class="left"></label>
+                            <img src="{% static '/image/003.jpg' %}">
+                            <label for="slide04" class="right"></label>
+                        </a>
+                    </li>
+                    <li class="slideitem">
+                        <a>
+                            <label for="slide03" class="left"></label>
+                            <img src="{% static '/image/004.jpg' %}">
+                            <label for="slide01" class="right"></label>
+                        </a>
+                    </li>
+
+                    <!-- 좌,우 슬라이드 버튼 -->
+                    <div class="slide-control">
+                        <div>
+                            <label for="slide04" class="left"></label>
+                            <label for="slide02" class="right"></label>
+                        </div>
+                        <div>
+                            <label for="slide01" class="left"></label>
+                            <label for="slide03" class="right"></label>
+                        </div>
+                        <div>
+                            <label for="slide02" class="left"></label>
+                            <label for="slide04" class="right"></label>
+                        </div>
+                        <div>
+                            <label for="slide03" class="left"></label>
+                            <label for="slide01" class="right"></label>
+                        </div>
+                    </div>
+                </ul>
+
+                <!-- 페이징 -->
+                <ul class="slide-pagelist">
+                    <li><label for="slide01"></label></li>
+                    <li><label for="slide02"></label></li>
+                    <li><label for="slide03"></label></li>
+                    <li><label for="slide04"></label></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+
+
+
