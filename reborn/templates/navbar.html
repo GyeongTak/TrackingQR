@@ -1,0 +1,16 @@
+    <!--공통적으로 적용한 페이지 양식입니다-->
+    <div id="headerWrap">
+        <div id="titleBox">
+            <h id="title"><strong>커넥트빌</strong></h>
+            <h id="Designer"><strong>디자이너</strong></h>
+            <h id="Request"><strong>의뢰서</strong></h>
+            {% if not login_session %}
+            <h id="loginLetter"><a href="{% url 'login' %}">로그인</a></h>
+            <h id="joinLetter"><a href="{% url 'register' %}">회원가입</a></h>
+            {% else %}
+            <h id="loginLetter"><a href="{% url 'logout' %}">로그아웃</a></h>
+            {% endif %}
+
+        </div>
+        <hr id="headline" size="1.5" noshade/>
+    </div>
