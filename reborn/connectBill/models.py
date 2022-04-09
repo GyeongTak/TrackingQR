@@ -23,4 +23,21 @@ class User(models.Model) :
         verbose_name = '유저'
         verbose_name_plural = '유저'
 
-# Create your models here.
+class Portfolio(models.Model) :
+    #portfolio post id는 primary_key field로 설정
+    portfolio_image = models.CharField(max_length=500) #verbose file name : 명시하지않으면 'portfolio image' 
+    description = models.TextField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE) # on_delete=models.SET()???
+    title = models.CharField(max_length=300)
+    updated = models.DateTimeField(auto_now= True) #정보 수정 시간 
+    created = models.DateTimeField(auto_now_add=True) #생성 시간
+    
+    def __str__(self):
+        return self.title
+
+    class Meta :
+        db_table = 'Portfolio'
+        verbose_name = '포트폴리오'
+
+
+

@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'connectBill.apps.ConnectBillConfig'
+    'connectBill.apps.ConnectBillConfig',
+    'rest_framework',
   # connectBill Application connected
 ]
 
