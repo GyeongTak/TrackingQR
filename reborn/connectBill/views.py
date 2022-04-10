@@ -4,12 +4,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate,login, logout
 from django.contrib import messages
 from .models import User
-from .models import Portfolio
 from .forms import RegisterForm, LoginForm
 from argon2 import PasswordHasher, exceptions
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from .serializers import PortfolioSerializer
+
 
 def home(request):
     context = {}
@@ -125,10 +122,3 @@ def loginPage(request) :
 def logout(request) :
     request.session.flush()
     return redirect('/')
-
-
-class PortfolioListAPI(APIView):
-    def portfolios(self, request) :
-        queryset = Portfolio.objects.order_by('-created')
-        serializer = PortfolioSerializer(queryset, many=True)
-        return Response(serializer.data)

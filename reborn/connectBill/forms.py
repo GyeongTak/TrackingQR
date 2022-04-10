@@ -3,6 +3,7 @@ from inspect import cleandoc
 from operator import attrgetter
 from random import choices
 from re import T
+from click import pass_context
 from django import forms
 from .models import User
 from argon2 import PasswordHasher, exceptions

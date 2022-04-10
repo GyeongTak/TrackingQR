@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,9 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     'connectBill.apps.ConnectBillConfig',
+# connectBill Application connected
+    'SearchDesignerApi.apps.SearchdesignerapiConfig',
+# Searchdesignerapi Application connected
+
     'rest_framework',
-  # connectBill Application connected
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -50,6 +56,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    
+
 ]
 
 ROOT_URLCONF = 'reborn.urls'
@@ -58,7 +67,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR / 'templates'
+            BASE_DIR / 'templates',
+            os.path.join(BASE_DIR,'frontend/build'),  
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -124,9 +134,14 @@ STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
+    os.path.join(BASE_DIR, 'frontend/build/static')
 ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000",
+]

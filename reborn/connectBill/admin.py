@@ -1,6 +1,5 @@
 from django.contrib import admin
 from .models import User
-from .models import Portfolio
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin) :
@@ -13,5 +12,4 @@ class UserAdmin(admin.ModelAdmin) :
         'updated',
         'created'
     )
-
-admin.site.register(Portfolio)
+# Register your models here.
