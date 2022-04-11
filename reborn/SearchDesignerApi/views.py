@@ -21,16 +21,23 @@ def PopolList(request) :
     serializer = PopolSerializer(ListPopol, many = True)
     return Response(serializer.data)
 
+@api_view(['POST'])
 def createPortfolio(request): # request multipart/form-data
-    #{ userid : 회원 아이디, title: 게시글 제목, description: 게시글 내용, image: 이미지파일 }
     try:
-        user = User.objects.get(user_id=request.data.id) # 에러처리
+        user = User.objects.get(user_id=request.data.id) 
     except:
         return Response({'result':'fail', 'message': '존재하지 않는 사용자입니다.'}, status=status.HTTP_404_NOT_FOUND)
-    newPorfolio = DesignerPopol(portfolio_image=request.data.image, title=request.data.title, description=request.data.description)
-    newPorfolio.user = user
-    newPorfolio.save()
+    
+    serializer = PopolSerializer(data=request.data)
+    if serializer.is_valid():
+        newPorfolio = DesignerPopol(portfolio_image=request.data.image, title=request.data.title, description=request.data.description)
+        newPorfolio.user = user
+        newPorfolio.save()
+    else:
+        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+
+    
 
     return Response({'result':'success', 'message': '성공적으로 등록되었습니다.'}, status=HTTP_201_CREATED)
-:
 
+#validation 필요

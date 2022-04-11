@@ -6,3 +6,8 @@ class PopolSerializer(serializers.ModelSerializer):
     class Meta :
         model = DesignerPopol
         fields = '__all__'
+
+    def validate_title(self, value):
+        if value=='':
+            raise ValidationError('제목은 필수 항목입니다.')
+        return value
