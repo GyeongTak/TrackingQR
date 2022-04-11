@@ -8,21 +8,21 @@ from .serializers import PopolSerializer
 from rest_framework import status
 
 @api_view(['GET'])
-def apiOverview(request) : #무슨 용도?????
+def apiOverview(request) : 
     api_urls = {
         'Popol-List' : '/popol-list/',
     }
 
     return Response(api_urls)
 
-@api_view(['GET']) #Other methods will respond with "405 Method Not Allowed" method 여러개 일때는 if로 분기
+@api_view(['GET']) 
 def PopolList(request) :
     ListPopol = DesignerPopol.objects.all()
     serializer = PopolSerializer(ListPopol, many = True)
     return Response(serializer.data)
 
 @api_view(['POST'])
-def createPortfolio(request): # request multipart/form-data
+def createPortfolio(request): 
     try:
         user = User.objects.get(user_id=request.data.id) 
     except:
@@ -40,4 +40,3 @@ def createPortfolio(request): # request multipart/form-data
 
     return Response({'result':'success', 'message': '성공적으로 등록되었습니다.'}, status=HTTP_201_CREATED)
 
-#validation 필요
