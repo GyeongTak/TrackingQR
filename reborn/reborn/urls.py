@@ -22,5 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('connectBill.urls')),
     path('sda/',TemplateView.as_view(template_name = 'index.html')),
-    path('sda/api/',include('SearchDesignerApi.urls')),
+    path('sda/api/',include('SearchDesignerApi.urls')), #sda는 무슨 의미?????
 ]
