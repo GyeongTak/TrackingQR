@@ -25,8 +25,8 @@ const MainMenu = () => {
         <div style={menuStyle}>
             <div style={{display: 'flex', alignItems: 'center'}}>
                 <div >Logo</div>
-                <div style={{padding: '0 10px', fontSize: '16px', fontWeight: 'bold'}}>디자이너</div>
-                <div style={{padding: '0 10px', fontSize: '16px', fontWeight: 'bold'}}>의뢰서</div>
+                <div style={{margin: '0 15px', fontSize: '16px', fontWeight: 'bold', cursor:"pointer"}}>디자이너</div>
+                <div style={{margin: '0 15px', fontSize: '16px', fontWeight: 'bold', cursor:"pointer"}}>의뢰서</div>
             </div>
             <Input.Search placeholder="디자이너 검색" onSearch={onSearch} style={{width:'30%'}}/>
             <div style={{display: 'flex', alignItems: 'center'}}>
