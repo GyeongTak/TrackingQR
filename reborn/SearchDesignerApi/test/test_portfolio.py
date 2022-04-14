@@ -4,8 +4,8 @@ from rest_framework.test import APITestCase, APIClient, APIRequestFactory
 from connectBill.models import User
 from ..models import DesignerPopol
 from django.core.files.base import File
-import os
 
+'''
 class DesignerPortfolioTestCase(APITestCase):
 
     def setUp(self):
@@ -28,7 +28,8 @@ class DesignerPortfolioTestCase(APITestCase):
 
         # check status response
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        
+
+''' 
 class PortfolioDeleteTestCase(APITestCase):
 
     def setUp(self):
