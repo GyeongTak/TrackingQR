@@ -8,5 +8,5 @@ urlpatterns = [
     path('popol-list/',views.PopolList,name='popol-list'),
     path('portfolio/new', views.createPortfolio, name='createPortfolio'),
     path('portfolio/edit', views.updatePortfolio, name='updatePortfolio'),
-    path('portfolio/delete', views.deletePortfolio, name='deletePortfolio'),
+    path('portfolio/delete/<int:id>', views.deletePortfolio, name='deletePortfolio'),
 ]
