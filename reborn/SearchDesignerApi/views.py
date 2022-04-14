@@ -8,7 +8,7 @@ from .serializers import PopolSerializer, PopolTestSerializer
 from rest_framework import status
 
 @api_view(['GET'])
-def apiOverview(request) : 
+def apiOverview(request) :
     api_urls = {
         'Popol-List' : '/popol-list/',
     }
@@ -25,17 +25,17 @@ def PopolList(request) :
 #보낼때는 serializer
 @api_view(['POST'])
 def createPortfolio(request): 
-    print(request.data)
     try:
         user = User.objects.get(user_id=request.data['userid'])
     except:
         return Response({'result':'fail', 'message': '존재하지 않는 사용자입니다.'}, status=status.HTTP_404_NOT_FOUND)
 
+    print(request.data)
     #이미지 파일 바이너리로 오는거 s3에 연결하고 DB에는 링크만 연결하면될듯
-    newPortfolio = DesignerPopol(title=request.data['title'], description=request.data['description'])
-    newPortfolio.user = user
+    newPortfolio = DesignerPopol(user=user, title=request.data['title'], description=request.data['description'], portfolio_image=request.data['image'])
     serializer = PopolTestSerializer(data=request.data) #request.data = querydict
     
+   
     if serializer.is_valid():
         newPortfolio.save()
     else:
