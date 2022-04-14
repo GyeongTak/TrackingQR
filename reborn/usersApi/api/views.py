@@ -1,5 +1,3 @@
-
-from django.shortcuts import render
 from rest_framework.authtoken.models import Token
 from rest_framework import generics, status
 from rest_framework.response import Response
@@ -57,16 +55,16 @@ class LogoutView(APIView) :
         request.auth.delete()
         return Response(status=status.HTTP_200_OK)
 
-# class ClientOnlyView(generics.RetrieveAPIView):
-#     permission_classes = [permissions.IsAuthenticated&isClientUser]
-#     serializer_class = UserSerializer
+class ClientOnlyView(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated&isClientUser]
+    serializer_class = UserSerializer
 
-#     def get_object(self,request):
-#         return self.request.user
+    def get_object(self):
+        return self.request.user
 
-# class DesignerOnlyView(generics.RetrieveAPIView):
-#     permission_classes = [permissions.IsAuthenticated&isDesignerUser]
-#     serializer_class = UserSerializer
+class DesignerOnlyView(generics.RetrieveAPIView):
+    permission_classes = [permissions.IsAuthenticated&isDesignerUser]
+    serializer_class = UserSerializer
 
-#     def get_object(self):
-#         return self.request.user
+    def get_object(self):
+        return self.request.user

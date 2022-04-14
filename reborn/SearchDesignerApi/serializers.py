@@ -1,4 +1,5 @@
 from dataclasses import field
+from django.forms import ValidationError
 from rest_framework import serializers
 from . models import DesignerPopol
 
@@ -13,7 +14,7 @@ class PopolSerializer(serializers.ModelSerializer):
         return value
 
 
-class PopolTestSerializer(serializers.ModelSerializer):
-    class Meta :
-        model = DesignerPopol
-        exclude = ('user', )
+# class PopolTestSerializer(serializers.ModelSerializer):
+#     class Meta :
+#         model = DesignerPopol
+#         # exclude = ('user', )

@@ -1,6 +1,8 @@
+from asyncio.windows_events import NULL
 import os
 from django.db import models
 from uuid import uuid4
+from usersApi.models import Designer
 
 def path_and_rename(instance, filename):
     upload_to = 'SearchDesignerApi/Designer_Portfolio_Image'
@@ -15,6 +17,7 @@ def path_and_rename(instance, filename):
     return os.path.join(upload_to, filename)
 
 class DesignerPopol(models.Model) :
+    user = models.OneToOneField(Designer, related_name="Designer", default = NULL ,on_delete=models.CASCADE)
     portfolio_image = models.ImageField(upload_to=path_and_rename, null = True)
     title = models.CharField(max_length=300)
     description = models.TextField(null=True, blank=True)
