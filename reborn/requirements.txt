@@ -14,3 +14,5 @@ python-dateutil==2.8.2
 pytz==2022.1
 sqlparse==0.4.2
 tzdata==2022.1
+npm==0.1.1
+npx==0.1.1
