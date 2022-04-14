@@ -2,10 +2,11 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from connectBill.models import User
 from SearchDesignerApi.models import DesignerPopol
 from .serializers import PopolSerializer, PopolTestSerializer
 from rest_framework import status
+
+
 
 @api_view(['GET'])
 def apiOverview(request) :
@@ -36,61 +37,61 @@ def PopolDetail(request,pk) :
     return Response(serializer.data)
 
 
-#Parsers in Django REST are used to parse the content of incoming HTTP request.
-#보낼때는 serializer
-@api_view(['POST'])
-def createPortfolio(request): 
-    try:
-        user = User.objects.get(user_id=request.data['userid'])
-    except:
-        return Response({'result':'fail', 'message': '존재하지 않는 사용자입니다.'}, status=status.HTTP_404_NOT_FOUND)
+# #Parsers in Django REST are used to parse the content of incoming HTTP request.
+# #보낼때는 serializer
+# @api_view(['POST'])
+# def createPortfolio(request): 
+#     try:
+#         user = User.objects.get(user_id=request.data['userid'])
+#     except:
+#         return Response({'result':'fail', 'message': '존재하지 않는 사용자입니다.'}, status=status.HTTP_404_NOT_FOUND)
 
-    newPortfolio = DesignerPopol(user=user, title=request.data['title'], description=request.data['description'], portfolio_image=request.data['image'])
-    serializer = PopolTestSerializer(data=request.data) #request.data = querydict
+#     newPortfolio = DesignerPopol(user=user, title=request.data['title'], description=request.data['description'], portfolio_image=request.data['image'])
+#     serializer = PopolTestSerializer(data=request.data) #request.data = querydict
    
-    if serializer.is_valid():
-        newPortfolio.save()
-    else:
-        print(serializer.errors)
-        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+#     if serializer.is_valid():
+#         newPortfolio.save()
+#     else:
+#         print(serializer.errors)
+#         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
-    return Response({'result':'success', 'message': '성공적으로 등록되었습니다.'}, status=status.HTTP_201_CREATED) #json?
+#     return Response({'result':'success', 'message': '성공적으로 등록되었습니다.'}, status=status.HTTP_201_CREATED) #json?
 
 
-@api_view(['POST'])
-def updatePortfolio(request): 
-    try:
-        user = User.objects.get(user_id=request.data['userid'])
-    except:
-        return Response({'result':'fail', 'message': '존재하지 않는 사용자입니다.'}, status=status.HTTP_404_NOT_FOUND)
+# @api_view(['POST'])
+# def updatePortfolio(request): 
+#     try:
+#         user = User.objects.get(user_id=request.data['userid'])
+#     except:
+#         return Response({'result':'fail', 'message': '존재하지 않는 사용자입니다.'}, status=status.HTTP_404_NOT_FOUND)
 
-    try:
-        portfolio = DesignerPopol.objects.get(id=request.data['id'])
-    except:
-        return Response({'result':'fail', 'message': '존재하지 않는 게시글 입니다.'}, status=status.HTTP_404_NOT_FOUND)
+#     try:
+#         portfolio = DesignerPopol.objects.get(id=request.data['id'])
+#     except:
+#         return Response({'result':'fail', 'message': '존재하지 않는 게시글 입니다.'}, status=status.HTTP_404_NOT_FOUND)
 
-    portfolio.title = request.data['title']
-    portfolio.description = request.data['description']
-    portfolio.image = request.data['image']
-    serializer = PopolTestSerializer(data=request.data) #request.data = querydict
+#     portfolio.title = request.data['title']
+#     portfolio.description = request.data['description']
+#     portfolio.image = request.data['image']
+#     serializer = PopolTestSerializer(data=request.data) #request.data = querydict
     
-    if serializer.is_valid():
-        portfolio.save()
-    else:
-        print(serializer.errors)
-        return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+#     if serializer.is_valid():
+#         portfolio.save()
+#     else:
+#         print(serializer.errors)
+#         return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
 
-    return Response({'result':'success', 'message': '성공적으로 수정되었습니다.'}, status=status.HTTP_201_CREATED) 
+#     return Response({'result':'success', 'message': '성공적으로 수정되었습니다.'}, status=status.HTTP_201_CREATED) 
 
-#parameter로 
-@api_view(['DELETE'])
-def deletePortfolio(request, id): 
+# #parameter로 
+# @api_view(['DELETE'])
+# def deletePortfolio(request, id): 
 
-    try:
-        portfolio = DesignerPopol.objects.get(id=id)
-    except:
-        return Response({'result':'fail', 'message': '존재하지 않는 게시글입니다.'}, status=status.HTTP_404_NOT_FOUND)
+#     try:
+#         portfolio = DesignerPopol.objects.get(id=id)
+#     except:
+#         return Response({'result':'fail', 'message': '존재하지 않는 게시글입니다.'}, status=status.HTTP_404_NOT_FOUND)
 
-    print(portfolio.delete())
+#     print(portfolio.delete())
 
-    return Response({'result':'success', 'message': '성공적으로 등록되었습니다.'}, status=status.HTTP_200_OK) 
+#     return Response({'result':'success', 'message': '성공적으로 등록되었습니다.'}, status=status.HTTP_200_OK) 

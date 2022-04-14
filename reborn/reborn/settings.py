@@ -39,11 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    'connectBill.apps.ConnectBillConfig',
+    # 'connectBill.apps.ConnectBillConfig',
 # connectBill Application connected
     'SearchDesignerApi.apps.SearchdesignerapiConfig',
 # Searchdesignerapi Application connected
-
+    'usersApi',
+# users app connected
+    'rest_framework.authtoken',
     'rest_framework',
     'corsheaders',
 ]
@@ -147,6 +149,9 @@ CORS_ORIGIN_WHITELIST = [
 ]
 
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
     ],
@@ -156,6 +161,7 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.MultiPartParser'
     ]
 }
+AUTH_USER_MODEL = 'usersApi.User'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

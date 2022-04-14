@@ -1,6 +1,5 @@
 import os
 from django.db import models
-from connectBill.models import User
 from uuid import uuid4
 
 def path_and_rename(instance, filename):
@@ -17,7 +16,6 @@ def path_and_rename(instance, filename):
 
 class DesignerPopol(models.Model) :
     portfolio_image = models.ImageField(upload_to=path_and_rename, null = True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=300)
     description = models.TextField(null=True, blank=True)
     updated = models.DateTimeField(auto_now = True)
