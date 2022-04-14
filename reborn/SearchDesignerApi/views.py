@@ -19,6 +19,21 @@ def PopolList(request) :
     serializer = PopolSerializer(ListPopol, many = True)
     return Response(serializer.data)
 
+# @api_view(['GET'])
+# def PopolSearch(request,pk) :
+#     print(pk)
+#     if self.request.
+#         SearchResult = DesignerPopol.objects.all().filter(title__contains= pk)
+#     serializer = PopolSerializer(SearchResult, many = True)
+#     return Response(serializer.data)
+
+@api_view(['GET'])
+def PopolDetail(request,pk) :
+    Popol = DesignerPopol.objects.get(id =pk)
+    serializer = PopolSerializer(Popol, many = False)
+    return Response(serializer.data)
+
+
 
 
 # Create your views here.

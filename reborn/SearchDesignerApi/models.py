@@ -1,8 +1,4 @@
-from distutils.command.upload import upload
-from msilib.schema import Class
-from operator import mod
 import os
-from tabnanny import verbose
 from django.db import models
 from connectBill.models import User
 from uuid import uuid4
@@ -28,7 +24,7 @@ class DesignerPopol(models.Model) :
     created = models.DateTimeField(auto_now_add = True)
 
     def __str__(self) :
-        return self.user.user_name
+        return self.title
 
     class Meta :
          db_table = 'Portfolio'
