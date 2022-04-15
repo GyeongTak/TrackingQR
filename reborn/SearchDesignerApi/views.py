@@ -100,13 +100,13 @@ def createPortfolio(request):
 
 # #parameter로 
 # @api_view(['DELETE'])
-def deletePortfolio(request, id): 
+# def deletePortfolio(request, id): 
 
-    try:
-        portfolio = DesignerPopol.objects.get(id=id)
-    except:
-        return Response({'result':'fail', 'message': '존재하지 않는 게시글입니다.'}, status=status.HTTP_404_NOT_FOUND)
+#     try:
+#         portfolio = DesignerPopol.objects.get(id=id)
+#     except:
+#         return Response({'result':'fail', 'message': '존재하지 않는 게시글입니다.'}, status=status.HTTP_404_NOT_FOUND)
 
-    print(portfolio.delete())
+#     print(portfolio.delete())
 
-    return Response({'result':'success', 'message': '성공적으로 등록되었습니다.'}, status=status.HTTP_200_OK) 
+#     return Response({'result':'success', 'message': '성공적으로 등록되었습니다.'}, status=status.HTTP_200_OK) 
