@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, Input } from 'antd';
-
+import { Link } from 'react-router-dom';
+ 
 const dummyDataMe = {
     role: 'client'
 };
@@ -34,8 +35,14 @@ const MainMenu = () => {
                 <div style={{padding: '0 10px'}}>로그인</div>
                 <div style={{padding: '0 10px'}}>회원가입</div>
                 {dummyDataMe.role === 'client'?  
-                <Button type="primary" shape="round" size='large'>의뢰하기</Button>
-                :<Button type="primary" shape="round" size='large'>포트폴리오 등록하기</Button>}
+                    <Link to ="/port-new">
+                        <Button type="primary" shape="round" size='large'>의뢰하기</Button> 
+                    </Link>
+                    :
+                    <Link to ="./sda/port-new">
+                        <Button type="primary" shape="round" size='large'>포트폴리오 등록하기</Button>
+                    </Link>
+                }
             </div>
         </div>
     );

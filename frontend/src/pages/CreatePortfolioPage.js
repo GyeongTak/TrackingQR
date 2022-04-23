@@ -3,6 +3,7 @@ import MainMenu from '../components/MainMenu';
 import { Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
+import 'antd/dist/antd.min.css';
 
 const CreatePortfolioPage = () => {
     const [ imagePrevious, setImagePrevious ] = useState(false); 
