@@ -1,5 +1,5 @@
 import React from 'react';
-import '../css/banner.css';
+import './banner.css';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination, Autoplay } from "swiper";	
 import 'swiper/scss'
