@@ -4,7 +4,8 @@ import Banner from '../components/Banner';
 import Footer from '../components/Footer';
 import { Card, Avatar } from 'antd';
 import { HeartTwoTone } from '@ant-design/icons';
-import 'antd/dist/antd.css';
+import 'antd/dist/antd.min.css';
+
 
 const dummyData = [
     {

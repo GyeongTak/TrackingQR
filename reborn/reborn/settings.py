@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,8 +38,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'connectBill.apps.ConnectBillConfig'
-  # connectBill Application connected
+    
+    # 'connectBill.apps.ConnectBillConfig',
+# connectBill Application connected
+    'SearchDesignerApi.apps.SearchdesignerapiConfig',
+# Searchdesignerapi Application connected
+    'usersApi',
+# users app connected
+    'rest_framework.authtoken',
+    'rest_framework',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +58,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    
+
 ]
 
 ROOT_URLCONF = 'reborn.urls'
@@ -57,7 +69,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR / 'templates'
+            BASE_DIR / 'templates',
+            os.path.join(BASE_DIR,'frontend/build'),  
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -123,9 +136,32 @@ STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
+    os.path.join(BASE_DIR, 'frontend/build/static')
 ]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000",
+]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+        'rest_framework.parsers.FormParser',
+        'rest_framework.parsers.MultiPartParser'
+    ]
+}
+AUTH_USER_MODEL = 'usersApi.User'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
