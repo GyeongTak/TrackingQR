@@ -1,7 +1,7 @@
-import DesignerPage from './pages/DesignerPage';
-import CreatePortfolioPage from './pages/CreatePortfolioPage';
-import HomePage from './pages/HomePage';
-import JoinPage from './pages/JoinPage';
+import DesignerPage from './pages/DesignerList';
+import CreatePortfolioPage from './pages/CreatePortfolio';
+import HomePage from './pages/Home';
+import JoinPage from './pages/Join';
 import LoginPage from './pages/Login';
 import Profile from './pages/Profile';
 
