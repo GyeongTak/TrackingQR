@@ -9,24 +9,33 @@ import Container from 'react-bootstrap/Container';
 import MainMenu from "../../components/MainMenu";
 import { signupButton } from './style';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 function LoginPage() {
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
 
     const onChangeId = (e) => {
-        console.log(e.target.value);
         setUserId(e.target.value);
     };
 
     const onChangePassword = (e) => {
-        console.log(e.target.value);
         setPassword(e.target.value);  
     };
 
     const onSubmit = (e) => {
         e.preventDefault();
-        console.log(userId, password);
+        axios.post('http://localhost:8000/users/api/login', JSON.stringify({"username":userId, "password": password}),{
+            headers: { "Content-Type": `application/json`}
+            })
+        .then((res) => {
+            const { token, user_id, is_client } = res.data;
+            axios.defaults.headers.common['Authorization'] = token;
+        })
+        .catch((error) => {
+            console.error(error.response);
+        });
+
     };
     return (
         <>
