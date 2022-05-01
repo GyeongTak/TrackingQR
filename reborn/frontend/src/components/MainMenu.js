@@ -1,5 +1,7 @@
 import React from 'react';
 import { Button, Input } from 'antd';
+import '../css/mainmenu.css';
+import { Link } from 'react-router-dom'
 
 const dummyDataMe = {
     role: 'client'
@@ -24,9 +26,9 @@ const MainMenu = () => {
     return(
         <div style={menuStyle}>
             <div style={{display: 'flex', alignItems: 'center'}}>
-                <div >Logo</div>
-                <div style={{padding: '0 10px', fontSize: '16px', fontWeight: 'bold'}}>디자이너</div>
-                <div style={{padding: '0 10px', fontSize: '16px', fontWeight: 'bold'}}>의뢰서</div>
+                <div>Logo</div>
+                <div id='designer' style={{padding: '0 10px', fontSize: '16px', fontWeight: 'bold', marginLeft:'10px'}}>디자이너</div>
+                <div id='review' style={{padding: '0 10px', fontSize: '16px', fontWeight: 'bold'}}>고객후기</div>
             </div>
             <Input.Search placeholder="디자이너 검색" onSearch={onSearch} style={{width:'30%'}}/>
             <div style={{display: 'flex', alignItems: 'center'}}>
