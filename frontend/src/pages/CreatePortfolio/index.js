@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import MainMenu from '../components/MainMenu';
+import MainMenu from '../../components/MainMenu';
 import { Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
@@ -46,7 +46,7 @@ const CreatePortfolioPage = () => {
         })
         .catch((error) => {
             console.error(error);
-        })
+        });
 
     }
 

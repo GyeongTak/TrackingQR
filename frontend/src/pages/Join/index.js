@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
-import MainMenu from "../components/MainMenu";
+import MainMenu from "../../components/MainMenu";
 import {Dropdown, DropdownButton} from 'react-bootstrap';
 
 
