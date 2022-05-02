@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework',
     'corsheaders',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -165,3 +166,11 @@ AUTH_USER_MODEL = 'usersApi.User'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_S3_SECURE_URLS = False       # use http instead of https
+AWS_QUERYSTRING_AUTH = False     # don't add complex authentication-related query parameters for requests
+
+AWS_S3_ACCESS_KEY_ID = 'AKIAZQN3T2NAFIHQHQQO'
+AWS_S3_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'connectbill'
