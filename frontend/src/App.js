@@ -4,6 +4,7 @@ import HomePage from './pages/Home';
 import JoinPage from './pages/Join';
 import LoginPage from './pages/Login';
 import Profile from './pages/Profile';
+import NotFoundPage from './pages/NotFound';
 
 import {BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -17,8 +18,10 @@ const App = () => {
           <Route path = "/profile" element={<Profile/>} />
           <Route path = "/login" element={<LoginPage/>} />
           <Route path = "/Join" element={<JoinPage/>} />
+          <Route path = "*" element={<NotFoundPage />} />
         </Routes>
-      </BrowserRouter>  
+      </BrowserRouter> 
+
   );
 }
 

@@ -5,15 +5,19 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import MainMenu from "../../components/MainMenu";
+import Background from "../../components/Background";
 import {Dropdown, DropdownButton} from 'react-bootstrap';
+
 
 
 function JoinPage() {
     return (
         <>
         <MainMenu/>
+        <Background/>
+
         <div style={{marginLeft:'35%', marginTop:'50px'}}>
-            <Container className="panel" style={{width:'500px', height:'550px', borderStyle:'solid', borderWidth:3, borderColor:'rgb(54, 94, 163)', borderRadius:10}}>
+            <Container className="panel" style={{width:'500px', position:'absolute', backgroundColor:'white', height:'550px', borderStyle:'solid', borderWidth:3, borderColor:'antiquewhite', borderRadius:10}}>
                 <div style={{marginTop:'15px', fontSize:'25px', fontWeight: 'bold', textAlign:'center'}}>회원가입</div>
                 <Form style={{marginLeft:'40px'}}>
                     <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
@@ -78,7 +82,7 @@ function JoinPage() {
 
                     <div className="d-grid gap-1" style={{marginTop:'30px'}}>
                         <Button variant="secondary" type="submit" style={{width:'80%', height:'40px', marginLeft:'20px', borderStyle:'solid', borderWidth:2, 
-                        borderColor:'white', borderRadius:10, backgroundColor:'rgb(143, 179, 240)', color:'white'}}>
+                        borderColor:'white', borderRadius:10, backgroundColor:'antiquewhite', color:'brown'}}>
                             회원가입
                         </Button>
                     </div>
