@@ -3,8 +3,8 @@ from usersApi.models import User,Designer,Client
 
 class UserSerializer(serializers.ModelSerializer) :
     class Meta :
-        model =User
-        fields = ['username','email','is_client']
+        model = User
+        fields = '__all__'
 
 class DesignerSignupSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={"input_type":"password"}, write_only = True)
@@ -49,7 +49,7 @@ class ClientSignupSerializer(serializers.ModelSerializer):
         password2 = self._validated_data['password2'],
 
         if password != password2 :
-            raise serializers.ValidationError({"error":"password do notmatch"})
+            raise serializers.ValidationError({"error":"password do not match"})
         user.set_password(self._validated_data['password'])
         user.is_client = True
         user.save()

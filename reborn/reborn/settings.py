@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+    'rest_framework_simplejwt.token_blacklist',
+
     # 'connectBill.apps.ConnectBillConfig',
 # connectBill Application connected
     'SearchDesignerApi.apps.SearchdesignerapiConfig',
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework',
     'corsheaders',
+    'Mypage',
 ]
 
 MIDDLEWARE = [
@@ -59,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    
     
 
 ]
@@ -165,3 +168,4 @@ AUTH_USER_MODEL = 'usersApi.User'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+ACCOUNT_LOGOUT_ON_GET = True
