@@ -1,5 +1,5 @@
 import React from 'react';
-import MainMenu from '../components/MainMenu';
+import MainMenu from '../../components/MainMenu';
 import { Card, Avatar, Dropdown, Button, Menu } from 'antd';
 import {  HeartTwoTone, DownOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.min.css';
