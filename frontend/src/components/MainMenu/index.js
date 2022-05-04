@@ -31,7 +31,7 @@ const MainMenu = () => {
             </div>
             <Input.Search placeholder="디자이너 검색" onSearch={onSearch} style={{width:'30%'}}/>
             <div style={{display: 'flex', alignItems: 'center'}}>
-                
+                <Link to="/profile"><p>mypage</p></Link>
                 <div style={{padding: '0 10px'}}>로그인</div>
                 <div style={{padding: '0 10px'}}>회원가입</div>
                 {dummyDataMe.role === 'client'?  

@@ -4,11 +4,12 @@ import HomePage from './pages/Home';
 import JoinPage from './pages/Join';
 import LoginPage from './pages/Login';
 import Profile from './pages/Profile';
-
+import { RecoilRoot } from 'recoil';
 import {BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const App = () => {
   return (
+    <RecoilRoot>
       <BrowserRouter>
         <Routes>
           <Route path = "/sda/" element={<DesignerPage/>} />
@@ -18,7 +19,8 @@ const App = () => {
           <Route path = "/login" element={<LoginPage/>} />
           <Route path = "/Join" element={<JoinPage/>} />
         </Routes>
-      </BrowserRouter>  
+      </BrowserRouter>
+    </RecoilRoot>
   );
 }
 
