@@ -23,14 +23,14 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
         Token.objects.create(user=instance)
 
 class Designer(models.Model) :
-    user = models.OneToOneField(User, related_name="Designer", on_delete=models.CASCADE)
+    user = models.OneToOneField(User, related_name="designer", on_delete=models.CASCADE)
     phone = models.CharField(max_length=100, blank=True)
     skills = models.CharField(max_length=100,blank=True)
     description = models.TextField(null=True, blank=True)
     # portfolio = models.OneToOneField(DesignerPopol,null=True,on_delete=models.CASCADE)
 
     def __str__(self) :
-        return self.user.username
+        return '%s, %s, %s' % (self.phone, self.skills,self.description)    
 
 class Client(models.Model) :
     user = models.OneToOneField(User, related_name="employer", on_delete =models.CASCADE)
@@ -38,6 +38,6 @@ class Client(models.Model) :
     description =models.TextField(null= True, blank=True)
 
     def __str__(self):
-        return self.company_name
+        return '%s, %s' % (self.company_name, self.description)    
 
 # Create your models here.

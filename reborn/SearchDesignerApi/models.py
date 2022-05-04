@@ -17,7 +17,7 @@ def path_and_rename(instance, filename):
     return os.path.join(upload_to, filename)
 
 class DesignerPopol(models.Model) :
-    user = models.OneToOneField(Designer, related_name="Designer", default = NULL ,on_delete=models.CASCADE)
+    user = models.ForeignKey(Designer, related_name='popols', default = NULL , on_delete=models.CASCADE)  
     portfolio_image = models.ImageField(upload_to=path_and_rename, null = True)
     title = models.CharField(max_length=300)
     description = models.TextField(null=True, blank=True)

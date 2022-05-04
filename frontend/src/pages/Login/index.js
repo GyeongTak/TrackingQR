@@ -10,6 +10,7 @@ import MainMenu from "../../components/MainMenu";
 import { signupButton } from './style';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Background from "../../components/Background";
 
 function LoginPage() {
     const [userId, setUserId] = useState('');
@@ -40,8 +41,9 @@ function LoginPage() {
     return (
         <>
         <MainMenu/>
+        <Background/>
         <div style={{marginLeft:'35%', marginTop:'50px'}}>
-            <Container className="panel" style={{width:'500px', height:'550px', borderStyle:'solid', borderWidth:3, borderColor:'rgb(54, 94, 163)', borderRadius:10}}>
+            <Container className="panel" style={{width:'500px', position:'absolute', height:'550px', borderStyle:'solid', backgroundColor:'white', borderWidth:3, borderColor:'antiquewhite', borderRadius:10}}>
                 <div style={{marginTop:'15px', fontSize:'25px', fontWeight: 'bold', textAlign:'center'}}>로그인</div>
                 <Form style={{marginLeft:'40px'}} >
                     <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
@@ -60,7 +62,7 @@ function LoginPage() {
 
                     <div className="d-grid gap-1" style={{marginTop:'30px'}}>
                         <Button variant="secondary" type="submit" onClick={onSubmit} style={{width:'80%', height:'40px', marginLeft:'20px', borderStyle:'solid', borderWidth:2, 
-                        borderColor:'white', borderRadius:10, backgroundColor:'rgb(143, 179, 240)', color:'white'}}>
+                        borderColor:'white', borderRadius:10, backgroundColor:'antiquewhite', color:'brown'}}>
                             로그인
                         </Button>
                     </div>

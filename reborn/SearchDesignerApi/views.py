@@ -8,7 +8,7 @@ from rest_framework import generics , status
 
 
 from SearchDesignerApi.models import DesignerPopol
-from .serializers import PopolSerializer
+from .serializers import PopolSerializer,BriefPopolSerializer
 from rest_framework import status
 
 from usersApi.api.permissions import isClientUser, isDesignerUser
@@ -30,7 +30,7 @@ def apiOverview(request) :
 @api_view(['GET']) 
 def PopolList(request) :
     ListPopol = DesignerPopol.objects.all()
-    serializer = PopolSerializer(ListPopol, many = True)
+    serializer = BriefPopolSerializer(ListPopol, many = True)
     return Response(serializer.data)
 
 # @api_view(['GET'])
@@ -43,7 +43,7 @@ def PopolList(request) :
 
 @api_view(['GET'])
 def PopolDetail(request,pk) :
-    Popol = DesignerPopol.objects.get(id =pk)
+    Popol = DesignerPopol.objects.get(user=request.user)
     serializer = PopolSerializer(Popol, many = False)
     return Response(serializer.data)
 

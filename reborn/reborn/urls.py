@@ -23,8 +23,9 @@ from django.conf.urls.static import static
 urlpatterns = [ 
     path('admin/', admin.site.urls),
     path('users/api/',include("usersApi.api.urls")),
-    path('sda/',TemplateView.as_view(template_name = 'index.html')),
+    path('index/',TemplateView.as_view(template_name = 'index.html')),
     path('sda/api/',include('SearchDesignerApi.urls')), 
+    path('mypage/',include('Mypage.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
