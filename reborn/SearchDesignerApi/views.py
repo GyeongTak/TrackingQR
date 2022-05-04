@@ -12,20 +12,10 @@ from .serializers import PopolSerializer,BriefPopolSerializer
 from rest_framework import status
 
 from usersApi.api.permissions import isClientUser, isDesignerUser
-from usersApi.api.serializer import DesignerSignupSerializer,UserSerializer,ClientSignupSerializer
+from usersApi.api.serializer import DesignerSignupSerializer,ClientSignupSerializer
 from usersApi.models import Designer,Client
 
 from usersApi.api import permissions
-
-
-
-@api_view(['GET'])
-def apiOverview(request) :
-    api_urls = {
-        'Popol-List' : '/popol-list/',
-    }
-
-    return Response(api_urls)
 
 @api_view(['GET']) 
 def PopolList(request) :
@@ -43,7 +33,7 @@ def PopolList(request) :
 
 @api_view(['GET'])
 def PopolDetail(request,pk) :
-    Popol = DesignerPopol.objects.get(user=request.user)
+    Popol = DesignerPopol.objects.get(id = pk)
     serializer = PopolSerializer(Popol, many = False)
     return Response(serializer.data)
 
@@ -55,7 +45,7 @@ def PopolDetail(request,pk) :
 def createPortfolio(request): 
     if permissions.isDesignerUser and permissions.IsAuthenticated :
         # try:
-            user = Designer.objects.get(user=request.user)
+            user = Designer.objects.get(auth_token =request.auth)
             newPortfolio = DesignerPopol(title=request.data['title'], description=request.data['description'], portfolio_image=request.data['image']) 
             serializer = PopolSerializer(data=request.data) #request.data = querydict
             if serializer.is_valid():

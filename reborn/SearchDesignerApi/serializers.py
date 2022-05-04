@@ -3,10 +3,8 @@ from pydoc import describe
 from django.forms import ValidationError
 from nbformat import read
 from rest_framework import serializers
-
-
 from . models import DesignerPopol
-from usersApi.models import User,Designer
+from usersApi.models import User,Designer,Client
 
 class PopolSerializer(serializers.ModelSerializer):
     class Meta :
@@ -21,17 +19,35 @@ class PopolSerializer(serializers.ModelSerializer):
 class BriefPopolSerializer(serializers.ModelSerializer):
     class Meta : 
         model = DesignerPopol
-        fields = ['portfolio_image','title','created','user','id']
+        fields = ['portfolio_image','title','created','designer']
 
 
+class DesignerSerializer(serializers.ModelSerializer):
+    user = serializers.RelatedField(read_only=True)
+    class Meta :
+        model = Designer
+        fields = ['phone','skills','description','user']
 
-class ProfileSerializer(serializers.ModelSerializer) :
+class ClientSerializer(serializers.ModelSerializer):
+    class Meta :
+        model = Client
+        fields = '__all__'
+
+class DesignerProfileSerializer(serializers.ModelSerializer) :
+    # employer  = ClientSerializer(many=False,read_only=True)
+
+    class Meta:
+        model = Designer
+        fields = ['username','email','skills','phone','description','skills']
+
+class ClientProfileSerializer(serializers.ModelSerializer) :
     #popols = serializers.RelatedField(many=True,read_only=True)
-    designer = serializers.StringRelatedField(many=False,read_only=True)
-    employer  = serializers.StringRelatedField(many=False,read_only=True)
+    designer = DesignerSerializer(read_only=True)
+    # employer  = ClientSerializer(many=False,read_only=True)
+
     class Meta:
         model = User
-        fields = ['username','email','designer','employer']
+        fields = ['username','email','designer']
 
 
 # class PopolTestSerializer(serializers.ModelSerializer):
