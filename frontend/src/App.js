@@ -17,7 +17,7 @@ const App = () => {
           <Route path = "/sda/" element={<DesignerPage/>} />
           <Route path = "/sda/port-new" element={<CreatePortfolioPage/>} />
           <Route path = "/" element={<HomePage/>} />
-          <Route path = "/designer/:id" element={<DesignerProfile/>} />
+          <Route path="/designer/:id" element={<DesignerProfile />} />
           <Route path = "/login" element={<LoginPage/>} />
           <Route path = "/Join" element={<JoinPage/>} />
           <Route path = "*" element={<NotFoundPage />} />
