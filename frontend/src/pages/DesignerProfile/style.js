@@ -9,6 +9,7 @@ const container = css`
 const memberInfoContainer = css`
     margin: 78px 0;
     display: flex;
+    align-items: center;
 `
 
 const userInfoContent = css`

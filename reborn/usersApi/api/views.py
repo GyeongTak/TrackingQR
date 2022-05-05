@@ -38,20 +38,26 @@ class ClientSignupView(generics.GenericAPIView):
             "message" : "account create sucessfully...!",
         })
 
+
 class CustomAuthToken(ObtainAuthToken):
     def post(self, request, *args, **kwargs) :
         serializer = self.serializer_class(data = request.data, context={'request':request})
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data['user']
         token, created = Token.objects.get_or_create(user = user)
+        print(type(request.auth))
         return Response({
             'token':token.key,
             'user_id':user.pk,
-            'is_client':user.is_client
+            'is_client':user.is_client,
         })
 
 class LogoutView(APIView) :
+    permission_classes = [permissions.IsAuthenticated]
+
     def post(self,request,format = None) :
+        print(type(request.auth))
+
         request.auth.delete()
         return Response(status=status.HTTP_200_OK)
 
