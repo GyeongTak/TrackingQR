@@ -23,8 +23,8 @@ from django.conf.urls.static import static
 urlpatterns = [ 
     path('admin/', admin.site.urls),
     path('users/api/',include("usersApi.api.urls")),
-    path('index/',TemplateView.as_view(template_name = 'index.html')),
-    path('sda/api/',include('SearchDesignerApi.urls')), 
+    path('',TemplateView.as_view(template_name = 'index.html')),
+    path('sda/',include('SearchDesignerApi.urls')), 
     path('mypage/',include('Mypage.urls')),
 ]
 
