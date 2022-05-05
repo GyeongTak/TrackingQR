@@ -55,7 +55,6 @@ def PopolDetail(request,pk) :
 def createPortfolio(request): 
     if permissions.isDesignerUser and permissions.IsAuthenticated :
         # try:
-            print(request.user)
             user = Designer.objects.get(user=request.user)
             newPortfolio = DesignerPopol(title=request.data['title'], description=request.data['description'], portfolio_image=request.data['image']) 
             serializer = PopolSerializer(data=request.data) #request.data = querydict
