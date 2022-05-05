@@ -4,8 +4,11 @@ import { Button } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import 'antd/dist/antd.min.css';
+import { useRecoilState } from 'recoil';
+import userState from '../../store/user';
 
 const CreatePortfolioPage = () => {
+    const [ user, setUser ]  = useRecoilState(userState);
     const [ imagePrevious, setImagePrevious ] = useState(false); 
     const [ file, setFile ] = useState();
     const [ title, setTitle ] = useState('');
@@ -40,6 +43,8 @@ const CreatePortfolioPage = () => {
         formData.append('title', title);
         formData.append('description', content);
         formData.append('userid', 'test_user');
+        const token = localStorage.getItem('token');
+        axios.defaults.headers.common['Authorization'] = token
         axios.post('http://localhost:8000/sda/api/portfolio/new', formData)
         .then((res) => {
             console.log(res);

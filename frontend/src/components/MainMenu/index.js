@@ -31,12 +31,12 @@ const MainMenu = () => {
                     </Link>
                 </div>
                 <div style={{margin: '0 15px', fontSize: '16px', fontWeight: 'bold', cursor:"pointer"}}>
-                    <Link to="./sda/"> 
+                    <Link to="/sda"> 
                         <Button style={{color:'black', fontWeight:'bold'}}> 디자이너 </Button>
                     </Link>
                 </div>
                 <div style={{margin: '0 15px', fontSize: '16px', fontWeight: 'bold', cursor:"pointer"}}>
-                    <Link to="./sda/"> 
+                    <Link to="/sda/"> 
                         <Button style={{color:'black', fontWeight:'bold', marginLeft:'-15px'}}> 의뢰서 </Button>
                     </Link></div>
                 </div>
@@ -44,12 +44,12 @@ const MainMenu = () => {
             <div style={{display: 'flex', alignItems: 'center'}}>
                 
                 <div style={{padding: '0 10px'}}>
-                    <Link to="./login"> 
+                    <Link to="/login"> 
                         <Button> 로그인 </Button>
                     </Link>
                 </div>
                 <div style={{padding: '0 10px'}}>
-                    <Link to="./Join"> 
+                    <Link to="/Join"> 
                         <Button> 회원가입 </Button>
                     </Link>
                 </div>

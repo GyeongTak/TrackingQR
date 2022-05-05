@@ -48,11 +48,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework',
     'corsheaders',
-<<<<<<< HEAD
     'storages',
-=======
     'Mypage',
->>>>>>> 1bb9ea01c5299447cc22f6d3634edcebd6adbb3f
 ]
 
 MIDDLEWARE = [
@@ -177,7 +174,4 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 AWS_S3_SECURE_URLS = False       # use http instead of https
 AWS_QUERYSTRING_AUTH = False     # don't add complex authentication-related query parameters for requests
 
-AWS_S3_ACCESS_KEY_ID = 'AKIAZQN3T2NAFIHQHQQO'
-AWS_S3_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'connectbill'
 ACCOUNT_LOGOUT_ON_GET = True

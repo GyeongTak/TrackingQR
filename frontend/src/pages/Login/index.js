@@ -8,13 +8,17 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import MainMenu from "../../components/MainMenu";
 import { signupButton } from './style';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useRecoilState } from 'recoil';
+import userState from '../../store/user';
 import Background from "../../components/Background";
 
 function LoginPage() {
+    const [user, setUser]  = useRecoilState(userState);
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const onChangeId = (e) => {
         setUserId(e.target.value);
@@ -31,7 +35,16 @@ function LoginPage() {
             })
         .then((res) => {
             const { token, user_id, is_client } = res.data;
-            axios.defaults.headers.common['Authorization'] = token;
+            localStorage.setItem('token', token);
+            
+            setUser({
+                userId : user_id,
+                isClient : is_client,
+                profileImage : '',
+            });
+
+            navigate("/",  { replace: true });
+
         })
         .catch((error) => {
             console.error(error.response);
