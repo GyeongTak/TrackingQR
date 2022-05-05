@@ -10,25 +10,15 @@ const memberInfoContainer = css`
     margin: 78px 0;
     display: flex;
     align-items: center;
+    position:relative;
 `
 
 const userInfoContent = css`
     margin-Left: 20px;
 `
-const LinkContainer = css`
-    width: 100%;
-    height: 100%;
-`
-
-const ActiveLink = styled(Link)`
-    fontWeight: bold;
-    fontSize: 20px;
-    color: black;
-    margin: 10px 10px;
-    padding: 10px 10px;
-    ${({ isactive }) => isactive && 'border-bottom: 2px solid black;'}
-    
-
+const editButtonWrapper = css`
+    position: absolute;
+    right: 0;
 `
 //color: '#3c434a',
-export { container, memberInfoContainer, userInfoContent, ActiveLink,  LinkContainer };
+export { container, memberInfoContainer, userInfoContent, editButtonWrapper};

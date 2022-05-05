@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import MainMenu from '../../components/MainMenu';
 import Tabs from '../../components/Tabs';
-import { container, memberInfoContainer, userInfoContent} from './style';
+import { container, memberInfoContainer, userInfoContent, editButtonWrapper} from './style';
 import Avartar from '../../components/Avatar';
 import { useRecoilState } from 'recoil';
 import userState from '../../store/user';
@@ -64,14 +64,6 @@ const dummydata = [
     },
 ];
 
-
-const useQuery = () => {
-    const { search } = useLocation();
-
-    return React.memo(()=> new URLSearchParams(search), [search]);
-}
-
-
 const me = {
     userId: 1,
     username:'user1',
@@ -81,11 +73,13 @@ const me = {
     description : '안녕하세요 user1입니다.'
 };
 const DesignerProfile = () => {
+    const { id } = useParams();
     const { search } = useLocation();
-    let query = new URLSearchParams(search);
+    const query = new URLSearchParams(search);
     const [user, setUser]  = useRecoilState(userState);
     const navigate = useNavigate();
 
+    console.log(typeof id);
     return (
         <>
         <MainMenu />
@@ -102,9 +96,10 @@ const DesignerProfile = () => {
             {me.skills.map((s, i)=> <Tag key={i} color="geekblue">{s}</Tag>)}
             </div>
             {
-                me?.userId === 
+                me?.userId === parseInt(id, 10)? <Button onClick={()=>{navigate('/')}} css={editButtonWrapper}>프로필 수정</Button>:
+                null
             }
-            <Button onClick={()=>{navigate('/')}}>프로필 수정</Button>
+            
         </div>
         <Tabs tab={query.get('tab')} common="portfolio"></Tabs>        
         <div style={{margin: '20px 0', width: '100%', display: 'inline-grid', gridTemplateColumns: 'repeat(auto-fill, minmax(25%, auto))', }}>
