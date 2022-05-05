@@ -49,11 +49,8 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'rest_framework',
     'corsheaders',
-<<<<<<< HEAD
     'storages',
-=======
     'Mypage',
->>>>>>> 1bb9ea01c5299447cc22f6d3634edcebd6adbb3f
 ]
 
 MIDDLEWARE = [
