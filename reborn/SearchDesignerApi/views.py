@@ -13,7 +13,7 @@ from rest_framework import status
 
 from usersApi.api.permissions import isClientUser, isDesignerUser
 from usersApi.api.serializer import DesignerSignupSerializer,UserSerializer,ClientSignupSerializer
-from usersApi.models import Designer,Client
+from usersApi.models import Designer,Client, User
 
 from usersApi.api import permissions
 
@@ -55,11 +55,13 @@ def PopolDetail(request,pk) :
 def createPortfolio(request): 
     if permissions.isDesignerUser and permissions.IsAuthenticated :
         # try:
-            user = Designer.objects.get(user=request.user)
-            newPortfolio = DesignerPopol(title=request.data['title'], description=request.data['description'], portfolio_image=request.data['image']) 
+            print(request.user.id)
+            user = User.objects.get(username=request.data['userid'])
+            designer = Designer.objects.get(user=user)
+            newPortfolio = DesignerPopol(user=designer, title=request.data['title'], description=request.data['description'], portfolio_image=request.data['image']) 
             serializer = PopolSerializer(data=request.data) #request.data = querydict
             if serializer.is_valid():
-                newPortfolio.user =user
+                #newPortfolio.user =user
                 newPortfolio.save()
                 return Response({'result':'success', 'message': '성공적으로 등록되었습니다.'}, status=status.HTTP_201_CREATED) #json?
             else :

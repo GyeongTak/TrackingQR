@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { ActiveLink,  LinkContainer} from './style';
 
-const Tabs = ({ tab, common }) => {
+const Tabs = ({ tab, common, tapItems }) => {
 
     const activeTab= tab? tab:common;
-    
     return (
         <div css={LinkContainer}>
-        <ActiveLink to="?tab=portfolio" isactive={activeTab === "portfolio"} >포트폴리오</ActiveLink>
-        <ActiveLink to="?tab=review" isactive={activeTab === "review" } >리뷰</ActiveLink>
+            {
+                tapItems.map((t) => <ActiveLink to={`?tab=${t.tab}`} isactive={activeTab === `${t.tab}`} >{t.name}</ActiveLink>)
+            }
         </div>
     );
 }

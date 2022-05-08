@@ -42,7 +42,7 @@ const CreatePortfolioPage = () => {
         formData.append('image', file);
         formData.append('title', title);
         formData.append('description', content);
-        formData.append('userid', 'test_user');
+        formData.append('userid', 'tticjswo');
         const token = localStorage.getItem('token');
         axios.defaults.headers.common['Authorization'] = token
         axios.post('http://localhost:8000/sda/api/portfolio/new', formData)
