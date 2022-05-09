@@ -7,6 +7,7 @@ import Container from 'react-bootstrap/Container';
 import MainMenu from "../../components/MainMenu";
 import Background from "../../components/Background";
 import {Dropdown, DropdownButton} from 'react-bootstrap';
+import './index.css';
 
 
 
