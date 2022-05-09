@@ -19,14 +19,13 @@ class PopolSerializer(serializers.ModelSerializer):
 class BriefPopolSerializer(serializers.ModelSerializer):
     class Meta : 
         model = DesignerPopol
-        fields = ['portfolio_image','title','created','designer']
+        fields = ['portfolio_image','title','created']
 
 
 class DesignerSerializer(serializers.ModelSerializer):
-    user = serializers.RelatedField(read_only=True)
     class Meta :
         model = Designer
-        fields = ['phone','skills','description','user']
+        fields = ['phone','skills','description']
 
 class ClientSerializer(serializers.ModelSerializer):
     class Meta :
@@ -42,12 +41,12 @@ class DesignerProfileSerializer(serializers.ModelSerializer) :
 
 class ClientProfileSerializer(serializers.ModelSerializer) :
     #popols = serializers.RelatedField(many=True,read_only=True)
-    designer = DesignerSerializer(read_only=True)
+    #designer = DesignerSerializer(read_only=True)
     # employer  = ClientSerializer(many=False,read_only=True)
 
     class Meta:
         model = User
-        fields = ['username','email','designer']
+        fields = ['username','email']
 
 
 # class PopolTestSerializer(serializers.ModelSerializer):

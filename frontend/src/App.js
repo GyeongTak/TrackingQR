@@ -17,7 +17,7 @@ const App = () => {
     <RecoilRoot>
       <BrowserRouter>
         <Routes>
-          <Route path = "/sda/" element={<DesignerPage/>} />
+          <Route path = "/sda" element={<DesignerPage/>} />
           <Route path = "/sda/port-new" element={<CreatePortfolioPage/>} />
           <Route path = "/" element={<HomePage/>} />
           <Route path="/designer/:id" element={<DesignerProfile />} />

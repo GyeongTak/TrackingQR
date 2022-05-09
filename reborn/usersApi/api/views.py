@@ -64,7 +64,6 @@ class LogoutView(APIView) :
 
     def post(self,request,format = None) :
         print(type(request.auth))
-
         request.auth.delete()
         return Response(status=status.HTTP_200_OK)
 
