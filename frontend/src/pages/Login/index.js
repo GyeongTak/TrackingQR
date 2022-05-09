@@ -13,6 +13,7 @@ import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import userState from '../../store/user';
 import Background from "../../components/Background";
+import './index.css';
 
 function LoginPage() {
     const [user, setUser]  = useRecoilState(userState);
@@ -72,13 +73,11 @@ function LoginPage() {
                             <Form.Control type="password" placeholder="Password" style={{width:'90%'}} value={password} onChange={onChangePassword}/>
                         </Col>
                     </Form.Group>
-
-                    <div className="d-grid gap-1" style={{marginTop:'30px'}}>
-                        <Button variant="secondary" type="submit" onClick={onSubmit} style={{width:'80%', height:'40px', marginLeft:'20px', borderStyle:'solid', borderWidth:2, 
-                        borderColor:'white', borderRadius:10, backgroundColor:'antiquewhite', color:'brown'}}>
-                            로그인
-                        </Button>
-                    </div>
+                    
+                    <Button className="login" type="button" onClick={onSubmit}>
+                        로그인
+                    </Button>
+                    
                     
                 </Form>
                 <Link to='/join' css={signupButton}>아직 커넥트빌 회원이 아니세요? <span>회원가입</span></Link>
