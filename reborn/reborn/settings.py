@@ -39,17 +39,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'connectBill.apps.ConnectBillConfig',
-# connectBill Application connected
-    'SearchDesignerApi.apps.SearchdesignerapiConfig',
+    'SearchDesignerApi',
 # Searchdesignerapi Application connected
     'usersApi',
 # users app connected
+    'userReview',
+# customerReview connected
     'rest_framework.authtoken',
     'rest_framework',
     'corsheaders',
     'storages',
     'Mypage',
+
 ]
 
 MIDDLEWARE = [
@@ -170,8 +171,8 @@ AUTH_USER_MODEL = 'usersApi.User'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_S3_SECURE_URLS = False       # use http instead of https
-AWS_QUERYSTRING_AUTH = False     # don't add complex authentication-related query parameters for requests
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# AWS_S3_SECURE_URLS = False       # use http instead of https
+# AWS_QUERYSTRING_AUTH = False     # don't add complex authentication-related query parameters for requests
 
 ACCOUNT_LOGOUT_ON_GET = True
