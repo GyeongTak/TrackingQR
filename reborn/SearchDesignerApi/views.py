@@ -38,7 +38,6 @@ def PopolDetail(request,pk) :
     return Response(serializer.data)
 
 
-
 # Parsers in Django REST are used to parse the content of incoming HTTP request.
 # 보낼때는 serializer
 @api_view(['POST'])
