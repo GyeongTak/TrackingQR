@@ -7,8 +7,10 @@ import DesignerProfile from './pages/DesignerProfile';
 import ClientProfile from './pages/ClientProfile';
 import { RecoilRoot } from 'recoil';
 import NotFoundPage from './pages/NotFound';
-
 import {BrowserRouter, Routes, Route } from 'react-router-dom';
+import JoinClientPage from 'pages/Join_Client';
+import JoinDesignerPage from 'pages/Join_Designer';
+import ClientReviewPage from 'pages/ClientReview';
 
 const App = () => {
   return (
@@ -22,6 +24,9 @@ const App = () => {
           <Route path="/client/:id" element={<ClientProfile />} />
           <Route path = "/login" element={<LoginPage/>} />
           <Route path = "/Join" element={<JoinPage/>} />
+          <Route path = "/Join/Client" element={<JoinClientPage/>} />
+          <Route path = "/Join/Designer" element={<JoinDesignerPage/>} />
+          <Route path = "/review" element={<ClientReviewPage/>} />
           <Route path = "*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>

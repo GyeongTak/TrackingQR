@@ -12,29 +12,36 @@ class User(AbstractUser) :
     is_Designer = models.BooleanField(default=False)
     is_client = models.BooleanField(default=False)
 
-    def __str__(self):
-        return self.username
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
 
-class Designer(models.Model) :
-    user = models.OneToOneField(User, related_name="designer", on_delete=models.CASCADE)
+class Designer(User) :
     phone = models.CharField(max_length=100, blank=True)
     skills = models.CharField(max_length=100,blank=True)
     description = models.TextField(null=True, blank=True)
 
     def __str__(self) :
-        return '%s, %s, %s' % (self.phone, self.skills,self.description)    
+        return self.username
+    
+    class Meta :
+        verbose_name = 'Designer'
+    # def __unicode__(self):
 
-class Client(models.Model) :
-    user = models.OneToOneField(User, related_name="employer", on_delete =models.CASCADE)
+
+class Client(User) :
     company_name=models.CharField(max_length=100, blank= True)
+    phone = models.CharField(max_length=100, blank=True)
     description =models.TextField(null= True, blank=True)
 
     def __str__(self):
-        return '%s, %s' % (self.company_name, self.description)    
+        return self.username 
+
+    class Meta :
+        verbose_name = 'Client'
+    # def __unicode__(self):
+    #     return self.user.username+"Client"   
 
 # Create your models here.

@@ -17,7 +17,7 @@ def path_and_rename(instance, filename):
     return os.path.join(upload_to, filename)
 
 class DesignerPopol(models.Model) :
-    user = models.ForeignKey(Designer, related_name='popols', default = NULL , on_delete=models.CASCADE)  
+    designer = models.ForeignKey(Designer,null =False, on_delete=models.CASCADE)  
     portfolio_image = models.ImageField(upload_to=path_and_rename, null = True)
     title = models.CharField(max_length=300)
     description = models.TextField(null=True, blank=True)
@@ -28,8 +28,7 @@ class DesignerPopol(models.Model) :
         return self.title
 
     class Meta :
-         db_table = 'Portfolio'
-         verbose_name = '포트폴리오'
+         verbose_name = 'Portfolio'
 
 
 

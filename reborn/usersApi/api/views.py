@@ -7,10 +7,10 @@ from .permissions import isClientUser, isDesignerUser
 
 from rest_framework.authtoken.views import ObtainAuthToken
 
-from .serializer import DesignerSignupSerializer,UserSerializer,ClientSignupSerializer
-from usersApi.api import serializer
+from .serializer import  DesignerSignupSerializer,DesignerSerializer,ClientSerializer,ClientSignupSerializer
+from usersApi.api import serializer,permissions
 
-from usersApi.api import permissions
+from usersApi.models import Designer
 
 class DesignerSignupView(generics.GenericAPIView):
     serializer_class = DesignerSignupSerializer
@@ -19,9 +19,15 @@ class DesignerSignupView(generics.GenericAPIView):
         serializer.is_valid(raise_exception = True)
         user = serializer.save()
         
+        # Designer.objects.create(
+        #     phone = request.data["phone"],
+        #     skills = request.data["skills"],
+        #     description = request.data["description"]
+        # )
+
         return Response({
-            "user" : UserSerializer(user,context=self.get_serializer_context()).data,
-            "token" : Token.objects.get(user=user).key,
+            "designer" : DesignerSerializer(user,context=self.get_serializer_context()).data,
+            #   "token" : Token.objects.get(user=user).key,
             "message" : "account create sucessfully...!",
         })
 
@@ -33,13 +39,14 @@ class ClientSignupView(generics.GenericAPIView):
         user = serializer.save()
         
         return Response({
-            "user" : UserSerializer(user,context=self.get_serializer_context()).data,
-            "token" : Token.objects.get(user=user).key,
+            "Client" : ClientSerializer(user,context=self.get_serializer_context()).data,
+            # "token" : Token.objects.get(user=user).key,
             "message" : "account create sucessfully...!",
         })
 
 
 class CustomAuthToken(ObtainAuthToken):
+    
     def post(self, request, *args, **kwargs) :
         serializer = self.serializer_class(data = request.data, context={'request':request})
         serializer.is_valid(raise_exception=True)
@@ -61,16 +68,16 @@ class LogoutView(APIView) :
         request.auth.delete()
         return Response(status=status.HTTP_200_OK)
 
-class ClientOnlyView(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated&isClientUser]
-    serializer_class = UserSerializer
+# class ClientOnlyView(generics.RetrieveAPIView):
+#     permission_classes = [permissions.IsAuthenticated&isClientUser]
+#     serializer_class = UserSerializer
 
-    def get_object(self):
-        return self.request.user
+#     def get_object(self):
+#         return self.request.user
 
-class DesignerOnlyView(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated&isDesignerUser]
-    serializer_class = UserSerializer
+# class DesignerOnlyView(generics.RetrieveAPIView):
+#     permission_classes = [permissions.IsAuthenticated&isDesignerUser]
+#     serializer_class = UserSerializer
 
-    def get_object(self):
-        return self.request.user
+#     def get_object(self):
+#         return self.request.user

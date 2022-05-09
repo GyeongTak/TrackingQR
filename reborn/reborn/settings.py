@@ -15,6 +15,7 @@ import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_PARENT_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -38,8 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework_simplejwt.token_blacklist',
-
     # 'connectBill.apps.ConnectBillConfig',
 # connectBill Application connected
     'SearchDesignerApi.apps.SearchdesignerapiConfig',
@@ -73,8 +72,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR / 'templates',
-            os.path.join(BASE_DIR,'frontend/build'),  
+            #BASE_DIR / 'templates',
+            os.path.join(BASE_PARENT_DIR,'frontend/build'),  
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -139,8 +138,9 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-    os.path.join(BASE_DIR, 'frontend/build/static')
+    #BASE_DIR / 'static',
+    os.path.join(BASE_PARENT_DIR,'frontend/build/static'),  
+
 ]
 
 # Default primary key field type
