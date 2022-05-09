@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Input } from 'antd';
 import { Link } from 'react-router-dom';
- 
+import axios from 'axios';
 const dummyDataMe = {
     role: 'client'
 };
@@ -22,6 +22,20 @@ const MainMenu = () => {
 
     };
 
+    const onClicklogout = () => {
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
+        axios.post('http://localhost:8000/users/api/logout', {
+            headers: { "Content-Type": `application/json`},
+            })
+        .then((res) => {
+
+            localStorage.removeItem('token');
+
+        })
+        .catch((error) => {
+            console.error(error.response);
+        });
+    };
     return(
         <div style={menuStyle}>
             <div style={{display: 'flex', alignItems: 'center'}}>
@@ -52,6 +66,10 @@ const MainMenu = () => {
                     <Link to="/Join"> 
                         <Button> 회원가입 </Button>
                     </Link>
+                </div>
+                <div style={{padding: '0 10px'}}>
+                        <Button onClick={onClicklogout}> 로그아웃 </Button>
+                    
                 </div>
                 {dummyDataMe.role === 'client'?  
                     <Link to ="/port-new">

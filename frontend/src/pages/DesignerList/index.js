@@ -1,47 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
 import MainMenu from '../../components/MainMenu';
 import { Card, Avatar, Dropdown, Button, Menu } from 'antd';
 import {  HeartTwoTone, DownOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.min.css';
 import { Link } from 'react-router-dom';
-
-const dummyData = [
-    {
-        imageSrc : 'https://cdn.pixabay.com/photo/2022/01/18/07/38/cat-6946505__340.jpg',
-        userProfilePhoto: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-        userNickname: 'nickname1',
-        userEmail: 'email',
-    },{
-        imageSrc : 'https://cdn.pixabay.com/photo/2022/01/18/07/38/cat-6946505__340.jpg',
-        userProfilePhoto: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-        userNickname: 'nickname2',
-        userEmail: 'email',
-    },
-    {
-        imageSrc : 'https://cdn.pixabay.com/photo/2022/01/18/07/38/cat-6946505__340.jpg',
-        userProfilePhoto: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-        userNickname: 'nickname3',
-        userEmail: 'email',
-    },
-    {
-        imageSrc : 'https://cdn.pixabay.com/photo/2022/01/18/07/38/cat-6946505__340.jpg',
-        userProfilePhoto: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-        userNickname: 'nickname4',
-        userEmail: 'email',
-    },
-    {
-        imageSrc : 'https://cdn.pixabay.com/photo/2022/01/18/07/38/cat-6946505__340.jpg',
-        userProfilePhoto: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-        userNickname: 'nickname4',
-        userEmail: 'email',
-    },
-    {
-        imageSrc : 'https://cdn.pixabay.com/photo/2022/01/18/07/38/cat-6946505__340.jpg',
-        userProfilePhoto: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-        userNickname: 'nickname4',
-        userEmail: 'email',
-    },
-];
+import axios from 'axios';
 
 const menu = (
     <Menu>
@@ -59,6 +22,22 @@ const menu = (
 
 
 const DesignerPage = () => {
+    const [ portfolios, setPortfolios ] = useState([]);
+
+
+    useEffect(()=>{
+
+        axios.get('http://localhost:8000/sda/', )
+        .then((res) => {
+            console.log(res.data);
+            setPortfolios([...res.data]);
+        })
+        .catch((error) => {
+            console.error(error.response);
+        });
+    });
+
+
 
     return (
         <>
@@ -89,12 +68,12 @@ const DesignerPage = () => {
             </div>
 
             <div className='portfolio-container' style={{width: '100%', display: 'inline-grid', gridTemplateColumns: 'repeat(auto-fill, minmax(20%, auto))', gap: '5%'}}>
-            {dummyData.map((post)=>
+            {portfolios.map((post)=>
                 <Card
                 hoverable
-                cover={<img alt="example" src={post.imageSrc} />}
+                cover={<img alt="example" src={`http://localhost:8000${post["portfolio_image"]}`} />}
               >
-                <Card.Meta avatar={<Avatar src={post.userProfilePhoto} />} title={<div style={{position: 'relative'}}>{post.userNickname}<HeartTwoTone style={{position: 'absolute', right:'0px'}} twoToneColor='#ff69b4'/></div>} description={post.userEmail} />
+                <Card.Meta avatar={<Avatar />} title={<div style={{position: 'relative'}}>{post.designer}<HeartTwoTone style={{position: 'absolute', right:'0px'}} twoToneColor='#ff69b4'/></div>} description={'description'} />
               </Card>)}
             </div>
         </div>
