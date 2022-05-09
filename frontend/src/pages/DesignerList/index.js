@@ -3,6 +3,7 @@ import MainMenu from '../../components/MainMenu';
 import { Card, Avatar, Dropdown, Button, Menu } from 'antd';
 import {  HeartTwoTone, DownOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.min.css';
+import { Link } from 'react-router-dom';
 
 const dummyData = [
     {
@@ -76,7 +77,11 @@ const DesignerPage = () => {
                     <Button icon={<DownOutlined />} >스타일</Button>
                 </Dropdown>
                 </div>
+                
                 <div style={{position: 'absolute', right:'0', top: '0'}}>
+                <Link to="/sda/port-new"> 
+                        <Button style={{color:'black', fontWeight:'bold', marginRight:'15px'}}> 포트폴리오 등록하기 </Button>
+                </Link>
                 <Dropdown overlay={menu} placement="bottomLeft">
                     <Button icon={<DownOutlined />} >최신순</Button>
                 </Dropdown>

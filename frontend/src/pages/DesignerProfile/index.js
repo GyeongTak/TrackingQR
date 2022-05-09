@@ -72,6 +72,11 @@ const me = {
     phone: '01000000000',
     description : '안녕하세요 user1입니다.'
 };
+
+//항상 같은 모습의 정적인 탭일 경우는 직접 UI에 탭 이름을 표시하면 되겠지만 
+//고유한 키를 정의하는 것이 코드 유지보수면에서 더 낫다고 생각한다.
+const tabItem = [{'tab':'portfolio', 'name':'포트폴리오'}, {'tab':'review','name':'리뷰'}];
+
 const DesignerProfile = () => {
     const { id } = useParams();
     const { search } = useLocation();
@@ -101,7 +106,7 @@ const DesignerProfile = () => {
             }
             
         </div>
-        <Tabs tab={query.get('tab')} common="portfolio"></Tabs>        
+        <Tabs tab={query.get('tab')} common="portfolio" tapItems={tabItem}></Tabs>        
         <div style={{margin: '20px 0', width: '100%', display: 'inline-grid', gridTemplateColumns: 'repeat(auto-fill, minmax(25%, auto))', }}>
         {dummydata.map((portfolio, i)=>
                         <div key={i} style={{marginRight: '10%', marginBottom: '10%'}}>

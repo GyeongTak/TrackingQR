@@ -37,7 +37,7 @@ function LoginPage() {
         .then((res) => {
             const { token, user_id, is_client } = res.data;
             localStorage.setItem('token', token);
-            
+            axios.defaults.headers.common['Authorization'] = token;
             setUser({
                 userId : user_id,
                 isClient : is_client,

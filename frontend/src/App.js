@@ -4,6 +4,7 @@ import HomePage from './pages/Home';
 import JoinPage from './pages/Join';
 import LoginPage from './pages/Login';
 import DesignerProfile from './pages/DesignerProfile';
+import ClientProfile from './pages/ClientProfile';
 import { RecoilRoot } from 'recoil';
 import NotFoundPage from './pages/NotFound';
 import {BrowserRouter, Routes, Route } from 'react-router-dom';
@@ -20,6 +21,7 @@ const App = () => {
           <Route path = "/sda/port-new" element={<CreatePortfolioPage/>} />
           <Route path = "/" element={<HomePage/>} />
           <Route path="/designer/:id" element={<DesignerProfile />} />
+          <Route path="/client/:id" element={<ClientProfile />} />
           <Route path = "/login" element={<LoginPage/>} />
           <Route path = "/Join" element={<JoinPage/>} />
           <Route path = "/Join/Client" element={<JoinClientPage/>} />

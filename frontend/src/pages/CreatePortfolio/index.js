@@ -6,6 +6,7 @@ import axios from 'axios';
 import 'antd/dist/antd.min.css';
 import { useRecoilState } from 'recoil';
 import userState from '../../store/user';
+import { useNavigate } from 'react-router-dom';
 
 const CreatePortfolioPage = () => {
     const [ user, setUser ]  = useRecoilState(userState);
@@ -13,6 +14,7 @@ const CreatePortfolioPage = () => {
     const [ file, setFile ] = useState();
     const [ title, setTitle ] = useState('');
     const [ content, setContent ] = useState('');
+    const navigate = useNavigate();
 
     const imageInput = useRef();
     const imagePreviousRef = useRef();
@@ -42,12 +44,12 @@ const CreatePortfolioPage = () => {
         formData.append('image', file);
         formData.append('title', title);
         formData.append('description', content);
-        formData.append('userid', 'test_user');
+        formData.append('userid', 'tticjswo');
         const token = localStorage.getItem('token');
         axios.defaults.headers.common['Authorization'] = token
         axios.post('http://localhost:8000/sda/api/portfolio/new', formData)
         .then((res) => {
-            console.log(res);
+            navigate('/sda');
         })
         .catch((error) => {
             console.error(error);

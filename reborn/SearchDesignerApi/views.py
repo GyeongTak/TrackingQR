@@ -45,11 +45,16 @@ def PopolDetail(request,pk) :
 def createPortfolio(request): 
     if permissions.isDesignerUser and permissions.IsAuthenticated :
         # try:
+        
+            #print(request.user.id)
+            #user = User.objects.get(username=request.data['userid'])
+            #designer = Designer.objects.get(user=user)
+            #newPortfolio = DesignerPopol(user=designer, title=request.data['title'], description=request.data['description'], portfolio_image=request.data['image']) 
             user = Designer.objects.get(auth_token =request.auth)
             newPortfolio = DesignerPopol(title=request.data['title'], description=request.data['description'], portfolio_image=request.data['image']) 
             serializer = PopolSerializer(data=request.data) #request.data = querydict
             if serializer.is_valid():
-                newPortfolio.user =user
+                #newPortfolio.user =user
                 newPortfolio.save()
                 return Response({'result':'success', 'message': '성공적으로 등록되었습니다.'}, status=status.HTTP_201_CREATED) #json?
             else :
