@@ -35,7 +35,7 @@ const DesignerPage = () => {
         .catch((error) => {
             console.error(error.response);
         });
-    });
+    }, []);
 
 
 

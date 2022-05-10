@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import MainMenu from '../../components/MainMenu';
 import { Card, Avatar, Dropdown, Button, Menu, List, Space } from 'antd';
 import {  HeartTwoTone, DownOutlined, MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.min.css';
-
+import axios from 'axios';
 const listData = [];
 for (let i = 1; i < 25; i++) {
   listData.push({
@@ -68,6 +68,19 @@ const menu = (
   );
 
 const ClientReviewPage = () => {
+    const [reviews, setReviews] = useState([]);
+
+    useEffect(()=>{
+        axios.get('http://localhost:8000/sda/', )
+        .then((res) => {
+            console.log(res.data);
+            setReviews([...res.data]);
+        })
+        .catch((error) => {
+            console.error(error.response);
+        });
+    }, []);
+    
     return (
         <>
         <MainMenu />
@@ -101,7 +114,7 @@ const ClientReviewPage = () => {
                 },
                 pageSize: 5,
                 }}
-                dataSource={listData}
+                dataSource={reviews}
               
                 renderItem={item => (
                 <List.Item
