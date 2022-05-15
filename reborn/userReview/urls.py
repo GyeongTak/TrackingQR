@@ -1,8 +1,6 @@
-from django.urls import path
+from re import template
+from django.urls import URLPattern, path
 from . import views
-
 urlpatterns = [
-    path('review-list/', views.customerReview,name='review-list'),
-
-
+    path('',views.customerReviewList, name='review-list'),
 ]
