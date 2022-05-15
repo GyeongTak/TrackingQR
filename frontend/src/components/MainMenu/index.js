@@ -28,9 +28,12 @@ const MainMenu = () => {
     };
 
     const onClicklogout = () => {
-        axios.defaults.headers.common['Authorization'] = localStorage.getItem('token');
+        const token = localStorage.getItem('token');
         axios.post('http://localhost:8000/users/api/logout', {
-            headers: { "Content-Type": `application/json`},
+            headers: { 
+                "Content-Type": `application/json`,
+                Authorization : "Token" + token
+            },
             })
         .then((res) => {
 

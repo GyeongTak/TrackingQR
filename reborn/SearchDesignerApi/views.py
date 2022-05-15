@@ -11,11 +11,9 @@ from SearchDesignerApi.models import DesignerPopol
 from .serializers import PopolSerializer,BriefPopolSerializer
 from rest_framework import status
 
-from usersApi.api.permissions import isClientUser, isDesignerUser
-from usersApi.api.serializer import DesignerSignupSerializer,ClientSignupSerializer
-from usersApi.models import Designer,Client
+from users.models import *
 
-from usersApi.api import permissions
+
 
 @api_view(['GET']) 
 def PopolList(request) :
@@ -42,7 +40,7 @@ def PopolDetail(request,pk) :
 # 보낼때는 serializer
 @api_view(['POST'])
 def createPortfolio(request): 
-    if permissions.isDesignerUser and permissions.IsAuthenticated :
+    if request.user.is_client == False :
         # try:
         
             #print(request.user.id)

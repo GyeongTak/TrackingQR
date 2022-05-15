@@ -4,7 +4,7 @@ from django.forms import ValidationError
 from nbformat import read
 from rest_framework import serializers
 from . models import DesignerPopol
-from usersApi.models import User,Designer,Client
+from users.models import User,Designer,Client
 
 class PopolSerializer(serializers.ModelSerializer):
     class Meta :

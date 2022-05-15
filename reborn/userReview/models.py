@@ -2,7 +2,7 @@ from asyncio.windows_events import NULL
 import os
 from django.db import models
 from uuid import uuid4
-from usersApi.models import Designer
+from users.models import Designer
 
 def path_and_rename(instance, filename):
     upload_to = 'userReview/customerReview_Image'

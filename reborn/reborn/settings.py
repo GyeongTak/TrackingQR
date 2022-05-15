@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'SearchDesignerApi',
 # Searchdesignerapi Application connected
-    'usersApi',
+    #'usersApi',
 # users app connected
     'userReview',
 # customerReview connected
@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'storages',
     'Mypage',
+    'users',
 
 ]
 
@@ -155,18 +156,19 @@ CORS_ALLOW_CREDENTIALS = True
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ],
-    'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-    ],
-    'DEFAULT_PARSER_CLASSES': [
-        'rest_framework.parsers.JSONParser',
-        'rest_framework.parsers.FormParser',
-        'rest_framework.parsers.MultiPartParser'
-    ]
+    # 'DEFAULT_RENDERER_CLASSES': [
+    #     'rest_framework.renderers.JSONRenderer',
+    # ],
+    # 'DEFAULT_PARSER_CLASSES': [
+    #     'rest_framework.parsers.JSONParser',
+    #     'rest_framework.parsers.FormParser',
+    #     'rest_framework.parsers.MultiPartParser'
+    # ]
 }
-AUTH_USER_MODEL = 'usersApi.User'
+AUTH_USER_MODEL = 'users.User'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -176,6 +178,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # AWS_QUERYSTRING_AUTH = False     # don't add complex authentication-related query parameters for requests
 
 ACCOUNT_LOGOUT_ON_GET = True
+
+# 로그인 성공후 이동하는 URL
+LOGIN_REDIRECT_URL = '/'
+
+# 로그아웃시 이동하는 URL
+LOGOUT_REDIRECT_URL = '/'
 
 
 SIMPLE_JWT = {

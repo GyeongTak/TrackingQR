@@ -2,9 +2,8 @@ from django.shortcuts import render
 from SearchDesignerApi.models import DesignerPopol
 from SearchDesignerApi.serializers import BriefPopolSerializer
 from rest_framework.response import Response
-from usersApi.api.permissions import isDesignerUser
 from rest_framework import  status
-from usersApi.models import *
+from users.models import *
 
 
 from SearchDesignerApi.serializers import PopolSerializer, DesignerProfileSerializer, ClientProfileSerializer
