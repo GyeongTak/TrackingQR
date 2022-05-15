@@ -22,6 +22,12 @@ class AuthUserSerializer(serializers.ModelSerializer):
     
     def get_auth_token(self, obj):
         token = Token.objects.create(user=obj)
+        try:
+            token = Token.objects.get(user=obj)
+
+        except Token.DoesNotExist:
+            token = Token.objects.create(user=obj)
+
         return token.key
 
 class EmptySerializer(serializers.Serializer):
