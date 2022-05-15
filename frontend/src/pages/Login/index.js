@@ -21,6 +21,7 @@ function LoginPage() {
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
 
+    
     const onChangeId = (e) => {
         setUserId(e.target.value);
     };
@@ -28,6 +29,7 @@ function LoginPage() {
     const onChangePassword = (e) => {
         setPassword(e.target.value);  
     };
+
     const onSubmit = (e) => {
         e.preventDefault();
         axios.post('http://localhost:8000/api/auth/login', JSON.stringify({"username":userId, "password": password}),{
@@ -35,7 +37,8 @@ function LoginPage() {
             })
         .then((res) => {
             const { id, username, is_client, auth_token } = res.data;
-            //localStorage.setItem('token', token);
+            localStorage.setItem('token', auth_token);
+            console.log(auth_token);
             axios.defaults.headers.common['Authorization'] = auth_token;
             setUser({
                 userId : id,
@@ -46,39 +49,12 @@ function LoginPage() {
             });
 
             navigate("/",  { replace: true });
-
         })
         .catch((error) => {
             console.error(error.response);
         });
 
     };
-
-    /*
-    const onSubmit = (e) => {
-        e.preventDefault();
-        axios.post('http://localhost:8000/users/api/login', JSON.stringify({"username":userId, "password": password}),{
-            headers: { "Content-Type": `application/json`}
-            })
-        .then((res) => {
-            const { token, user_id, is_client } = res.data;
-            localStorage.setItem('token', token);
-            axios.defaults.headers.common['Authorization'] = token;
-            setUser({
-                userId : user_id,
-                isClient : is_client,
-                profileImage : '',
-            });
-
-            navigate("/",  { replace: true });
-
-        })
-        .catch((error) => {
-            console.error(error.response);
-        });
-
-    };
-    */
     return (
         <>
         <MainMenu/>
