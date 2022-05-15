@@ -30,17 +30,15 @@ const MainMenu = () => {
     };
 
     const onClicklogout = () => {
-        //const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token');
         axios.post('http://localhost:8000/api/auth/logout', {
             headers: { 
                 "Content-Type": `application/json`,
-                //Authorization : "Token" + token
+                Authorization : "Token" + token,
             },
             })
         .then((res) => {
-
-            //localStorage.removeItem('token');
-
+            localStorage.removeItem('token');
         })
         .catch((error) => {
             console.error(error.response);
@@ -84,12 +82,26 @@ const MainMenu = () => {
                     </Link>
                 </div>
                 }
-                
-                <div style={{padding: '0 10px'}}>
+                {
+                    user.userId ? 
+                    user.isClient?
+                    <div style={{padding: '0 10px'}}>
+                    <Link to={`/client/${user.userId}`}> 
+                        <Button> 마이페이지 </Button>
+                    </Link>
+                </div> :<div style={{padding: '0 10px'}}>
+                    <Link to={`/designer/${user.userId}`}> 
+                        <Button> 마이페이지 </Button>
+                    </Link>
+                </div>
+                :
+                    <div style={{padding: '0 10px'}}>
                     <Link to="/Join"> 
                         <Button> 회원가입 </Button>
                     </Link>
                 </div>
+                }
+                
                 {user.userId ? user.isClient === true? 
                 <Link to ="/port-new">
                 <Button type="primary" shape="round" size='large'>의뢰하기</Button> 
