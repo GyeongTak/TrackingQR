@@ -11,7 +11,7 @@ import {BrowserRouter, Routes, Route } from 'react-router-dom';
 import JoinClientPage from 'pages/Join_Client';
 import JoinDesignerPage from 'pages/Join_Designer';
 import ClientReviewPage from 'pages/ClientReview';
-
+import RequestList from 'pages/RequestList';
 const App = () => {
   return (
     <RecoilRoot>
@@ -27,6 +27,7 @@ const App = () => {
           <Route path = "/Join/Client" element={<JoinClientPage/>} />
           <Route path = "/Join/Designer" element={<JoinDesignerPage/>} />
           <Route path = "/review" element={<ClientReviewPage/>} />
+          <Route path = "/request" element={<RequestList />} />
           <Route path = "*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>

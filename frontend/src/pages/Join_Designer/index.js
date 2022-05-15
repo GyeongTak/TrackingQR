@@ -8,10 +8,17 @@ import MainMenu from "../../components/MainMenu";
 import Background from "../../components/Background";
 import {Dropdown, DropdownButton} from 'react-bootstrap';
 import './index.css';
-
+import { useNavigate } from 'react-router-dom';
 
 
 function JoinDesignerPage() {
+    const navigate = useNavigate();
+
+    const onClickSubmit = () => {
+        navigate('/');
+
+    }
+
     return (
         <>
         <MainMenu/>
@@ -74,7 +81,7 @@ function JoinDesignerPage() {
                     <br/>
 
                     <div style={{marginTop:'30px'}}>
-                        <Button className="join" type="submit">
+                        <Button className="join" onClick={onClickSubmit}>
                             회원가입
                         </Button>
                     </div>
