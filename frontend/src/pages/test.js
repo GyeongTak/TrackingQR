@@ -9,9 +9,9 @@ for (let i = 0; i < 23; i++) {
     title: `ant design part ${i}`,
     avatar: 'https://joeschmoe.io/api/v1/random',
     description:
-      'Ant Design, a design language for background applications, is refined by Ant UED Team.',
+      '외식업 프랜차이즈 인테리어 디자인 설계 요청',
     content:
-      'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+      '외식업 프랜차이즈 인테리어 디자인 설계 요청',
   });
 }
 
