@@ -45,7 +45,16 @@ const MainMenu = () => {
         .catch((error) => {
             console.error(error.response);
         });
+
+        setUser({
+            userId : '',
+            isClient : null,
+            username : null,
+            auth_token : null,
+            profileImage : '',
+        });
     };
+
     return(
         <div style={menuStyle}>
             <div style={{display: 'flex', alignItems: 'center'}}>
@@ -67,7 +76,7 @@ const MainMenu = () => {
             <Input.Search placeholder="디자이너 검색" onSearch={onSearch} style={{width:'30%'}}/>
             <div style={{display: 'flex', alignItems: 'center'}}>
                 {
-                    user.id ?  <div style={{padding: '0 10px'}}>
+                    user.userId ?  <div style={{padding: '0 10px'}}>
                     <Button onClick={onClicklogout}> 로그아웃 </Button>
             </div>:<div style={{padding: '0 10px'}}>
                     <Link to="/login"> 
@@ -81,7 +90,7 @@ const MainMenu = () => {
                         <Button> 회원가입 </Button>
                     </Link>
                 </div>
-                {user.isClient ? user.isClient === 'client'? 
+                {user.userId ? user.isClient === true? 
                 <Link to ="/port-new">
                 <Button type="primary" shape="round" size='large'>의뢰하기</Button> 
             </Link>

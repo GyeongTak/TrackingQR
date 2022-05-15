@@ -9,16 +9,45 @@ import Background from "../../components/Background";
 import {Dropdown, DropdownButton} from 'react-bootstrap';
 import './index.css';
 import { useNavigate } from 'react-router-dom';
-
+import axios from 'axios';
 
 function JoinDesignerPage() {
+    const [userInfo, setUserInfo] = useState({
+        "username" :  "tticjswo5",
+        "password" :  "12345qwert~!@",
+        "password2" : "12345qwert~!@",
+        "email" : "tticjswo@naver.com",
+        "phone": "01023872521",
+        "skills" :  "C",
+        "description" : "hello world",
+        "is_client": false
+        });
     const navigate = useNavigate();
 
-    const onClickSubmit = () => {
-        navigate('/');
-
+    const onClickSubmit = async (e) => {
+        e.preventDefault();
+        axios.post('http://localhost:8000/api/auth/register_designer', userInfo, {headers: { "Content-Type": `application/json`}})
+        .then((res) => {
+            navigate("/",  { replace: true });
+        })
+        .catch((error) => {
+            console.error(error.response);
+        });
+        
+        navigate('/login');
     }
 
+    const onChangeId = (e) => {
+        setUserInfo({...userInfo, username: e.target.value});
+    }
+
+    const onChangePassword = (e) => {
+        setUserInfo({...userInfo, password : e.target.value});
+    }
+
+    const onChangePasswordCheck = (e) => {
+        setUserInfo({...userInfo, password2 : e.target.value});
+    }
     return (
         <>
         <MainMenu/>
@@ -31,21 +60,21 @@ function JoinDesignerPage() {
                     <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
                         <div style={{fontSize:'15px', marginTop:'20px', fontWeight:'bold'}}>아이디</div>
                         <Col sm>
-                            <Form.Control type="text" placeholder="UserID" style={{width:'90%'}}/>
+                            <input type="text" placeholder="UserID" style={{width:'90%'}} value={userInfo.username} onChange={onChangeId}/>
                         </Col>
                     </Form.Group>
 
                     <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
                         <div style={{fontSize:'15px', marginTop:'10px', fontWeight:'bold'}}>비밀번호</div>
                         <Col sm>
-                            <Form.Control type="password" placeholder="Password" style={{width:'90%'}}/>
+                            <input type="password" placeholder="Password" style={{width:'90%'}} value={userInfo.password} onChange={onChangePassword}/>
                         </Col>
                     </Form.Group>
 
                     <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
                         <div style={{fontSize:'15px', marginTop:'10px', fontWeight:'bold'}}>비밀번호 확인</div>   
                         <Col sm>
-                            <Form.Control type="password" placeholder="Confirm Password" style={{width:'90%'}}/>
+                            <input type="password" placeholder="Confirm Password" style={{width:'90%'}} value={userInfo.password2} onChange={onChangePasswordCheck}/>
                         </Col>
                     </Form.Group>
 
@@ -59,7 +88,7 @@ function JoinDesignerPage() {
                     <Form.Group as={Row} className="mb-3" controlId="formBasicEmail">
                         <div style={{fontSize:'15px', marginTop:'10px', fontWeight:'bold'}}>이메일</div> 
                         <Col sm>
-                            <Form.Control type="email" placeholder="Email Address" style={{width:'90%'}}/>
+                            <input type="email" placeholder="Email Address" style={{width:'90%'}}/>
                         </Col>
                     </Form.Group>
 
