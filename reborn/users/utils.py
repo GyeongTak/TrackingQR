@@ -9,12 +9,16 @@ def get_and_authenticate_user(username, password):
     return user
 
 
-def create_designer_account(username , email, password, **extra_fields):
+def create_designer_account(username , email, password,password2 **extra_fields):
+    if password != password2 :
+        raise serializers.ValidationError("password does not match")
     user = Designer.objects.create_user(
         username = username ,email=email, password=password,  **extra_fields)
     return user
 
-def create_client_account(username , email, password, **extra_fields):
+def create_client_account(username , email, password,password2, **extra_fields):
+    if password != password2 :
+        raise serializers.ValidationError("password does not match")
     user = Client.objects.create_user(
         username = username ,email=email, password=password,  **extra_fields)
     return user
