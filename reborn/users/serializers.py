@@ -36,7 +36,7 @@ class DesignerRegisterSerializer(serializers.ModelSerializer):
     """
     A user serializer for registering the Designer
     """
-
+    
     class Meta:
         model = Designer
         fields = ('id','email', 'username', 'password','phone','skills','description', 'is_client')
@@ -55,10 +55,10 @@ class ClientRegisterSerializer(serializers.ModelSerializer):
     """
     A user serializer for registering the Client
     """
-
+    password2 = serializers.CharField(style={"input_type":"password"}, write_only = True)
     class Meta:
-        model = Designer
-        fields = ('id','email', 'username', 'password','phone','company_name','description', 'is_client')
+        model = Client
+        fields = ('id','email', 'username', 'password','password2','phone','company_name','description', 'is_client')
 
     def validate_username(self, value):
         user = User.objects.filter(username=value)
