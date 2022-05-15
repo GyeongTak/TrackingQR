@@ -21,7 +21,6 @@ class AuthUserSerializer(serializers.ModelSerializer):
          read_only_fields = ('id', 'is_client')
     
     def get_auth_token(self, obj):
-        token = Token.objects.create(user=obj)
         try:
             token = Token.objects.get(user=obj)
 

@@ -5,10 +5,12 @@ import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import userState from '../../store/user';
 
+/*
 const dummyDataMe = {
     id: '1',
     role: 'client'
 };
+*/
 
 const menuStyle = {
     top: '0',
@@ -28,16 +30,16 @@ const MainMenu = () => {
     };
 
     const onClicklogout = () => {
-        const token = localStorage.getItem('token');
-        axios.post('http://localhost:8000/users/api/logout', {
+        //const token = localStorage.getItem('token');
+        axios.post('http://localhost:8000/api/auth/logout', {
             headers: { 
                 "Content-Type": `application/json`,
-                Authorization : "Token" + token
+                //Authorization : "Token" + token
             },
             })
         .then((res) => {
 
-            localStorage.removeItem('token');
+            //localStorage.removeItem('token');
 
         })
         .catch((error) => {
@@ -65,7 +67,7 @@ const MainMenu = () => {
             <Input.Search placeholder="디자이너 검색" onSearch={onSearch} style={{width:'30%'}}/>
             <div style={{display: 'flex', alignItems: 'center'}}>
                 {
-                    dummyDataMe.id ?  <div style={{padding: '0 10px'}}>
+                    user.id ?  <div style={{padding: '0 10px'}}>
                     <Button onClick={onClicklogout}> 로그아웃 </Button>
             </div>:<div style={{padding: '0 10px'}}>
                     <Link to="/login"> 
@@ -79,7 +81,7 @@ const MainMenu = () => {
                         <Button> 회원가입 </Button>
                     </Link>
                 </div>
-                {dummyDataMe.role ? dummyDataMe.role === 'client'? 
+                {user.isClient ? user.isClient === 'client'? 
                 <Link to ="/port-new">
                 <Button type="primary" shape="round" size='large'>의뢰하기</Button> 
             </Link>
