@@ -14,6 +14,7 @@ import { useRecoilState } from 'recoil';
 import userState from '../../store/user';
 import Background from "../../components/Background";
 import './index.css';
+import {login} from '../../apis/user.js';
 
 function LoginPage() {
     const [user, setUser]  = useRecoilState(userState);
@@ -30,30 +31,20 @@ function LoginPage() {
         setPassword(e.target.value);  
     };
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
-        axios.post('http://localhost:8000/api/auth/login', JSON.stringify({"username":userId, "password": password}),{
-            headers: { "Content-Type": `application/json`}
-            })
-        .then((res) => {
-            const { id, username, is_client, auth_token } = res.data;
-            localStorage.setItem('token', auth_token);
-            console.log(auth_token);
-            axios.defaults.headers.common['Authorization'] = auth_token;
-            setUser({
-                userId : id,
-                isClient : is_client,
-                username : username,
-                auth_token : auth_token,
-                profileImage : '',
-            });
-
-            navigate("/",  { replace: true });
-        })
-        .catch((error) => {
-            console.error(error.response);
+        const { id, username, is_client, auth_token } = await login({"username":userId, "password": password});
+        localStorage.setItem('token', auth_token);
+        axios.defaults.headers.common['Authorization'] = auth_token;
+        setUser({
+            userId : id,
+            isClient : is_client,
+            username : username,
+            auth_token : auth_token,
+            profileImage : '',
         });
 
+        navigate("/",  { replace: true });
     };
     return (
         <>

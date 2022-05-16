@@ -1,16 +1,9 @@
 import React from 'react';
 import { Button, Input } from 'antd';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { useRecoilState } from 'recoil';
 import userState from '../../store/user';
-
-/*
-const dummyDataMe = {
-    id: '1',
-    role: 'client'
-};
-*/
+import { logout } from 'apis/user.js';
 
 const menuStyle = {
     top: '0',
@@ -29,20 +22,10 @@ const MainMenu = () => {
 
     };
 
-    const onClicklogout = () => {
-        const token = localStorage.getItem('token');
-        axios.post('http://localhost:8000/api/auth/logout', {
-            headers: { 
-                "Content-Type": `application/json`,
-                Authorization : "Token" + token,
-            },
-            })
-        .then((res) => {
-            localStorage.removeItem('token');
-        })
-        .catch((error) => {
-            console.error(error.response);
-        });
+    const onClicklogout = async() => {
+        
+        await logout();
+        localStorage.removeItem('token');
 
         setUser({
             userId : '',
@@ -107,7 +90,7 @@ const MainMenu = () => {
                 <Button type="primary" shape="round" size='large'>의뢰하기</Button> 
             </Link>
             :
-            <Link to ="./sda/port-new">
+            <Link to ="/sda/port-new">
                 <Button type="primary" shape="round" size='large'>포트폴리오 등록하기</Button>
             </Link>
                 : null}
