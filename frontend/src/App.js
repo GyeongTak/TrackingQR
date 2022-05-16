@@ -12,14 +12,16 @@ import JoinClientPage from 'pages/Join_Client';
 import JoinDesignerPage from 'pages/Join_Designer';
 import ClientReviewPage from 'pages/ClientReview';
 import RequestList from 'pages/RequestList';
+
+import { RequireAuth } from 'router/RequireAuth';
 const App = () => {
   return (
     <RecoilRoot>
       <BrowserRouter>
         <Routes>
+        <Route path = "/" element={<HomePage/>} />
           <Route path = "/sda" element={<DesignerPage/>} />
-          <Route path = "/sda/port-new" element={<CreatePortfolioPage/>} />
-          <Route path = "/" element={<HomePage/>} />
+            <Route path = "/sda/port-new" element={<RequireAuth><CreatePortfolioPage/></RequireAuth>} />
           <Route path="/designer/:id" element={<DesignerProfile />} />
           <Route path="/client/:id" element={<ClientProfile />} />
           <Route path = "/login" element={<LoginPage/>} />
