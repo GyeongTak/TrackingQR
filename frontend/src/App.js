@@ -12,6 +12,7 @@ import JoinClientPage from 'pages/Join_Client';
 import JoinDesignerPage from 'pages/Join_Designer';
 import ClientReviewPage from 'pages/ClientReview';
 import RequestList from 'pages/RequestList';
+import CreateRequest from 'pages/CreateRequest';
 
 import { RequireAuth } from 'router/RequireAuth';
 const App = () => {
@@ -21,7 +22,8 @@ const App = () => {
         <Routes>
         <Route path = "/" element={<HomePage/>} />
           <Route path = "/sda" element={<DesignerPage/>} />
-            <Route path = "/sda/port-new" element={<RequireAuth><CreatePortfolioPage/></RequireAuth>} />
+          <Route path = "/portfolio/new" element={<RequireAuth><CreatePortfolioPage/></RequireAuth>} />
+          <Route path = "/request/new" element={<CreateRequest/>} />
           <Route path="/designer/:id" element={<DesignerProfile />} />
           <Route path="/client/:id" element={<ClientProfile />} />
           <Route path = "/login" element={<LoginPage/>} />
