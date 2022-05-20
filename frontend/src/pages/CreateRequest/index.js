@@ -4,31 +4,31 @@ import MainMenu from 'components/MainMenu';
 import { Select, Radio, DatePicker, Button } from 'antd';
 import { gap, inputStyle } from './style';
 import { useInput } from 'utils/useInput';
-import {
-    SyncOutlined,
-  } from '@ant-design/icons';
+import { SyncOutlined } from '@ant-design/icons';
+import { postRequest } from 'apis/request';
 
 const CreateRequest = () => {
 const [photos, setPhotos] = useState([]); 
 const [ imagePrevious, setImagePrevious ] = useState([]); 
 const [ title, onChangeTitle] = useInput('');
 const [ date, onChangeDate] = useInput('');
-const [ ispublic, onChangePublic] = useInput('');
+const [ ispublic, onChangePublic] = useInput(true);
 const [ content, onChangeContent] = useInput('');
 const [ category, onChangeCategory] = useInput('');
 const [ style, onChangeStyle] = useInput('');
-const onSubmit = (e) =>{
+
+const onSubmit = async (e) =>{
     e.preventDefault();
-    
     const formData = new FormData();
     formData.append('photos', photos);
     formData.append('title', title);
-    formData.append('date', date);
+    formData.append('date', '2022-05-03');
     formData.append('public', ispublic);
     formData.append('content', content);
     formData.append('category', category);
     formData.append('style', style);
 
+    const result = await postRequest(formData);
 
 };
 
@@ -85,9 +85,9 @@ return (
 
         <div css={gap}>
         <h2>의뢰인 공개여부를 선택해 주세요</h2>
-        <Radio.Group onChange={onChangePublic} value={1}>
-            <Radio value={1}>공개</Radio>
-            <Radio value={2}>비공개</Radio>
+        <Radio.Group onChange={onChangePublic} value={true}>
+            <Radio value={true}>공개</Radio>
+            <Radio value={false}>비공개</Radio>
         </Radio.Group>
         </div>
 
