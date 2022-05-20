@@ -33,6 +33,7 @@ class Commission(models.Model) :
     budget = models.IntegerField(null=False,blank=False) # 예산
     finish_date = models.IntegerField(null=False, blank=False) # 작업 기한 ( 기준 : 일)
     request_count = models.IntegerField(default=0, null= False,blank=False) # 받은 제안 수
+    
     Status = models.IntegerField(choices=CommissionStatus.choices, default = 0)
          
 
