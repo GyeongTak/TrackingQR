@@ -14,7 +14,7 @@ import { useRecoilState } from 'recoil';
 import userState from '../../store/user';
 import Background from "../../components/Background";
 import './index.css';
-import {login} from '../../apis/user.js';
+import {login} from '../../apis/user/index';
 
 function LoginPage() {
     const [user, setUser]  = useRecoilState(userState);

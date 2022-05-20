@@ -3,7 +3,7 @@ import { Button, Input } from 'antd';
 import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import userState from '../../store/user';
-import { logout } from 'apis/user.js';
+import { logout } from 'apis/user/index';
 
 const menuStyle = {
     top: '0',

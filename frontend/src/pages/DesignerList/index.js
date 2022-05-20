@@ -58,7 +58,7 @@ const DesignerPage = () => {
                 </div>
                 
                 <div style={{position: 'absolute', right:'0', top: '0'}}>
-                <Link to="/sda/port-new"> 
+                <Link to="/portfolio/new"> 
                         <Button style={{color:'black', fontWeight:'bold', marginRight:'15px'}}> 포트폴리오 등록하기 </Button>
                 </Link>
                 <Dropdown overlay={menu} placement="bottomLeft">
