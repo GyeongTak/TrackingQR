@@ -5,6 +5,9 @@ from uuid import uuid4
 from users.models import Designer
 
 def path_and_rename(instance, filename):
+    print(instance.designer_id)
+    print("/and/")
+    print(filename) 
     upload_to = 'SearchDesignerApi/Designer_Portfolio_Image'
     ext = filename.split('.')[-1]
     # get filename
@@ -16,9 +19,11 @@ def path_and_rename(instance, filename):
     # return the whole path to the file
     return os.path.join(upload_to, filename)
 
+
+
 class DesignerPopol(models.Model) :
     designer_id = models.IntegerField(null =True)  
-    designer_name = models.CharField(max_length=200, null= True)
+    designer_name = models.CharField(max_length=200, null= True) 
     portfolio_image = models.ImageField(upload_to=path_and_rename, null = True)
     title = models.CharField(max_length=300)
     description = models.TextField(null=True, blank=True)

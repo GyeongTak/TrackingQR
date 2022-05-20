@@ -1,10 +1,14 @@
+from email.policy import default
 from django.db import models
 
 from django.db.models.signals import post_save
 
 
 from django.contrib.auth.models import AbstractUser
+from django.forms import IntegerField
 from rest_framework.authtoken.models import Token
+
+from client_commission.models import Commission
 
 
 class User(AbstractUser) :
@@ -21,7 +25,7 @@ class Designer(User) :
     phone = models.CharField(max_length=100, blank=True)
     skills = models.CharField(max_length=100,blank=True)
     description = models.TextField(null=True, blank=True)
-
+    prccessing_commission_id = models.IntegerField()
 
     USERNAME_FIELD: User.username
 
@@ -38,6 +42,7 @@ class Client(User) :
     company_name=models.CharField(max_length=100, blank= True)
     phone = models.CharField(max_length=100, blank=True)
     description =models.TextField(null= True, blank=True)
+    commission_id= models.IntegerField( null = True)
 
     USERNAME_FIELD: User.username
 
