@@ -39,18 +39,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
     'SearchDesignerApi',
 # Searchdesignerapi Application connected
-    #'usersApi',
+    'users',
 # users app connected
     'userReview',
 # customerReview connected
+    'client_commission',
+# client_commission app is connected
+    'Mypage',
+# Mypage App is connected    
+
     'rest_framework.authtoken',
     'rest_framework',
     'corsheaders',
     'storages',
-    'Mypage',
-    'users',
+
 
 ]
 

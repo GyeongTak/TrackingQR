@@ -26,6 +26,7 @@ urlpatterns = [
     path('sda/',include('SearchDesignerApi.urls')), 
     path('mypage/',include('Mypage.urls')),
     path('review/',include('userReview.urls')),
+    path('api/client_commission/',include('users.urls')),
     path('api/auth/',include('users.urls')),
 ]
 

@@ -2,7 +2,8 @@ from asyncio.windows_events import NULL
 import os
 from django.db import models
 from uuid import uuid4
-from users.models import Designer
+from client_commission.models import Commission
+from users.models import Designer, Client
 
 def path_and_rename(instance, filename):
     upload_to = 'userReview/customerReview_Image'
@@ -17,10 +18,11 @@ def path_and_rename(instance, filename):
     return os.path.join(upload_to, filename)
 
 class customerReview(models.Model) :
-    Review_title = models.CharField(max_length=200 )
-    Review_Image = models.ImageField( height_field=None, width_field=None, max_length=100, upload_to=path_and_rename)
-    customer_id = models.IntegerField(null= True)
-    Review_description = models.TextField(null =True)
+    title = models.CharField(max_length=200 )
+    image = models.ImageField( height_field=None, width_field=None, max_length=100, upload_to=path_and_rename)
+    client_id = models.IntegerField()
+    designer_id = models.IntegerField()
+    description = models.TextField(null =True)
     created = models.DateTimeField(auto_now_add = True)
     updated = models.DateTimeField(auto_now = True)
 
