@@ -9,4 +9,9 @@ const inputStyle = css`
     width:100%;
     height: 50px;
 `
-export { gap, inputStyle };
+
+const imageStyle = css`
+    position : relative;
+
+`;
+export { gap, inputStyle, imageStyle };

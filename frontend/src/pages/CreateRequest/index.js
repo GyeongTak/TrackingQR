@@ -2,12 +2,13 @@
 import React, { useState } from 'react';
 import MainMenu from 'components/MainMenu';
 import { Select, Radio, DatePicker, Button } from 'antd';
-import { gap, inputStyle } from './style';
+import { gap, inputStyle, imageStyle } from './style';
 import { useInput } from 'utils/useInput';
-import { SyncOutlined } from '@ant-design/icons';
 import { postRequest } from 'apis/request';
+import { CloseOutlined } from '@ant-design/icons';
 
 const CreateRequest = () => {
+    
 const [photos, setPhotos] = useState([]); 
 const [ imagePrevious, setImagePrevious ] = useState([]); 
 const [ title, onChangeTitle] = useInput('');
@@ -32,20 +33,23 @@ const onSubmit = async (e) =>{
 
 };
 
-
 const onChangeFile = (e) => {
-    if (e.target.files[0]) {
-    setPhotos([...photos, e.target.files[0]]);
-    const reader = new FileReader();
-    
-    reader.readAsDataURL(e.target.files[0]);
-    reader.onload = (e) => {
-        setImagePrevious([...imagePrevious, e.target.result]);
-    };
-    
-        
-    
-    }
+
+    Array.from(e.target.files).forEach(file => {
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            setImagePrevious(prev=> [...prev, e.target.result]);
+        };
+        setPhotos(prev=>[...prev, file]);
+        reader.readAsDataURL(file);
+    });   
+}
+
+const onClickDeleteImage = (i) => {
+    setImagePrevious((prev)=>(
+        prev.filter((img, index) => index !== i)
+    ));
 }
 
 return (
@@ -97,10 +101,14 @@ return (
         </div>
 
         <div css={gap}>
-            <input type="file" multiple onClick={onChangeFile}/>
+            <input type="file" accept="image/*" multiple onChange={onChangeFile}/>
         </div>
-        <div style={{display: 'flex'}}>
-        {imagePrevious.map((p, index)=> <div><img key={index} alt="미리보기" src={p} height={'200px'} width={'200px'}></img></div>)}
+        <div style={{display: 'flex', flexWrap: 'wrap'}}>
+        {imagePrevious  && imagePrevious.map((p, index)=> 
+        <div key={index} css={imageStyle}>
+            <Button type="primary" shape="circle" style={{position:"absolute"}} icon={<CloseOutlined />} size={'small'} onClick={()=>onClickDeleteImage(index)}/>
+            <img alt="미리보기" src={p} height={'200px'} width={'200px'}></img>
+        </div>)}
         </div>
         <Button type="primary" shape="round" size='large' htmlType="submit">의뢰서 등록</Button>
         </form>
