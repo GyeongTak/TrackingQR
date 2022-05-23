@@ -5,7 +5,7 @@ import Avatar from 'components/Avatar';
 import MainMenu from 'components/MainMenu';
 import {Button} from 'antd';
 import { HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
-const Portfolio = () => {
+const PortfolioDetail = () => {
 
     return (
         <>
@@ -70,4 +70,4 @@ const Portfolio = () => {
  * 
  */
 
-export default Portfolio;
+export default PortfolioDetail;

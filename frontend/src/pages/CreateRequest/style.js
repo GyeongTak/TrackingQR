@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from '@emotion/react';
-
+import styled from '@emotion/styled'
+import { TextArea } from 'antd';
 const gap = css`
     padding: 20px 0;
 `
@@ -12,6 +13,11 @@ const inputStyle = css`
 
 const imageStyle = css`
     position : relative;
-
 `;
-export { gap, inputStyle, imageStyle };
+
+const BudgetInput = styled.div`
+    display: flex;
+    align-items: center;
+`
+
+export { gap, inputStyle, imageStyle, BudgetInput };

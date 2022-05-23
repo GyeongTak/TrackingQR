@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState } from 'react';
 import MainMenu from 'components/MainMenu';
-import { Select, Radio, DatePicker, Button } from 'antd';
-import { gap, inputStyle, imageStyle } from './style';
+import { Select, Radio, DatePicker, Button, Input } from 'antd';
+import { gap, inputStyle, imageStyle, BudgetInput, TextAreaWrapper } from './style';
 import { useInput } from 'utils/useInput';
 import { postRequest } from 'apis/request';
 import { CloseOutlined } from '@ant-design/icons';
@@ -12,22 +12,24 @@ const CreateRequest = () => {
 const [photos, setPhotos] = useState([]); 
 const [ imagePrevious, setImagePrevious ] = useState([]); 
 const [ title, onChangeTitle] = useInput('');
-const [ date, onChangeDate] = useInput('');
-const [ ispublic, onChangePublic] = useInput(true);
-const [ content, onChangeContent] = useInput('');
-const [ category, onChangeCategory] = useInput('');
-const [ style, onChangeStyle] = useInput('');
+const [ date, setDate] = useState('');
+const [ budget, onChangeBudget ] = useInput(0);
+//const [ ispublic, onChangePublic] = useInput(true);
+const [ description, onChangeDescription] = useInput('');
+//const [ category, onChangeCategory] = useInput('');
+//const [ style, onChangeStyle] = useInput('');
 
 const onSubmit = async (e) =>{
     e.preventDefault();
     const formData = new FormData();
     formData.append('photos', photos);
     formData.append('title', title);
-    formData.append('date', '2022-05-03');
-    formData.append('public', ispublic);
-    formData.append('content', content);
-    formData.append('category', category);
-    formData.append('style', style);
+    formData.append('date', date);
+    //formData.append('public', ispublic);
+    formData.append('description', description);
+    formData.append('budget', budget);
+    //formData.append('category', category);
+    //formData.append('style', style);
 
     const result = await postRequest(formData);
 
@@ -52,6 +54,9 @@ const onClickDeleteImage = (i) => {
     ));
 }
 
+const onChangeDate = (date, dateString) => {
+    setDate((prev) => dateString);
+  };
 return (
     <>
     <MainMenu />
@@ -64,7 +69,9 @@ return (
         
         <div css={gap}>
         <h2>프리랜서 포지션의 제목을 입력해주세요.</h2>
-        <input placeholder='예) 감성카페 인테리어 디자이너' style={{width: '50%'}} onChange={onChangeTitle} />
+        
+        <Input placeholder='예) 감성카페 인테리어 디자이너' style={{width: '50%'}} onChange={onChangeTitle} />
+        
         </div>
 
         <div css={gap}>
@@ -72,6 +79,15 @@ return (
         <DatePicker onChange={onChangeDate} />
         </div>
 
+        <div css={gap}>
+        <h2>예산을 선택해주세요</h2>
+        <BudgetInput>
+        <Input placeholder="예산" style={{width: '20%'}} type={'number'} onChange={onChangeBudget}/>
+        <div>만원</div>
+        </BudgetInput>
+        </div>
+
+        {/*
         <h2>모집 분야와 원하는 스타일을 선택해주세요</h2>
         <div css={gap}>
         <Select defaultValue="분야" onChange={onChangeCategory}>
@@ -85,7 +101,7 @@ return (
             <Select.Option value="3">힙한</Select.Option >
         </Select>
         </div>
-        
+
 
         <div css={gap}>
         <h2>의뢰인 공개여부를 선택해 주세요</h2>
@@ -94,10 +110,10 @@ return (
             <Radio value={false}>비공개</Radio>
         </Radio.Group>
         </div>
-
+*/}
         <div css={gap}>
         <h2>프로젝트 내용 및 관련 자료를 상세히 입력해주세요.</h2>
-        <textarea css={inputStyle} onChange={onChangeContent}></textarea>
+        <Input.TextArea rows={4} onChange={onChangeDescription}></Input.TextArea>
         </div>
 
         <div css={gap}>
