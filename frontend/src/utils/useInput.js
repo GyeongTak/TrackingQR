@@ -12,4 +12,3 @@ const useInput = (initialState) => {
 }
 
 export {useInput};
-//search 값이 바뀌지 않으면 컴포넌트를 메모이제이션

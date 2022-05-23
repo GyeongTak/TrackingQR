@@ -86,11 +86,11 @@ const MainMenu = () => {
                 }
                 
                 {user.userId ? user.isClient === true? 
-                <Link to ="/port-new">
+                <Link to ="/request/new">
                 <Button type="primary" shape="round" size='large'>의뢰하기</Button> 
             </Link>
             :
-            <Link to ="/sda/port-new">
+            <Link to ="/portfolio/new">
                 <Button type="primary" shape="round" size='large'>포트폴리오 등록하기</Button>
             </Link>
                 : null}
