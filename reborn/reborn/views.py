@@ -1,7 +1,7 @@
 
 from django.core.exceptions import ImproperlyConfigured
+from html5lib import serialize
 from rest_framework import viewsets, status
-from django.core import serializers
 
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -12,19 +12,21 @@ from rest_framework.decorators import api_view
 
 from users.models import Designer
 from userReview.models import customerReview
+
+from .serializers import designerSerializer as dS, reviewSerializer as rS
+
+
 User = get_user_model()
 
 @api_view(['GET'])
 def index(request):
     designers =Designer.objects.all().reverse()[:5] #id 0~4 까지 입력
-    designers_list = serializers.serialize('json',designers)
+    designers_list = dS(designers, many= True)
     reviews = customerReview.objects.all().reverse()[:5]
-    reviews_list = serializers.serialize('json',reviews)
+    reviews_list = rS(reviews , many= True)
 
     return Response(
-        {
-            "designers" : designers_list,
-            "reviews" : reviews_list
-        
-        }, content_type="text/json-comment-filtered"
+
+           {'designer' :designers_list.data,
+           'reviews':reviews_list.data}
     )

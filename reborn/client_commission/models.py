@@ -4,7 +4,6 @@ from users.models import Client
 from uuid import uuid4
 
 def path_and_rename(instance, filename):
-    print(instance.user.id)
     upload_to = 'client_committion/committion_image'
     ext = filename.split('.')[-1]
     # get filename

@@ -71,7 +71,7 @@ const DesignerPage = () => {
                 <Card
                 hoverable
                 key={index}
-                cover={<img alt="example" height={'250px'} src={`http://localhost:8000${post["portfolio_image"]}`} />}
+                cover={<img alt="example" height={'250px'} src={`http://localhost:8000${post["image"]}`} />}
               >
                 <Card.Meta avatar={<Avatar />} 
                 title={<div style={{position: 'relative'}}>{post.designer}
