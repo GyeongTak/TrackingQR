@@ -1,9 +1,8 @@
 import os
 from django.db import models
+from users.models import Client
 from uuid import uuid4
 
-from grpc import Status
-from reborn.settings import MEDIA_URL
 def path_and_rename(instance, filename):
     print(instance.user.id)
     upload_to = 'client_committion/committion_image'
@@ -23,7 +22,7 @@ class CommissionStatus(models.IntegerChoices):
     finished = 2 # 끝
 
 class Commission(models.Model) :
-    client_id = models.IntegerField()
+    client = models.ForeignKey(Client,on_delete=models.CASCADE)
     designer_id = models.IntegerField(null = True)
 
     commission_image = models.ImageField(upload_to=path_and_rename, null = True)

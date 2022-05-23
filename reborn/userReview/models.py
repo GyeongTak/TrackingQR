@@ -2,6 +2,9 @@ from asyncio.windows_events import NULL
 import os
 from django.db import models
 from uuid import uuid4
+from django.core.validators import MinValueValidator, MaxValueValidator
+
+from torch import maximum
 from client_commission.models import Commission
 from users.models import Designer, Client
 
@@ -18,7 +21,7 @@ def path_and_rename(instance, filename):
     return os.path.join(upload_to, filename)
 
 class customerReview(models.Model) :
-    score = models.IntegerField(default = 0)
+    score = models.IntegerField(default = 0,validators=[MinValueValidator(0), MaxValueValidator(5)])
     image = models.ImageField( height_field=None, width_field=None, max_length=100, upload_to=path_and_rename)
     client = models.ForeignKey(Client,on_delete=models.CASCADE)
     designer_id = models.IntegerField(null = True)
