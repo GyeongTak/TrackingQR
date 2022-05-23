@@ -23,9 +23,9 @@ from django.conf.urls.static import static
 urlpatterns = [ 
     path('admin/', admin.site.urls),
     path('',TemplateView.as_view(template_name = 'index.html')),
-    path('sda/',include('SearchDesignerApi.urls')), 
-    path('mypage/',include('Mypage.urls')),
-    path('review/',include('userReview.urls')),
+    path('api/portfolio/',include('portfolio.urls')), 
+    path('api/mypage/',include('Mypage.urls')),
+    path('api/review/',include('userReview.urls')),
     path('api/client_commission/',include('users.urls')),
     path('api/auth/',include('users.urls')),
 ]

@@ -65,7 +65,7 @@ class AuthViewSet(viewsets.GenericViewSet):
         newReview = customerReview(
             client_id = request.user.id,
             designer_id = tmpcommission.designer_id,
-            title = serializer.validated_data['title'],
+            score = request.data['score'],
             image = stitched,
             description=request.data['description'],
         )

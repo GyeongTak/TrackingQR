@@ -1,12 +1,12 @@
 from django.shortcuts import render
-from SearchDesignerApi.models import DesignerPopol
-from SearchDesignerApi.serializers import BriefPopolSerializer
+from portfolio.models import DesignerPopol
+from portfolio.serializers import BriefPopolSerializer
 from rest_framework.response import Response
 from rest_framework import  status
 from users.models import *
 
 
-from SearchDesignerApi.serializers import PopolSerializer, DesignerProfileSerializer, ClientProfileSerializer
+from portfolio.serializers import PopolSerializer, DesignerProfileSerializer, ClientProfileSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 
@@ -14,8 +14,7 @@ from rest_framework.decorators import api_view, permission_classes
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def profile(request, format=None):
-    user = User.objects.get(auth_token = request.auth)
-    if user.is_client == True :
+    if request.user.is_client == True :
         tmpuserProfile = Client.objects.get(auth_token = request.auth)
         userserializer = ClientProfileSerializer(tmpuserProfile,many= False)
     else :

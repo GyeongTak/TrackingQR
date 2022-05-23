@@ -18,11 +18,12 @@ def path_and_rename(instance, filename):
     return os.path.join(upload_to, filename)
 
 class customerReview(models.Model) :
-    title = models.CharField(max_length=200 )
+    score = models.IntegerField(default = 0)
     image = models.ImageField( height_field=None, width_field=None, max_length=100, upload_to=path_and_rename)
-    client_id = models.IntegerField()
-    designer_id = models.IntegerField()
+    client = models.ForeignKey(Client,on_delete=models.CASCADE)
+    designer_id = models.IntegerField(null = True)
     description = models.TextField(null =True)
+    Commission = models.ForeignKey(Commission, null = True,on_delete= models.SET_NULL)
     created = models.DateTimeField(auto_now_add = True)
     updated = models.DateTimeField(auto_now = True)
 

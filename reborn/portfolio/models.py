@@ -1,4 +1,5 @@
 from asyncio.windows_events import NULL
+from distutils.command.upload import upload
 import os
 from django.db import models
 from uuid import uuid4
@@ -20,13 +21,16 @@ def path_and_rename(instance, filename):
     return os.path.join(upload_to, filename)
 
 
+class Projects(models.Model) :
+    title = models.CharField(max_length=100 , null = False)
+    description = models.TextField(max_length=500 , blank= True, null = False)
+    participation_date = models.IntegerField()
+    client =models.CharField(max_length=100, null = True)
+    image = models.ImageField(height_field=None, width_field=None, max_length=100, upload_to=path_and_rename)
 
 class DesignerPopol(models.Model) :
-    designer_id = models.IntegerField(null =True)  
-    designer_name = models.CharField(max_length=200, null= True) 
-    portfolio_image = models.ImageField(upload_to=path_and_rename, null = True)
-    title = models.CharField(max_length=300)
-    description = models.TextField(null=True, blank=True)
+    designer = models.OneToOneField(Designer, on_delete=models.CASCADE)
+    projects = models.ForeignKey(Projects,null = True, on_delete = models.SET_NULL)
     updated = models.DateTimeField(auto_now = True)
     created = models.DateTimeField(auto_now_add = True)
 
@@ -35,7 +39,6 @@ class DesignerPopol(models.Model) :
 
     class Meta :
          verbose_name = 'Portfolio'
-
 
 
 

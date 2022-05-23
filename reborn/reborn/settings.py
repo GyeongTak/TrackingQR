@@ -40,8 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    'SearchDesignerApi',
-# Searchdesignerapi Application connected
+    'portfolio',
+# portfolio Application connected
     'users',
 # users app connected
     'userReview',
