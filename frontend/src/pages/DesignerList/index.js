@@ -5,7 +5,7 @@ import {  HeartTwoTone, DownOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.min.css';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-
+import { getPortfolios } from '../../apis/portfolio';
 const menu = (
     <Menu>
       <Menu.Item>
@@ -25,16 +25,15 @@ const DesignerPage = () => {
     const [ portfolios, setPortfolios ] = useState([]);
 
 
-    useEffect(()=>{
+    useEffect(() => {
 
-        axios.get('http://localhost:8000/sda/', )
-        .then((res) => {
-            console.log(res.data);
-            setPortfolios([...res.data]);
-        })
-        .catch((error) => {
-            console.error(error.response);
-        });
+        const getPortfoliosList = async () => {
+            const result = await getPortfolios();
+            console.log(result);
+            setPortfolios([...result]);
+        }
+        
+        getPortfoliosList();
     }, []);
 
 
@@ -68,12 +67,16 @@ const DesignerPage = () => {
             </div>
 
             <div className='portfolio-container' style={{width: '100%', display: 'inline-grid', gridTemplateColumns: 'repeat(auto-fill, minmax(20%, auto))', gap: '5%'}}>
-            {portfolios.map((post)=>
+            {portfolios.map((post, index)=>
                 <Card
                 hoverable
-                cover={<img alt="example" src={`http://localhost:8000${post["portfolio_image"]}`} />}
+                key={index}
+                cover={<img alt="example" height={'250px'} src={`http://localhost:8000${post["portfolio_image"]}`} />}
               >
-                <Card.Meta avatar={<Avatar />} title={<div style={{position: 'relative'}}>{post.designer}<HeartTwoTone style={{position: 'absolute', right:'0px'}} twoToneColor='#ff69b4'/></div>} description={'description'} />
+                <Card.Meta avatar={<Avatar />} 
+                title={<div style={{position: 'relative'}}>{post.designer}
+                    <HeartTwoTone style={{position: 'absolute', right:'0px'}} twoToneColor='#ff69b4'/></div>} 
+                    description={post.title} />
               </Card>)}
             </div>
         </div>

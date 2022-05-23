@@ -4,6 +4,8 @@ import { Card, Avatar, Dropdown, Button, Menu, List, Space } from 'antd';
 import {  HeartTwoTone, DownOutlined, MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.min.css';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+
 const listData = [];
 for (let i = 1; i < 25; i++) {
   listData.push({
@@ -98,7 +100,11 @@ const RequestList = () => {
                     <Button icon={<DownOutlined />} >스타일</Button>
                 </Dropdown>
                 </div>
+                
                 <div style={{position: 'absolute', right:'0', top: '0'}}>
+                <Link to="/request/new"> 
+                        <Button style={{color:'black', fontWeight:'bold', marginRight:'15px'}}>의뢰서 등록하기</Button>
+                </Link>
                 <Dropdown overlay={menu_date} placement="bottomLeft">
                     <Button icon={<DownOutlined />} >최신순</Button>
                 </Dropdown>

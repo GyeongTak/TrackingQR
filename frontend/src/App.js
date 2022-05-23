@@ -13,7 +13,8 @@ import JoinDesignerPage from 'pages/Join_Designer';
 import ClientReviewPage from 'pages/ClientReview';
 import RequestList from 'pages/RequestList';
 import CreateRequest from 'pages/CreateRequest';
-
+import PortfolioDetail from 'pages/PortfolioDetail';
+import RequestDetail from 'pages/RequestDetail';
 import { RequireAuth } from 'router/RequireAuth';
 const App = () => {
   return (
@@ -24,6 +25,8 @@ const App = () => {
           <Route path = "/sda" element={<DesignerPage/>} />
           <Route path = "/portfolio/new" element={<RequireAuth><CreatePortfolioPage/></RequireAuth>} />
           <Route path = "/request/new" element={<CreateRequest/>} />
+          <Route path = "/portfolio/:id" element={<PortfolioDetail/>} />
+          <Route path = "/request/:id" element={<RequestDetail/>} />
           <Route path="/designer/:id" element={<DesignerProfile />} />
           <Route path="/client/:id" element={<ClientProfile />} />
           <Route path = "/login" element={<LoginPage/>} />

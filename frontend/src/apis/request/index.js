@@ -3,7 +3,7 @@ import {instance} from '../utils'
 
 export const postRequest = async (data) =>{
     try {
-        const res = await instance.post('/', data, {headers: { "Content-Type": 'multipart/form-data'}}); //json???
+        const res = await instance.post('/api/client_commission/create_commission', data, {headers: { "Content-Type": 'multipart/form-data'}}); //json???
         return res.data;
 
     } catch (error) {

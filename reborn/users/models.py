@@ -8,7 +8,6 @@ from django.contrib.auth.models import AbstractUser
 from django.forms import IntegerField
 from rest_framework.authtoken.models import Token
 
-from client_commission.models import Commission
 
 
 class User(AbstractUser) :

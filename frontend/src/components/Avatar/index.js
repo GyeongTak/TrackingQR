@@ -1,7 +1,7 @@
 import React from 'react';
 import {AvatarWrapper} from './style';
 
-const Avartar = ({src, icon, ...props}) => {
+const Avatar = ({src, icon, ...props}) => {
 
     return (
         <AvatarWrapper src={src} {...props}>
@@ -10,5 +10,5 @@ const Avartar = ({src, icon, ...props}) => {
     );
 };
 
-export default Avartar;
+export default Avatar;
 
