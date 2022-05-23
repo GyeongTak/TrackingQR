@@ -54,7 +54,6 @@ const CreatePortfolioPage = () => {
         .catch((error) => {
             console.error(error);
         });
-
     }
 
     const onChangeTitle = (e) => {

@@ -14,6 +14,7 @@ from client_commission.models import Commission
 class User(AbstractUser) :
     is_Designer = models.BooleanField(default=False)
     is_client = models.BooleanField(default=False)
+    profile_image = models.ImageField(null=True)
 
 
 # @receiver(post_save, sender=settings.AUTH_USER_MODEL)
@@ -25,7 +26,8 @@ class Designer(User) :
     phone = models.CharField(max_length=100, blank=True)
     skills = models.CharField(max_length=100,blank=True)
     description = models.TextField(null=True, blank=True)
-    prccessing_commission_id = models.IntegerField()
+    prccessing_commission_id = models.IntegerField(null= True)
+    average_stars = models.FloatField(default = 0)
 
     USERNAME_FIELD: User.username
 
@@ -42,7 +44,6 @@ class Client(User) :
     company_name=models.CharField(max_length=100, blank= True)
     phone = models.CharField(max_length=100, blank=True)
     description =models.TextField(null= True, blank=True)
-    commission_id= models.IntegerField( null = True)
 
     USERNAME_FIELD: User.username
 

@@ -5,7 +5,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from .utils import get_and_authenticate_user, create_designer_account,  create_client_account
-from django.contrib.auth import get_user_model, logout
+from django.contrib.auth import get_user_model, logout, login
 
 from . import serializers
 from .utils import get_and_authenticate_user

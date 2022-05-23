@@ -29,10 +29,10 @@ class CommissionViewSet(viewsets.GenericViewSet):
     serializer_class = serializers.EmptySerializer
     serializer_classes = {
         'create_commission': serializers.CommissionSerializer,
-        'commision_view' : serializers.CommissionViewSerializer,
-        'commision_view_detail' : serializers.CommissionSerializer
+        'commission_view' : serializers.CommissionViewSerializer,
+        'commission_view_detail' : serializers.CommissionSerializer
         
-    }
+    }   
 
     @action(methods=['POST'], detail=False)
     def create_commission(self, request):
