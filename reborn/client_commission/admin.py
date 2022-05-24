@@ -1,5 +1,5 @@
 from django.contrib import admin
 from .models import *
 
-admin.register(Commission)
+admin.site.register(Commission)
 # Register your models here.

@@ -1,3 +1,9 @@
 from django.contrib import admin
+from .models import customerReview
 
-# Register your models here.
+# class DesignerPopolAdmin(admin.ModelAdmin):
+#     #fields = ['title']
+#     list_display = ('title',  'created')
+
+admin.site.register(customerReview)
+
