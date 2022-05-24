@@ -72,13 +72,8 @@ const RequestDetail = () => {
             <div>{dummy.finish_date}</div>
             </Content>
 
-            <PanoramaWrapper>
-            <a-scene>
-            <a-sky src="https://raw.githubusercontent.com/aframevr/aframe/v1.0.4/examples/boilerplate/panorama/puydesancy.jpg" 
-            rotation="0 -130 0" >
-            </a-sky>
-            </a-scene>
-            </PanoramaWrapper>
+            
+            </RequestContainer>
             <UserInfo>
                 <Avatar src={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYZJLT6Q6V673cftVOQor7Sq4pwIaErX8Gmg&usqp=CAU'}></Avatar>
                 <div style={{margin: "10px 0", fontSize: '15px'}}>user nickname</div>
@@ -88,8 +83,14 @@ const RequestDetail = () => {
                     <BudgetWrapper>{dummy.budget}원</BudgetWrapper>
                 </div>
             </UserInfo>
-            </RequestContainer>
         </ContentContainer>
+        <PanoramaWrapper>
+            <a-scene class="aframebox" embedded>
+            <a-sky src="https://raw.githubusercontent.com/aframevr/aframe/v1.0.4/examples/boilerplate/panorama/puydesancy.jpg" 
+            rotation="0 -130 0" >
+            </a-sky>
+            </a-scene>
+            </PanoramaWrapper>
         </Container>
     );
 }

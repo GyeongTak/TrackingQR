@@ -20,7 +20,8 @@ const Content = styled.div`
     margin-bottom: 100px;
 `
 const UserInfo = styled.div`
-    padding: 200px;
+    padding: 100px;
+    height: 500px;
     margin-right:10px;
     border: 1px solid #dcdcde;
     display: flex;
@@ -34,7 +35,11 @@ const BudgetWrapper = styled.div`
     font-size: 30px;
 `
 const PanoramaWrapper = styled.div`
-
+    & .aframebox {
+        width:80%;
+        height: 300px;
+        margin: 0 auto;
+    }
 `
 
 
