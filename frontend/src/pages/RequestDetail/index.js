@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React from 'react';
-import { Container, ContentContainer, RequestContainer, Content, UserInfo, BudgetWrapper,PanoramaWrapper } from './style';
+import { Container,Title, ContentContainer, RequestContainer, Content,LeftContent, 
+    DescriptionContainer, UserInfo, BudgetWrapper,PanoramaWrapper } from './style';
 import Avatar from 'components/Avatar';
 import MainMenu from 'components/MainMenu';
 import {Button, Badge} from 'antd';
@@ -9,7 +10,7 @@ import { HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
 const dummy = {
     title: '제목',
     description: '설명입니다.',
-    budget: 1000,
+    budget: '100,000,000',
     finish_date:'2022-06-01',
     request_count: 5,
     status: '진행중',
@@ -17,16 +18,28 @@ const dummy = {
 const RequestDetail = () => {
 
     return (
-        <Container>
+        <>
         <MainMenu />
+        <Container>
+        
+        <Title>
+        <Badge
+        status="processing"
+        text={'진행중'}
+        />
+        <h1>카페 디자인 의뢰</h1>
+        </Title>
         <ContentContainer>
+            
             <RequestContainer>
             <Content>
-            <Badge
-                status="processing"
-                text={'진행중'}
-            />
-            <h1>카페 디자인 의뢰</h1>
+            <PanoramaWrapper>
+                <a-scene class="aframebox" embedded>
+                <a-sky src="https://raw.githubusercontent.com/aframevr/aframe/v1.0.4/examples/boilerplate/panorama/puydesancy.jpg" 
+                rotation="0 -130 0" >
+                </a-sky>
+                </a-scene>
+            </PanoramaWrapper>
             </Content>
             
             <Content>
@@ -66,32 +79,38 @@ const RequestDetail = () => {
             프론트 엔드 개발자 겹업자 환영
             </div>
             </Content>
-
-            <Content>
-            <h1>프로젝트 작업 마감 일자</h1>
-            <div>{dummy.finish_date}</div>
-            </Content>
-
-            
             </RequestContainer>
+
+            <LeftContent>
             <UserInfo>
+                
+                <div style={{margin: "10px auto", fontSize: '15px', display:'flex', flexDirection: 'column',
+                justifyContent:'center', alignItems:'center'}}>
                 <Avatar src={'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYZJLT6Q6V673cftVOQor7Sq4pwIaErX8Gmg&usqp=CAU'}></Avatar>
-                <div style={{margin: "10px 0", fontSize: '15px'}}>user nickname</div>
+                <div>user nickname</div>
+                </div>
 
                 <div style={{display:'flex', alignItems:'center'}}>
                     <div style={{fontSize: '15px'}}>예산</div>
                     <BudgetWrapper>{dummy.budget}원</BudgetWrapper>
                 </div>
             </UserInfo>
+            <DescriptionContainer>
+                <Content>
+                    <h3>프로젝트 작업 마감 일자</h3>
+                    <div>{dummy.finish_date} ~ {dummy.finish_date}</div>
+                </Content>
+                <Content>
+                    <h3>작업 기한</h3>
+                    <div>30일</div>
+                </Content>
+            </DescriptionContainer>
+            
+            </LeftContent>
         </ContentContainer>
-        <PanoramaWrapper>
-            <a-scene class="aframebox" embedded>
-            <a-sky src="https://raw.githubusercontent.com/aframevr/aframe/v1.0.4/examples/boilerplate/panorama/puydesancy.jpg" 
-            rotation="0 -130 0" >
-            </a-sky>
-            </a-scene>
-            </PanoramaWrapper>
+        
         </Container>
+        </>
     );
 }
 

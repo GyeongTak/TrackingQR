@@ -1,32 +1,46 @@
 import styled from '@emotion/styled';
 
 const Container = styled.div`
-    width: 100%;
-    height: 100%;
+    padding-right: 10%;
+    padding-left:10%; 
 `
 
 const ContentContainer = styled.div`
     width: 100%;
     height: 100%;
-    padding: 0 10%;
     display: flex;
-    margin-top: 100px;
     justify-content: space-between;
+`
+
+const Title = styled.div`
+    padding: 70px;
 `
 const RequestContainer = styled.div`
     width: 50%;   
 `
 const Content = styled.div`
-    margin-bottom: 100px;
+    margin-bottom: 80px;
 `
-const UserInfo = styled.div`
-    padding: 100px;
-    height: 500px;
-    margin-right:10px;
+
+const LeftContent = styled.div`
+    width: 45%;
+    height: 100%;
+    padding: 20px 0;
     border: 1px solid #dcdcde;
     display: flex;
     flex-direction: column;
     align-items: center;
+
+`
+const UserInfo = styled.div`
+    margin: 30px 0;
+    diplay: flex;
+    flex-direction: column;
+    align-items: center;
+`
+
+const DescriptionContainer = styled.div`
+
 `
 const BudgetWrapper = styled.div`
     display: inline-block;
@@ -36,11 +50,12 @@ const BudgetWrapper = styled.div`
 `
 const PanoramaWrapper = styled.div`
     & .aframebox {
-        width:80%;
+        width:100%;
         height: 300px;
         margin: 0 auto;
     }
 `
 
 
-export { Container, ContentContainer, RequestContainer,Content, UserInfo, BudgetWrapper, PanoramaWrapper };
+export { Container,Title, ContentContainer, RequestContainer,Content, LeftContent, DescriptionContainer, 
+    UserInfo, BudgetWrapper, PanoramaWrapper };

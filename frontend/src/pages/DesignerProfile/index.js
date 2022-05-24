@@ -12,56 +12,6 @@ import 'antd/dist/antd.min.css';
 import { useNavigate, useLocation, useParams} from 'react-router-dom';
 
 const dummydata = [
-    {
-        portfolio_image: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTA4MjZfNiAg%2FMDAxNjI5OTM3MjY0NzI2.z0A3O88VL3rcaK-U7WAMHGapec-ONpp_Uw3Rb6DnRGUg.4eqohEEzUctavjailIq2jN5zlFIdnyJDND88yqwhymAg.JPEG.lebenzmai%2F1610951639-55.jpg&type=sc960_832',
-        title :'제목',
-        desciption: '포트폴리오 제목',
-        updated: '2022-05-05',
-        created: '2022-05-05',
-    },{
-        user: 1,
-        portfolio_image: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTA4MjZfNiAg%2FMDAxNjI5OTM3MjY0NzI2.z0A3O88VL3rcaK-U7WAMHGapec-ONpp_Uw3Rb6DnRGUg.4eqohEEzUctavjailIq2jN5zlFIdnyJDND88yqwhymAg.JPEG.lebenzmai%2F1610951639-55.jpg&type=sc960_832',
-        title :'제목',
-        desciption: '설명',
-        updated: '2022-05-05',
-        created: '2022-05-05',
-    }, {
-        user: 1,
-        portfolio_image: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTA4MjZfNiAg%2FMDAxNjI5OTM3MjY0NzI2.z0A3O88VL3rcaK-U7WAMHGapec-ONpp_Uw3Rb6DnRGUg.4eqohEEzUctavjailIq2jN5zlFIdnyJDND88yqwhymAg.JPEG.lebenzmai%2F1610951639-55.jpg&type=sc960_832',
-        title :'제목',
-        desciption: '설명',
-        updated: '2022-05-05',
-        created: '2022-05-05',
-    }, {
-        user: 1,
-        portfolio_image: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTA4MjZfNiAg%2FMDAxNjI5OTM3MjY0NzI2.z0A3O88VL3rcaK-U7WAMHGapec-ONpp_Uw3Rb6DnRGUg.4eqohEEzUctavjailIq2jN5zlFIdnyJDND88yqwhymAg.JPEG.lebenzmai%2F1610951639-55.jpg&type=sc960_832',
-        title :'제목',
-        desciption: '설명',
-        updated: '2022-05-05',
-        created: '2022-05-05',
-    },
-    {
-        user: 1,
-        portfolio_image: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTA4MjZfNiAg%2FMDAxNjI5OTM3MjY0NzI2.z0A3O88VL3rcaK-U7WAMHGapec-ONpp_Uw3Rb6DnRGUg.4eqohEEzUctavjailIq2jN5zlFIdnyJDND88yqwhymAg.JPEG.lebenzmai%2F1610951639-55.jpg&type=sc960_832',
-        title :'제목',
-        desciption: '설명',
-        updated: '2022-05-05',
-        created: '2022-05-05',
-    }, {
-        user: 1,
-        portfolio_image: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTA4MjZfNiAg%2FMDAxNjI5OTM3MjY0NzI2.z0A3O88VL3rcaK-U7WAMHGapec-ONpp_Uw3Rb6DnRGUg.4eqohEEzUctavjailIq2jN5zlFIdnyJDND88yqwhymAg.JPEG.lebenzmai%2F1610951639-55.jpg&type=sc960_832',
-        title :'제목',
-        desciption: '설명',
-        updated: '2022-05-05',
-        created: '2022-05-05',
-    }, {
-        user: 1,
-        portfolio_image: 'https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2FMjAyMTA4MjZfNiAg%2FMDAxNjI5OTM3MjY0NzI2.z0A3O88VL3rcaK-U7WAMHGapec-ONpp_Uw3Rb6DnRGUg.4eqohEEzUctavjailIq2jN5zlFIdnyJDND88yqwhymAg.JPEG.lebenzmai%2F1610951639-55.jpg&type=sc960_832',
-        title :'제목',
-        desciption: '설명',
-        updated: '2022-05-05',
-        created: '2022-05-05',
-    },
 ];
 
 const me = {
@@ -72,11 +22,6 @@ const me = {
     phone: '01000000000',
     description : '안녕하세요 user1입니다.'
 };
-
-//항상 같은 모습의 정적인 탭일 경우는 직접 UI에 탭 이름을 표시하면 되겠지만 
-//고유한 키를 정의하는 것이 코드 유지보수면에서 더 낫다고 생각한다.
-const tabItem = [{'tab':'portfolio', 'name':'포트폴리오'}, {'tab':'review','name':'리뷰'}];
-
 const DesignerProfile = () => {
     const { id } = useParams();
     const { search } = useLocation();
@@ -84,8 +29,12 @@ const DesignerProfile = () => {
     const [user, setUser]  = useRecoilState(userState);
     const navigate = useNavigate();
 
-    console.log(typeof id);
+    const onClickEditButton = () => {
+        navigate('#editprofile');
+    };
+
     return (
+    
         <>
         <MainMenu />
         <div css={container}>
@@ -101,12 +50,12 @@ const DesignerProfile = () => {
             {me.skills.map((s, i)=> <Tag key={i} color="geekblue">{s}</Tag>)}
             </div>
             {
-                me?.userId === parseInt(id, 10)? <Button onClick={()=>{navigate('/')}} css={editButtonWrapper}>프로필 수정</Button>:
+                me?.userId === parseInt(id, 10)? <Button onClick={onClickEditButton} css={editButtonWrapper}>프로필 수정</Button>:
                 null
             }
             
         </div>
-        <Tabs tab={query.get('tab')} common="portfolio" tapItems={tabItem}></Tabs>        
+        <Tabs tab={query.get('tab')} common="portfolio"></Tabs>        
         <div style={{margin: '20px 0', width: '100%', display: 'inline-grid', gridTemplateColumns: 'repeat(auto-fill, minmax(25%, auto))', }}>
         {dummydata.map((portfolio, i)=>
                         <div key={i} style={{marginRight: '10%', marginBottom: '10%'}}>

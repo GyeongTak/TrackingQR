@@ -2,42 +2,20 @@
 import { jsx, css } from '@emotion/react';
 
 const container = css`
-padding: 0 10%;
-margin-top: 78px;
-display: flex;
-`
-const profileLeftSection = css`
-    width: 20%;
+    padding: 0 10%;
 `
 const memberInfoContainer = css`
+    margin: 78px 0;
     display: flex;
-    flex-direction: column;
     align-items: center;
+    position:relative;
 `
-const menuWrapper = css`
-    margin-bottom: 30px;
-`
-const menuTitle = css`
-    font-weight: bold;
-`
+
 const userInfoContent = css`
-    margin: 30px auto;
-    text-align: center;
+    margin-Left: 20px;
 `
 const editButtonWrapper = css`
     position: absolute;
     right: 0;
 `
-
-const contentContainer = css`
-    margin: 20px 0;
-    width: 70%;
-`
-
-const contentMain = css`
-    width: 100%;
-    margin: 10px;;
-    height: 100%; 
-    border: 1px solid gray;
-`
-export { container, profileLeftSection, memberInfoContainer, menuWrapper, menuTitle, userInfoContent, editButtonWrapper, contentContainer, contentMain};
+export { container, memberInfoContainer, userInfoContent, editButtonWrapper};

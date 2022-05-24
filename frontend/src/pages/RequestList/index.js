@@ -5,6 +5,7 @@ import {  HeartTwoTone, DownOutlined, MessageOutlined, LikeOutlined, StarOutline
 import 'antd/dist/antd.min.css';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { getRequests } from '../../apis/request';
 
 const listData = [];
 for (let i = 1; i < 25; i++) {
@@ -72,15 +73,14 @@ const menu = (
 const RequestList = () => {
     const [reviews, setReviews] = useState([]);
 
-    useEffect(()=>{
-        axios.get('http://localhost:8000/sda/', )
-        .then((res) => {
-            console.log(res.data);
-            setReviews([...res.data]);
-        })
-        .catch((error) => {
-            console.error(error.response);
-        });
+    useEffect(() => {
+
+        const getRequests = async () => {
+            const result = await getRequests();
+            setReviews([...result]);
+        }
+        
+        getRequests();
     }, []);
     
     return (

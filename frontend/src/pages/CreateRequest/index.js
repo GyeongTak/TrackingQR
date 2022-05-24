@@ -16,6 +16,7 @@ const [ date, setDate] = useState('');
 const [ budget, onChangeBudget ] = useInput(0);
 //const [ ispublic, onChangePublic] = useInput(true);
 const [ description, onChangeDescription] = useInput('');
+const [ isPanorama, onChangeIsPanorama ] = useInput(true);
 //const [ category, onChangeCategory] = useInput('');
 //const [ style, onChangeStyle] = useInput('');
 
@@ -57,6 +58,8 @@ const onClickDeleteImage = (i) => {
 const onChangeDate = (date, dateString) => {
     setDate((prev) => dateString);
   };
+
+
 return (
     <>
     <MainMenu />
@@ -116,6 +119,11 @@ return (
         <Input.TextArea rows={4} onChange={onChangeDescription}></Input.TextArea>
         </div>
 
+        <h2>사진을 선택해주세요</h2>
+        <Radio.Group onChange={onChangeIsPanorama} value={isPanorama}>
+            <Radio value={true}>파노라마 사진으로 입력</Radio>
+            <Radio value={false}>일반 사진으로 입력</Radio>
+        </Radio.Group>
         <div css={gap}>
             <input type="file" accept="image/*" multiple onChange={onChangeFile}/>
         </div>
