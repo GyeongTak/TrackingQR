@@ -15,6 +15,7 @@ import RequestList from 'pages/RequestList';
 import CreateRequest from 'pages/CreateRequest';
 import PortfolioDetail from 'pages/PortfolioDetail';
 import RequestDetail from 'pages/RequestDetail';
+import WriteReviewPage from 'pages/WriteReview';
 import { RequireAuth } from 'router/RequireAuth';
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
           <Route path = "/Join/Client" element={<JoinClientPage/>} />
           <Route path = "/Join/Designer" element={<JoinDesignerPage/>} />
           <Route path = "/review" element={<ClientReviewPage/>} />
+          <Route path = "/WriteReview" element={<WriteReviewPage/>} />
           <Route path = "/request" element={<RequestList />} />
           <Route path = "*" element={<NotFoundPage />} />
         </Routes>
