@@ -24,7 +24,7 @@ const onSubmit = async (e) =>{
     const formData = new FormData();
     formData.append('photos', photos);
     formData.append('title', title);
-    formData.append('date', date);
+    formData.append('finishdate', date);
     //formData.append('public', ispublic);
     formData.append('description', description);
     formData.append('budget', budget);

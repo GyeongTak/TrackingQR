@@ -124,7 +124,7 @@ function JoinDesignerPage() {
                             <input type="email" placeholder="Description" style={{width:'90%'}} value={userInfo.description} onChange={onChangeDescription}/>
                         </Col>
                     </Form.Group>
-                    <Button className="join" onClick={onClickSubmit}>
+                    <Button className="join" onClick={onClickSubmit} style={{marginTop:'20px', marginBottom:'10px'}} >
                         회원가입
                     </Button>
                 </Form>
