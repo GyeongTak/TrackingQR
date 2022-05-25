@@ -10,12 +10,12 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('users', '0001_initial'),
-        ('userReview', '0001_initial'),
+        ('client_commission', '0001_initial'),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='customerreview',
+            model_name='commission',
             name='client',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='users.client'),
         ),

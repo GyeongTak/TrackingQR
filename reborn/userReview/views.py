@@ -66,7 +66,9 @@ class AuthViewSet(viewsets.GenericViewSet):
             client_id = request.user.id,
             designer_id = tmpcommission.designer_id,
             score = request.data['score'],
-            image = stitched,
+            panorama_image = stitched,
+            small_image = request.data['small_image'],
+            title = tmpcommission.title,
             description=request.data['description'],
         )
         newReview.save()

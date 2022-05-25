@@ -18,7 +18,7 @@ const HomePage = () => {
             const result = await getRequestsMain();
             setPortfolios(result.designer);
             setRequests(result.reviews);
-`   `   };
+        };
 
         loadRequests();
 
