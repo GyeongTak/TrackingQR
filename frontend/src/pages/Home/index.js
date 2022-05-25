@@ -16,7 +16,8 @@ const HomePage = () => {
 
         const loadRequests = async () => {
             const result = await getRequestsMain();
-            setRequests(result);
+            setPortfolios(result.designer);
+            setRequests(result.reviews);
         };
 
         loadRequests();
