@@ -11,6 +11,7 @@ from django.contrib.auth import get_user_model, logout, login
 from rest_framework.decorators import api_view
 
 from users.models import Designer
+from portfolio.models import DesignerPopol
 from userReview.models import customerReview
 
 from .serializers import designerSerializer as dS, reviewSerializer as rS
@@ -20,13 +21,14 @@ User = get_user_model()
 
 @api_view(['GET'])
 def index(request):
-    designers =Designer.objects.all().reverse()[:5] #id 0~4 까지 입력
-    designers_list = dS(designers, many= True)
+    designerPortfolio =DesignerPopol.objects.all().reverse()[:5] #id 0~4 까지 입력
+    designerPortfolio_list = dS(designerPortfolio, many= True)
     reviews = customerReview.objects.all().reverse()[:5]
     reviews_list = rS(reviews , many= True)
 
     return Response(
-
-           {'designer' :designers_list.data,
-           'reviews':reviews_list.data}
+       {
+       'designer' :designerPortfolio_list.data,
+       'reviews':reviews_list.data
+       }
     )
