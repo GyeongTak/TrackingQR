@@ -6,7 +6,7 @@ import { Card, Avatar } from 'antd';
 import 'antd/dist/antd.min.css';
 import { Link } from 'react-router-dom';
 import { getPortfolios } from '../../apis/portfolio';
-import { getRequests } from '../../apis/request';
+import { getRequests, getRequestsMain} from '../../apis/request';
 
 const HomePage = () => {
     const [portfolios, setPortfolios] = useState([]);
@@ -14,19 +14,12 @@ const HomePage = () => {
 
     useEffect(()=>{
 
-        (async () => {
-            const result = await getPortfolios();
-            setPortfolios(result);
-        })();
-
-    }, []);
-
-    useEffect(()=>{
-
-        (async () => {
-            const result = await getRequests();
+        const loadRequests = async () => {
+            const result = await getRequestsMain();
             setRequests(result);
-        })();
+        };
+
+        loadRequests();
 
     }, []);
     
