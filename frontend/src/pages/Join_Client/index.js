@@ -18,7 +18,7 @@ function JoinClientPage() {
         "password2" : "",
         "email" : "",
         "phone": "",
-        "skills" :  "",
+        "company_name" :  "",
         "description" : "",
         "is_client": true
         });
@@ -56,7 +56,7 @@ function JoinClientPage() {
     }
 
     const onChangeBusinessName = (e) => {
-        setUserInfo({...userInfo, business_name: e.target.value});
+        setUserInfo({...userInfo, company_name: e.target.value});
     }
 
     const onChangeDescription = (e) => {
@@ -109,7 +109,7 @@ function JoinClientPage() {
                     <Form.Group as={Row} className="mb-3" controlId="formBasicEmail">
                         <div style={{fontSize:'15px', marginTop:'10px', fontWeight:'bold'}}>상호명/회사명</div> 
                         <Col sm>
-                            <input type="email" placeholder="Business Name" style={{width:'90%'}} value={userInfo.business_name} onChange={onChangeBusinessName}/>
+                            <input type="email" placeholder="Business Name" style={{width:'90%'}} value={userInfo.company_name} onChange={onChangeBusinessName}/>
                         </Col>
                     </Form.Group>
 

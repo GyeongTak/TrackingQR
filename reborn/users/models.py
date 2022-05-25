@@ -40,9 +40,10 @@ class Designer(User) :
 
 
 class Client(User) :
-    company_name=models.CharField(max_length=100, blank= True)
-    phone = models.CharField(max_length=100, blank=True)
-    description =models.TextField(null= True, blank=True)
+    company_name=models.CharField(max_length=100)
+    phone = models.CharField(max_length=100)
+    description =models.TextField(null= True)
+
 
     USERNAME_FIELD: User.username
 

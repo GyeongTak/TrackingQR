@@ -25,7 +25,7 @@ const App = () => {
         <Routes>
         <Route path = "/" element={<HomePage/>} />
           <Route path = "/sda" element={<DesignerPage/>} />
-          <Route path = "/portfolio/new" element={<RequireAuth><CreatePortfolioPage/></RequireAuth>} />
+          <Route path = "/portfolio/new" element={<CreatePortfolioPage/>} />
           <Route path = "/request/new" element={<CreateRequest/>} />
           <Route path = "/portfolio/:id" element={<PortfolioDetail/>} />
           <Route path = "/request/:id" element={<RequestDetail/>} />

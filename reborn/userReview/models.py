@@ -3,6 +3,7 @@ import os
 from django.db import models
 from uuid import uuid4
 from django.core.validators import MinValueValidator, MaxValueValidator
+from numpy import source
 
 from torch import maximum
 from client_commission.models import Commission
@@ -22,11 +23,13 @@ def path_and_rename(instance, filename):
 
 class customerReview(models.Model) :
     score = models.IntegerField(default = 0,validators=[MinValueValidator(0), MaxValueValidator(5)])
-    image = models.ImageField( height_field=None, width_field=None, max_length=100, upload_to=path_and_rename)
+    small_image = models.ImageField(upload_to=path_and_rename)
+    panorama_image = models.ImageField( height_field=None, width_field=None, max_length=100, upload_to=path_and_rename)
     client = models.ForeignKey(Client,on_delete=models.CASCADE)
     designer_id = models.IntegerField(null = True)
     description = models.TextField(null =True)
     Commission = models.ForeignKey(Commission, null = True,on_delete= models.SET_NULL)
+    title = models.CharField(max_length = 50 , default=None,blank=True)
     created = models.DateTimeField(auto_now_add = True)
     updated = models.DateTimeField(auto_now = True)
 
