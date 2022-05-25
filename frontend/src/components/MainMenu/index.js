@@ -25,15 +25,7 @@ const MainMenu = () => {
     const onClicklogout = async() => {
         
         await logout();
-        localStorage.removeItem('token');
-
-        setUser({
-            userId : '',
-            isClient : null,
-            username : null,
-            auth_token : null,
-            profileImage : '',
-        });
+        
     };
 
     return(

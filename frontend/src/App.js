@@ -15,7 +15,9 @@ import RequestList from 'pages/RequestList';
 import CreateRequest from 'pages/CreateRequest';
 import PortfolioDetail from 'pages/PortfolioDetail';
 import RequestDetail from 'pages/RequestDetail';
+import WriteReviewPage from 'pages/WriteReview';
 import { RequireAuth } from 'router/RequireAuth';
+
 const App = () => {
   return (
     <RecoilRoot>
@@ -24,7 +26,7 @@ const App = () => {
         <Route path = "/" element={<HomePage/>} />
           <Route path = "/sda" element={<DesignerPage/>} />
           <Route path = "/portfolio/new" element={<RequireAuth><CreatePortfolioPage/></RequireAuth>} />
-          <Route path = "/request/new" element={<CreateRequest/>} />
+          <Route path = "/request/new" element={<RequireAuth><CreateRequest/></RequireAuth>} />
           <Route path = "/portfolio/:id" element={<PortfolioDetail/>} />
           <Route path = "/request/:id" element={<RequestDetail/>} />
           <Route path="/designer/:id" element={<DesignerProfile />} />
@@ -34,6 +36,7 @@ const App = () => {
           <Route path = "/Join/Client" element={<JoinClientPage/>} />
           <Route path = "/Join/Designer" element={<JoinDesignerPage/>} />
           <Route path = "/review" element={<ClientReviewPage/>} />
+          <Route path = "/WriteReview" element={<RequireAuth><WriteReviewPage/></RequireAuth>} />
           <Route path = "/request" element={<RequestList />} />
           <Route path = "*" element={<NotFoundPage />} />
         </Routes>

@@ -20,7 +20,8 @@ const logout = async () =>{
                 "Content-Type": `application/json`,
                 Authorization : "Token" + token,
             }});
-            
+        
+
     } catch (error) {
         console.log(error);
         window.alert(error.response.data);

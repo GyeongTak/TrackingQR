@@ -58,8 +58,8 @@ function JoinClientPage() {
         setUserInfo({...userInfo, phone: e.target.value});
     }
 
-    const onChangeSkill = (e) => {
-        setUserInfo({...userInfo, skills: e.target.value});
+    const onChangeBusinessName = (e) => {
+        setUserInfo({...userInfo, business_name: e.target.value});
     }
 
     const onChangeDescription = (e) => {
@@ -72,7 +72,7 @@ function JoinClientPage() {
 
         <div style={{marginLeft:'35%', marginTop:'50px'}}>
         <Container className="panel" style={{width:'500px', position:'absolute', backgroundColor:'white', borderStyle:'solid', borderWidth:3, borderColor:'antiquewhite', borderRadius:10}}>
-                <div style={{marginTop:'15px', fontSize:'25px', fontWeight: 'bold', textAlign:'center'}}>디자이너 회원가입</div>
+                <div style={{marginTop:'15px', fontSize:'25px', fontWeight: 'bold', textAlign:'center'}}>일반회원 회원가입</div>
                 <Form style={{marginLeft:'40px'}}>
                 <Form.Group as={Row} className="mb-3" controlId="formPlaintextPassword">
                         <div style={{fontSize:'15px', marginTop:'20px', fontWeight:'bold'}}>아이디</div>
@@ -105,24 +105,24 @@ function JoinClientPage() {
                     <Form.Group as={Row} className="mb-3" controlId="formBasicEmail">
                         <div style={{fontSize:'15px', marginTop:'10px', fontWeight:'bold'}}>phone</div> 
                         <Col sm>
-                            <input type="email" placeholder="Email Address" style={{width:'90%'}} value={userInfo.phone} onChange={onChangePhone}/>
+                            <input type="email" placeholder="Phone" style={{width:'90%'}} value={userInfo.phone} onChange={onChangePhone}/>
                         </Col>
                     </Form.Group>
 
                     <Form.Group as={Row} className="mb-3" controlId="formBasicEmail">
-                        <div style={{fontSize:'15px', marginTop:'10px', fontWeight:'bold'}}>skill</div> 
+                        <div style={{fontSize:'15px', marginTop:'10px', fontWeight:'bold'}}>상호명/회사명</div> 
                         <Col sm>
-                            <input type="email" placeholder="Email Address" style={{width:'90%'}} value={userInfo.skills} onChange={onChangeSkill}/>
+                            <input type="email" placeholder="Business Name" style={{width:'90%'}} value={userInfo.business_name} onChange={onChangeBusinessName}/>
                         </Col>
                     </Form.Group>
 
                     <Form.Group as={Row} className="mb-3" controlId="formBasicEmail">
                         <div style={{fontSize:'15px', marginTop:'10px', fontWeight:'bold'}}>자기소개</div> 
                         <Col sm>
-                            <input type="email" placeholder="Email Address" style={{width:'90%'}} value={userInfo.description} onChange={onChangeDescription}/>
+                            <input type="email" placeholder="Description" style={{width:'90%'}} value={userInfo.description} onChange={onChangeDescription}/>
                         </Col>
                     </Form.Group>
-                    <Button className="join" onClick={onClickSubmit}>
+                    <Button className="join" onClick={onClickSubmit} style={{marginTop:'20px', marginBottom:'10px'}}>
                         회원가입
                     </Button>
 

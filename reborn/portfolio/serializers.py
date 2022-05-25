@@ -37,7 +37,7 @@ class DesignerProfileSerializer(serializers.ModelSerializer) :
 
     class Meta:
         model = Designer
-        fields = ['username','email','skills','phone','description','skills']
+        fields = ['username','email','skills','phone','description','skills','average_stars']
 
 class ClientProfileSerializer(serializers.ModelSerializer) :
     #popols = serializers.RelatedField(many=True,read_only=True)

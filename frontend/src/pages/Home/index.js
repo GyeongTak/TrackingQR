@@ -3,7 +3,6 @@ import MainMenu from '../../components/MainMenu';
 import Banner from '../../components/Banner';
 import Footer from '../../components/Footer';
 import { Card, Avatar } from 'antd';
-import { HeartTwoTone } from '@ant-design/icons';
 import 'antd/dist/antd.min.css';
 import { Link } from 'react-router-dom';
 import { getPortfolios } from '../../apis/portfolio';
@@ -13,26 +12,24 @@ const HomePage = () => {
     const [portfolios, setPortfolios] = useState([]);
     const [requests , setRequests] = useState([]);
 
-    useEffect(() => {
-        getPortfolios()
-        .then(result => {
+    useEffect(()=>{
+
+        (async () => {
+            const result = await getPortfolios();
             setPortfolios(result);
-        })
-        .catch(error=>{
-            console.error(error);
-        })
+        })();
+
     }, []);
 
-    useEffect(() => {
-        getRequests()
-        .then(result => {
+    useEffect(()=>{
+
+        (async () => {
+            const result = await getRequests();
             setRequests(result);
-        })
-        .catch(error=>{
-            console.error(error);
-        })
-    }, []);
+        })();
 
+    }, []);
+    
     return (
         <>
         <MainMenu />
@@ -53,8 +50,8 @@ const HomePage = () => {
                     >
                         <Card.Meta 
                         avatar={<Avatar src={portfolio.userProfilePhoto} />} 
-                        title={<div style={{position: 'relative', top:'2px'}}>{portfolio.userName}
-                        <HeartTwoTone style={{position: 'absolute', right:'0'}} twoToneColor='#ff69b4'/></div>} />
+                        title={<div style={{position: 'relative', top:'2px'}}>{portfolio.userName}</div>} 
+                        />
                     </Card>)}
                 </div>
             </div>
@@ -74,8 +71,7 @@ const HomePage = () => {
                     >
                         <Card.Meta 
                         avatar={<Avatar src={request.userProfilePhoto} />} 
-                        title={<div style={{position: 'relative', top:'2px'}}>{request.userName}
-                        <HeartTwoTone style={{position: 'absolute', right:'0'}} twoToneColor='#ff69b4'/></div>} />
+                        title={<div style={{position: 'relative', top:'2px'}}>{request.userName}</div>} />
                     </Card>)}
                 </div>
             </div>
