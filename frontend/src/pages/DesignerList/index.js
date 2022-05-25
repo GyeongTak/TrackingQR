@@ -29,7 +29,6 @@ const DesignerPage = () => {
 
         const getPortfoliosList = async () => {
             const result = await getPortfolios();
-            console.log(result);
             setPortfolios([...result]);
         }
         
