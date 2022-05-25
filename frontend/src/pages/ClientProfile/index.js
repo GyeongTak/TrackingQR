@@ -6,11 +6,12 @@ import { container, memberInfoContainer, userInfoContent, editButtonWrapper} fro
 import Avartar from '../../components/Avatar';
 import { useRecoilState } from 'recoil';
 import userState from '../../store/user';
-import { Card, Tag, Button, Modal } from 'antd';
+import { Card, Tag, Button, Modal, Input } from 'antd';
 import { HeartTwoTone } from '@ant-design/icons';
 import 'antd/dist/antd.min.css';
 import { useNavigate, useLocation, useParams} from 'react-router-dom';
 import { loadMyInfo } from '../../apis/user';
+import Avatar from '../../components/Avatar';
 
 const dummydata = [
 ];
@@ -19,7 +20,7 @@ const me = {
     userId: 1,
     username:'user1',
     userEmail: 'user1@email.com',
-    skills: [ '건축인테리어'],
+    skills: '건축인테리어',
     phone: '01000000000',
     description : '안녕하세요 user1입니다.'
 };
@@ -61,7 +62,7 @@ const ClientProfile = () => {
             <h3>{me.description}</h3>
             <h3>{me.phone}</h3>
             <h3>분야</h3>
-            {me.skills.map((s, i)=> <Tag key={i} color="geekblue">{s}</Tag>)}
+            <Tag color="geekblue">{me.skills}</Tag>
             </div>
             {
                 me?.userId === parseInt(id, 10)? <Button onClick={onClickEditButton} css={editButtonWrapper}>프로필 수정</Button>:
@@ -87,7 +88,14 @@ const ClientProfile = () => {
         </div>
         </div>
 
-        <Modal visible={modal} onCancel={onCancelEdit}><div>와우</div></Modal>
+        <Modal visible={modal} onCancel={onCancelEdit}>
+            <h2>프로필 수정</h2>
+            <Avatar src={'https://search.pstatic.net/common/?src=http%3A%2F%2Fpost.phinf.naver.net%2FMjAyMDA3MTZfMjE3%2FMDAxNTk0ODcyNzY2NTE3.q33CvFJq2IiCh9BUVWfG4IWhEJX-giFX9Rp9_K3AJzkg.9N4e_fFoOp3vQ7c5dxqKyvFrabouzwtUKo41KqOAKbAg.JPEG%2FIELuoo7XtRxBS8TA97d-alMucVRc.jpg&type=sc960_832'}></Avatar>
+            <div style={{margin:"20px 0"}}><Input placeholder="email"></Input></div>
+            <div style={{margin:"20px 0"}}><Input placeholder="phone"></Input></div>
+            <div style={{margin:"20px 0"}}><Input placeholder="skills"></Input></div>
+            <div style={{margin:"20px 0"}}><Input placeholder="description"></Input></div>
+        </Modal>
         </>
     );
 };

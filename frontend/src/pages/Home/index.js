@@ -5,12 +5,12 @@ import Footer from '../../components/Footer';
 import { Card, Avatar } from 'antd';
 import 'antd/dist/antd.min.css';
 import { Link } from 'react-router-dom';
-import { getPortfolios } from '../../apis/portfolio';
-import { getRequests, getRequestsMain} from '../../apis/request';
-
+import { getRequestsMain} from '../../apis/request';
+import { useNavigate } from 'react-router-dom';
 const HomePage = () => {
     const [portfolios, setPortfolios] = useState([]);
     const [requests , setRequests] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(()=>{
 
@@ -18,11 +18,24 @@ const HomePage = () => {
             const result = await getRequestsMain();
             setPortfolios(result.designer);
             setRequests(result.reviews);
+            
         };
 
         loadRequests();
 
+        /*
+        setPortfolios([...portfolios, {
+            "profile_image": 'https://search.pstatic.net/common/?src=http%3A%2F%2Fpost.phinf.naver.net%2FMjAyMDA3MTZfMjE3%2FMDAxNTk0ODcyNzY2NTE3.q33CvFJq2IiCh9BUVWfG4IWhEJX-giFX9Rp9_K3AJzkg.9N4e_fFoOp3vQ7c5dxqKyvFrabouzwtUKo41KqOAKbAg.JPEG%2FIELuoo7XtRxBS8TA97d-alMucVRc.jpg&type=sc960_832',
+            "username":"designer",
+            "average_stars":0.0,
+        "small_image": 'https://search.pstatic.net/common/?src=http%3A%2F%2Fpost.phinf.naver.net%2FMjAyMDA3MTZfMjE3%2FMDAxNTk0ODcyNzY2NTE3.q33CvFJq2IiCh9BUVWfG4IWhEJX-giFX9Rp9_K3AJzkg.9N4e_fFoOp3vQ7c5dxqKyvFrabouzwtUKo41KqOAKbAg.JPEG%2FIELuoo7XtRxBS8TA97d-alMucVRc.jpg&type=sc960_832',
+        "id": 1}]);
+        */
     }, []);
+
+    const onClickPortfolio = (id) => {
+        navigate(`/portfolio/${id}`,  { replace: true });
+    };
     
     return (
         <>
@@ -37,16 +50,20 @@ const HomePage = () => {
                 </Link>
                 <hr></hr>
                 <div className='portfolio-container' style={{width: '100%', display: 'inline-grid', gridTemplateColumns: 'repeat(auto-fill, minmax(20%, auto))', gap: '5%'}}>
-                    {portfolios.map((portfolio)=>
+                {portfolios.map((portfolio, index)=>{
+                    return (
+                    <div key={index} popol-id={portfolio.id} onClick={()=>onClickPortfolio(portfolio.id)}>
                         <Card
                         hoverable
-                        cover={<img alt="example" src={portfolio.imageSrc} />}
-                    >
+                        cover={<img alt="example" src={portfolio.small_image} />}>
                         <Card.Meta 
-                        avatar={<Avatar src={portfolio.userProfilePhoto} />} 
-                        title={<div style={{position: 'relative', top:'2px'}}>{portfolio.userName}</div>} 
+                        avatar={<Avatar src={portfolio.profile_image} />} 
+                        title={<div style={{position: 'relative', top:'2px'}}>{portfolio.username}</div>}
+                        description={<div>score : {portfolio.average_stars}</div>}
                         />
-                    </Card>)}
+                        </Card>
+                    </div>);
+                })}
                 </div>
             </div>
 
@@ -61,11 +78,12 @@ const HomePage = () => {
                     {requests.map((request)=>
                         <Card
                         hoverable
-                        cover={<img alt="example" src={request.imageSrc} />}
+                        cover={<img alt="example" src={`http://localhost:8000${request.image}`} />}
                     >
                         <Card.Meta 
                         avatar={<Avatar src={request.userProfilePhoto} />} 
-                        title={<div style={{position: 'relative', top:'2px'}}>{request.userName}</div>} />
+                        title={<div style={{position: 'relative', top:'2px'}}>{request.title}</div>}
+                        description={<>{request.description}</>} /> 
                     </Card>)}
                 </div>
             </div>
