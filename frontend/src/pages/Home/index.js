@@ -1,37 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MainMenu from '../../components/MainMenu';
 import Banner from '../../components/Banner';
 import Footer from '../../components/Footer';
 import { Card, Avatar } from 'antd';
-import { HeartTwoTone } from '@ant-design/icons';
 import 'antd/dist/antd.min.css';
 import { Link } from 'react-router-dom';
-
-
-const dummyData = [
-    {
-        imageSrc : 'https://cdn.pixabay.com/photo/2017/09/25/13/12/cocker-spaniel-2785074_960_720.jpg',
-        userProfilePhoto: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-        userName: 'userName1',
-    },{
-        imageSrc : 'https://cdn.pixabay.com/photo/2017/09/25/13/12/cocker-spaniel-2785074_960_720.jpg',
-        userProfilePhoto: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-        userName: 'usererName2',
-    },
-    {
-        imageSrc : 'https://cdn.pixabay.com/photo/2017/09/25/13/12/cocker-spaniel-2785074_960_720.jpg',
-        userProfilePhoto: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-        userName: 'userName3',
-    },
-    {
-        imageSrc : 'https://cdn.pixabay.com/photo/2017/09/25/13/12/cocker-spaniel-2785074_960_720.jpg',
-        userProfilePhoto: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png',
-        userName: 'userName4',
-    },
-];
+import { getPortfolios } from '../../apis/portfolio';
+import { getRequests } from '../../apis/request';
 
 const HomePage = () => {
+    const [portfolios, setPortfolios] = useState([]);
+    const [requests , setRequests] = useState([]);
 
+    useEffect(()=>{
+
+        (async () => {
+            const result = await getPortfolios();
+            setPortfolios(result);
+        })();
+
+    }, []);
+
+    useEffect(()=>{
+
+        (async () => {
+            const result = await getRequests();
+            setRequests(result);
+        })();
+
+    }, []);
+    
     return (
         <>
         <MainMenu />
@@ -45,15 +43,15 @@ const HomePage = () => {
                 </Link>
                 <hr></hr>
                 <div className='portfolio-container' style={{width: '100%', display: 'inline-grid', gridTemplateColumns: 'repeat(auto-fill, minmax(20%, auto))', gap: '5%'}}>
-                    {dummyData.map((post)=>
+                    {portfolios.map((portfolio)=>
                         <Card
                         hoverable
-                        cover={<img alt="example" src={post.imageSrc} />}
+                        cover={<img alt="example" src={portfolio.imageSrc} />}
                     >
                         <Card.Meta 
-                        avatar={<Avatar src={post.userProfilePhoto} />} 
-                        title={<div style={{position: 'relative', top:'2px'}}>{post.userName}
-                        <HeartTwoTone style={{position: 'absolute', right:'0'}} twoToneColor='#ff69b4'/></div>} />
+                        avatar={<Avatar src={portfolio.userProfilePhoto} />} 
+                        title={<div style={{position: 'relative', top:'2px'}}>{portfolio.userName}</div>} 
+                        />
                     </Card>)}
                 </div>
             </div>
@@ -66,15 +64,14 @@ const HomePage = () => {
                 </Link>
                 <hr></hr>
                 <div className='portfolio-container' style={{width: '100%', display: 'inline-grid', gridTemplateColumns: 'repeat(auto-fill, minmax(20%, auto))', gap: '5%'}}>
-                    {dummyData.map((post)=>
+                    {requests.map((request)=>
                         <Card
                         hoverable
-                        cover={<img alt="example" src={post.imageSrc} />}
+                        cover={<img alt="example" src={request.imageSrc} />}
                     >
                         <Card.Meta 
-                        avatar={<Avatar src={post.userProfilePhoto} />} 
-                        title={<div style={{position: 'relative', top:'2px'}}>{post.userName}
-                        <HeartTwoTone style={{position: 'absolute', right:'0'}} twoToneColor='#ff69b4'/></div>} />
+                        avatar={<Avatar src={request.userProfilePhoto} />} 
+                        title={<div style={{position: 'relative', top:'2px'}}>{request.userName}</div>} />
                     </Card>)}
                 </div>
             </div>

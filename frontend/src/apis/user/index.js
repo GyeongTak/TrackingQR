@@ -1,7 +1,7 @@
 
 import {instance} from '../utils' 
 
-export const login = async (data) =>{
+const login = async (data) =>{
     try {
         const res = await instance.post('/api/auth/login', data, {headers: { "Content-Type": `application/json`}});
         return res.data;
@@ -12,10 +12,26 @@ export const login = async (data) =>{
     }
 }
 
-export const logout = async () =>{
+const logout = async () =>{
     try {
         const token = localStorage.getItem('token');
         await instance.post('http://localhost:8000/api/auth/logout', {
+            headers: { 
+                "Content-Type": `application/json`,
+                Authorization : "Token" + token,
+            }});
+        
+
+    } catch (error) {
+        console.log(error);
+        window.alert(error.response.data);
+    }
+}
+
+const loadMyInfo = async () =>{
+    try {
+        const token = localStorage.getItem('token');
+        await instance.get('api/mypage', {
             headers: { 
                 "Content-Type": `application/json`,
                 Authorization : "Token" + token,
@@ -26,3 +42,5 @@ export const logout = async () =>{
         window.alert(error.response.data);
     }
 }
+
+export {login, logout, loadMyInfo};
