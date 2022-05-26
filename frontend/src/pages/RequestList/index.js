@@ -14,7 +14,7 @@ for (let i = 1; i < 25; i++) {
     title: `외식프랜차이즈 컨셉시안 작업 원합니다.`,
     avatar: 'https://joeschmoe.io/api/v1/random',
     description:
-      '22.05.04',
+      '22.05.04',               
     content:
     '외식업 프랜차이즈 인테리어 디자인 설계 요청',
   });

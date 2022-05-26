@@ -60,14 +60,22 @@ const CreatePortfolioPage = () => {
     const navigate = useNavigate();
 
     const onSubmit = (e) => {
-        console.log(certificates, educationcareers, content);
+        console.log(certificates);
+        console.log(educationcareers);
+        console.log(content);
+        /*
         const formData = new FormData();
         formData.append('certificates', certificates);
         formData.append('educationcareers', educationcareers);
         formData.append('content', content);
+        */
         const token = localStorage.getItem('token');
         axios.defaults.headers.common['Authorization'] = "Token "+token;
-        axios.post('http://localhost:8000/api/portfolio/new', formData)
+        axios.post('http://localhost:8000/api/portfolio/new', 
+        {'certificates': certificates,
+        'educationcareers': educationcareers,
+        'content': content
+    })
         .then((res) => {
             navigate('/sda');
         })
@@ -89,7 +97,7 @@ const CreatePortfolioPage = () => {
             certificate_name: certificateName,
             time: moment(rangeValue[1].format('YYYY-MM-DD')).diff(moment(rangeValue[0].format('YYYY-MM-DD')), 'months'),
         }]);
-        console.log(certificates);
+        //console.log(certificates);
     }
 
     const onChangeRangeCareer = (fieldsValue) => {
@@ -99,7 +107,7 @@ const CreatePortfolioPage = () => {
             company_name: companyName,
             job_position: career//
         }]);
-        console.log(certificates);
+        //console.log(certificates);
     }
 
     /**

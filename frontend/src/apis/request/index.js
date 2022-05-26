@@ -30,7 +30,7 @@ export const getRequests = async () =>{
 
 export const getRequestsMain = async () =>{
     try {
-        const res = await instance.get('' );
+        const res = await instance.get('');
         return res.data;
 
     } catch (error) {
