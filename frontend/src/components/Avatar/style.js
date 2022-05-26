@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 
 const AvatarWrapper = styled.div`
-    border-radius: 50%;
+    border-radius: ${props => props.shape === 'circle' ? '50%' : 'null'}
     width: 100px;
     height: 100px;
     ${props => props.src && 'background-image: url("'+props.src+'")'};
