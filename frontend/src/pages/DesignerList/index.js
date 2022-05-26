@@ -1,11 +1,12 @@
 import React, { useState, useEffect} from 'react';
 import MainMenu from '../../components/MainMenu';
-import { Card, Avatar, Dropdown, Button, Menu } from 'antd';
+import { List, Avatar, Dropdown, Button, Menu } from 'antd';
 import {  HeartTwoTone, DownOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.min.css';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { getPortfolios } from '../../apis/portfolio';
+import PortfolioCard from 'components/PortfolioCard';
+
 const menu = (
     <Menu>
       <Menu.Item>
@@ -27,6 +28,7 @@ const DesignerPage = () => {
 
     useEffect(() => {
 
+        
         const getPortfoliosList = async () => {
             const result = await getPortfolios();
             console.log(result);
@@ -34,6 +36,17 @@ const DesignerPage = () => {
         }
         
         getPortfoliosList();
+        /*
+        setPortfolios([...portfolios,
+            {
+            "username":"김커넥",
+            "profile_image":'url',
+            "skills":"Front end Developer",
+            "description":"description.....description.....description.....description.....description.....description.....description.....description.....description.....description.....description.....description.....description.....description.....description.....",
+            "projects": [{'title':'title','average_stars': 3},{'title':'title','average_stars': 3}]
+           }
+        ]);
+        */
     }, []);
 
 
@@ -65,19 +78,8 @@ const DesignerPage = () => {
                 </Dropdown>
                 </div>
             </div>
-
-            <div className='portfolio-container' style={{width: '100%', display: 'inline-grid', gridTemplateColumns: 'repeat(auto-fill, minmax(20%, auto))', gap: '5%'}}>
-            {portfolios.map((post, index)=>
-                <Card
-                hoverable
-                key={index}
-                cover={<img alt="example" height={'250px'} src={`http://localhost:8000${post["image"]}`} />}
-              >
-                <Card.Meta avatar={<Avatar />} 
-                title={<div style={{position: 'relative'}}>{post.designer}</div>} 
-                description={post.title} />
-              </Card>)}
-            </div>
+            {portfolios && portfolios.map((portfolio,index)=>
+            (<PortfolioCard key={index} portfolio={portfolio}/>))}
         </div>
         
         </>
