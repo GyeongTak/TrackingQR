@@ -22,15 +22,6 @@ class BriefPopolSerializer(serializers.ModelSerializer):
         fields = ['portfolio_image','title','created']
 
 
-class DesignerSerializer(serializers.ModelSerializer):
-    class Meta :
-        model = Designer
-        fields = ['phone','skills','description']
-
-class ClientSerializer(serializers.ModelSerializer):
-    class Meta :
-        model = Client
-        fields = '__all__'
 
 class DesignerProfileSerializer(serializers.ModelSerializer) :
     # employer  = ClientSerializer(many=False,read_only=True)

@@ -156,7 +156,7 @@ const CreatePortfolioPage = () => {
 
             <Form name="time_related_controls" onFinish={onChangeRangeCareer}>
                 <div style={{display:'flex', alignItems:'start'}}>
-                <Form.Item name="range-picker" label="RangePicker" style={{marginRight:'5px'}} >
+                <Form.Item name="range-picker" label="재학 / 근무 기간" style={{marginRight:'5px'}} >
                     <DatePicker.RangePicker />
                 </Form.Item>
                 <Form.Item >
