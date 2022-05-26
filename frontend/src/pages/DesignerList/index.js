@@ -29,6 +29,7 @@ const DesignerPage = () => {
 
         const getPortfoliosList = async () => {
             const result = await getPortfolios();
+            console.log(result);
             setPortfolios([...result]);
         }
         
@@ -73,9 +74,8 @@ const DesignerPage = () => {
                 cover={<img alt="example" height={'250px'} src={`http://localhost:8000${post["image"]}`} />}
               >
                 <Card.Meta avatar={<Avatar />} 
-                title={<div style={{position: 'relative'}}>{post.designer}
-                    <HeartTwoTone style={{position: 'absolute', right:'0px'}} twoToneColor='#ff69b4'/></div>} 
-                    description={post.title} />
+                title={<div style={{position: 'relative'}}>{post.designer}</div>} 
+                description={post.title} />
               </Card>)}
             </div>
         </div>

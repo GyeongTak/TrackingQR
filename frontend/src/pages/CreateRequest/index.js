@@ -11,6 +11,7 @@ const CreateRequest = () => {
     
 const [photos, setPhotos] = useState([]); 
 const [ imagePrevious, setImagePrevious ] = useState([]); 
+const [ titleImage, setTitleImage ] = useState(null); 
 const [ title, onChangeTitle] = useInput('');
 const [ date, setDate] = useState('');
 const [ budget, onChangeBudget ] = useInput(0);
@@ -29,6 +30,7 @@ const onSubmit = async (e) =>{
     //formData.append('public', ispublic);
     formData.append('description', description);
     formData.append('budget', budget);
+    formData.append('small_image', titleImage);
     //formData.append('category', category);
     //formData.append('style', style);
 
@@ -48,6 +50,17 @@ const onChangeFile = (e) => {
         reader.readAsDataURL(file);
     });   
 }
+
+const onChangeTitlePhoto = (e) => {
+    /*
+    const reader = new FileReader();
+    reader.onload = (e) => {
+        setImagePrevious(prev=> [...prev, e.target.result]);
+    };
+    */
+    setTitleImage(e.target.files[0]);
+}
+
 
 const onClickDeleteImage = (i) => {
     setImagePrevious((prev)=>(
@@ -117,6 +130,11 @@ return (
         <div css={gap}>
         <h2>프로젝트 내용 및 관련 자료를 상세히 입력해주세요.</h2>
         <Input.TextArea rows={4} onChange={onChangeDescription}></Input.TextArea>
+        </div>
+
+        <h2>타이틀 사진 을 선택해주세요</h2>
+        <div css={gap}>
+            <input type="file" accept="image/*" multiple onChange={onChangeTitlePhoto}/>
         </div>
 
         <h2>사진을 선택해주세요</h2>

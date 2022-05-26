@@ -26,8 +26,6 @@ function JoinClientPage() {
 
     const onClickSubmit = async (e) => {
         e.preventDefault();
-        const token = localStorage.getItem('token');
-        axios.defaults.headers.common['Authorization'] = token;
         axios.post('http://localhost:8000/api/auth/register_client', userInfo, {headers: { "Content-Type": `application/json`}})
         .then((res) => {
             navigate("/",  { replace: true });
