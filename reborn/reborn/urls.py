@@ -27,7 +27,7 @@ urlpatterns = [
     path('api/portfolio/',include('portfolio.urls')), 
     path('api/mypage/',include('Mypage.urls')),
     path('api/review/',include('userReview.urls')),
-    path('api/client_commission/',include('users.urls')),
+    path('api/client_commission/',include('client_commission.urls')),
     path('api/auth/',include('users.urls')),
 ]
 

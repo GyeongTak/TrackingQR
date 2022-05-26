@@ -33,7 +33,7 @@ class CommissionViewSerializer(serializers.ModelSerializer):
     def get_brief_description(self, obj) :
         return obj.description[:50] 
         # description 을 50 글자만 표시할 수 있도록 바꾼다.
-        
+    
 
 
 

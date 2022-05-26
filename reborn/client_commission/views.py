@@ -9,8 +9,9 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from django.core.exceptions import ImproperlyConfigured
 
-from reborn.client_commission.models import Commission
-from .serializers import *
+from client_commission.models import Commission
+from users.models import Designer
+from .serializers import EmptySerializer,CommissionSerializer,CommissionSerializer,CommissionViewSerializer
 
 from datetime import datetime
 
@@ -29,22 +30,23 @@ User = get_user_model()
 
 class CommissionViewSet(viewsets.GenericViewSet):
     permission_classes = [IsAuthenticated, ]
-    serializer_class = serializers.EmptySerializer
+    serializer_class = EmptySerializer
     serializer_classes = {
-        'create_commission': serializers.CommissionSerializer,
-        'commission_view' : serializers.CommissionViewSerializer,
-        'commission_view_detail' : serializers.CommissionSerializer
+        'create_commission': CommissionSerializer,
+        'commission_view' : CommissionViewSerializer,
+        'commission_view_detail' : CommissionSerializer
         
     }   
 
     @action(methods=['POST'], detail=False)
     def create_commission(self, request):
-        if request.user.is_client() :
-            if request.data['is_parnorama'] :
-                image = request.data['images']
+        if request.user.is_client == True:
+            if request.data['is_panorama'] == True :
+                image = request.data['images'][0]
             else :
                 images = []
-                images = request.data['images'].split(',')
+                for i in request.data['images'] :
+                    images.append(i)
                 print("[INFO] switching images...")
                 stitcher = cv2.createStitcher() if imutils.is_cv3() else cv2.Stitcher_create()
                 (status, image) = stitcher.stitch(images)
@@ -85,7 +87,7 @@ class CommissionViewSet(viewsets.GenericViewSet):
         else :
             Response({'message' : "Cannot create commission"}, status= status.HTTP_401_UNAUTHORIZED)
 
-    @action(methods=['GET'],permission_classes=[AllowAny, ])
+    @action(methods=['GET'],permission_classes=[AllowAny, ],detail=False)
     def commission_view(self, request):
         ListCommision = Commission.objects.get(status = 0) #아직 의뢰가 수락되지 않은 상태의 모든 의뢰 조회
         serializer = self.get_serializer_class(ListCommision)
@@ -93,13 +95,13 @@ class CommissionViewSet(viewsets.GenericViewSet):
         return Response(serializer.data, status = status.HTTP_200_OK)
 
 
-    @action(methods=['GET'],permission_classes=[AllowAny, ])
+    @action(methods=['GET'],permission_classes=[AllowAny, ],detail=False)
     def commission_view_detail(self,request) :
         commission = Commission.objects.get(id = request.pk)
         serializer = self.get_serializer(commission)
         return Response(serializer.data , status= status.HTTP_200_OK)
 
-    @action(methods=['POST'], permission_classes=[IsAuthenticated,] )
+    @action(methods=['POST'], permission_classes=[IsAuthenticated,] ,detail=False)
     def commission_select_for_designer(self,request) :
         if request.user.is_client() :
             pass
@@ -110,7 +112,9 @@ class CommissionViewSet(viewsets.GenericViewSet):
 
             commission = Commission.objects.get(id = request.data['commission_id'])
             commission.request_count+=1
-            commission.request_designer_id.append(request.user.id)
+            tmp_string= commission.requst_designer_id 
+            tmp_string = str(request.user.id) +','+ tmp_string
+            commission.request_designer_id = tmp_string
             commission.save()
             return Response(status=status.HTTP_200_OK)
 

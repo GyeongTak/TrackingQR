@@ -60,7 +60,7 @@ function JoinDesignerPage() {
     }
 
     const onChangeSkill = (e) => {
-        setUserInfo({...userInfo, skill: e.target.value});
+        setUserInfo({...userInfo, skills: e.target.value});
     }
 
     const onChangeDescription = (e) => {
