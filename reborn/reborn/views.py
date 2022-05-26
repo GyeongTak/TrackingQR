@@ -1,6 +1,7 @@
 
 from django.core.exceptions import ImproperlyConfigured
 from html5lib import serialize
+from django.db.models import  Count
 from rest_framework import viewsets, status
 
 from rest_framework.decorators import action
@@ -9,6 +10,7 @@ from rest_framework.response import Response
 from django.contrib.auth import get_user_model, logout, login
 
 from rest_framework.decorators import api_view
+from portfolio.models import Projects
 
 from users.models import Designer
 from portfolio.models import DesignerPopol
@@ -21,14 +23,18 @@ User = get_user_model()
 
 @api_view(['GET'])
 def index(request):
-    designerPortfolio =DesignerPopol.objects.all().reverse()[:5] #id 0~4 까지 입력
-    designerPortfolio_list = dS(designerPortfolio, many= True)
-    reviews = customerReview.objects.all().reverse()[:5]
-    reviews_list = rS(reviews , many= True)
+      tmpportfolio = DesignerPopol.objects.all()
+      tmpportfolio = tmpportfolio.reverse()[:5]
+      portfolio_list = dS(tmpportfolio , many= True)
 
-    return Response(
-       {
-       'designer' :designerPortfolio_list.data,
-       'reviews':reviews_list.data
-       }
-    )
+      reviews = customerReview.objects.all().reverse()[:5]
+      reviews_list = rS(reviews , many= True)
+
+      return Response(
+         {
+         'designer' :portfolio_list.data,
+         
+         'reviews':reviews_list.data,
+         
+         }
+      )

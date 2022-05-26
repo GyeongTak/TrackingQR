@@ -17,6 +17,8 @@ from rest_framework import status
 
 from users.models import *
 
+import json
+
 
 @api_view(['GET']) 
 def PopolList(request) :
@@ -44,37 +46,40 @@ def PopolDetail(request,pk) :
 @api_view(['POST'])
 def createPortfolio(request): 
     designer = Designer.objects.get(id = request.user.id)
+    # print(request.data['certificates'][0] )#테스트 코드
 
-    print(request.data['certificates'], type(request.data['certificates'])) #테스트 코드
+    # print(request.data['content'])
+    # print(designer.id)
 
-    certificates = []
-    certificates = request.data['certificates'].split(',')
-    educationAndcareers = []
-    educationAndcareers = request.data['educationcareers'].split(',')
+    # request.data['certificates']
+    # certificates = []
+    # certificates = request.data['certificates'].split(',')
+    # educationAndcareers = []
+    # educationAndcareers = request.data['educationcareers'].split(',')
 
     if request.user.is_client == False :
 
             newPortfolio = DesignerPopol(
                 designer = designer,
-                description = request.data['description']
+                description = request.data['content']
             )
             newPortfolio.save()
 
-            for i in certificates :
+            for i in request.data['certificates'] :
                 newCertificate = Certificate(
                     portfolio = newPortfolio,
-                    acquired_date = i.acquired_date,
-                    certificate_name = i.certificate_name,
-                    time = i.time
+                    acquired_date = i['acquired_period'],
+                    certificate_name = i['certificate_name'],
+                    time = i['time']
                 )
                 newCertificate.save()
 
-            for j in educationAndcareers :
+            for j in request.data['educationcareers'] :
                 newEducationAndCareer = EducationAndCareer(
                     portfolio = newPortfolio,
-                    working_period = j.working_period,
-                    company_name = j.company_name,
-                    description = j.description
+                    working_period = j['working_period'],
+                    company_name = j['company_name'],
+                    description = j['job_position']
                 )
                 newEducationAndCareer.save()
            
