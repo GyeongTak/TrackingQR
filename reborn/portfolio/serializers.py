@@ -17,9 +17,10 @@ class PopolSerializer(serializers.ModelSerializer):
         return value
 
 class BriefPopolSerializer(serializers.ModelSerializer):
+    profile_image = serializers.ImageField(source='designer.profile_image')
     class Meta : 
         model = DesignerPopol
-        fields = ['portfolio_image','title','created']
+        fields = ['profile_image','title','created']
 
 
 

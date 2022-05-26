@@ -46,50 +46,50 @@ def PopolDetail(request,pk) :
 @api_view(['POST'])
 def createPortfolio(request): 
     designer = Designer.objects.get(id = request.user.id)
-    print(json.stringify(request.data['certificates']) )#테스트 코드
+    # print(request.data['certificates'][0] )#테스트 코드
 
-    print(request.data['content'])
-    print(designer.id)
+    # print(request.data['content'])
+    # print(designer.id)
 
     # request.data['certificates']
-    # # certificates = []
-    # # certificates = request.data['certificates'].split(',')
-    # # educationAndcareers = []
-    # # educationAndcareers = request.data['educationcareers'].split(',')
+    # certificates = []
+    # certificates = request.data['certificates'].split(',')
+    # educationAndcareers = []
+    # educationAndcareers = request.data['educationcareers'].split(',')
 
-    # if request.user.is_client == False :
+    if request.user.is_client == False :
 
-    #         newPortfolio = DesignerPopol(
-    #             designer = designer,
-    #             description = request.data['content']
-    #         )
-    #         newPortfolio.save()
+            newPortfolio = DesignerPopol(
+                designer = designer,
+                description = request.data['content']
+            )
+            newPortfolio.save()
 
-    #         for i in certificates :
-    #             newCertificate = Certificate(
-    #                 portfolio = newPortfolio,
-    #                 acquired_date = i.acquired_date,
-    #                 certificate_name = i.certificate_name,
-    #                 time = i.time
-    #             )
-    #             newCertificate.save()
+            for i in request.data['certificates'] :
+                newCertificate = Certificate(
+                    portfolio = newPortfolio,
+                    acquired_date = i['acquired_period'],
+                    certificate_name = i['certificate_name'],
+                    time = i['time']
+                )
+                newCertificate.save()
 
-    #         for j in educationAndcareers :
-    #             newEducationAndCareer = EducationAndCareer(
-    #                 portfolio = newPortfolio,
-    #                 working_period = j.working_period,
-    #                 company_name = j.company_name,
-    #                 description = j.job_position
-    #             )
-    #             newEducationAndCareer.save()
+            for j in request.data['educationcareers'] :
+                newEducationAndCareer = EducationAndCareer(
+                    portfolio = newPortfolio,
+                    working_period = j['working_period'],
+                    company_name = j['company_name'],
+                    description = j['job_position']
+                )
+                newEducationAndCareer.save()
            
-    #         return Response({'result':'success', 'message': '성공적으로 등록되었습니다.'}, status=status.HTTP_201_CREATED) #json?
+            return Response({'result':'success', 'message': '성공적으로 등록되었습니다.'}, status=status.HTTP_201_CREATED) #json?
            
 
-    #     # # except:
-    #     #     
-    # else :
-    #     return Response({'result':'fail', 'message': '디자이너가 아니십니다'}, status=status.HTTP_404_NOT_FOUND)
+        # # except:
+        #     
+    else :
+        return Response({'result':'fail', 'message': '디자이너가 아니십니다'}, status=status.HTTP_404_NOT_FOUND)
 
 
 
