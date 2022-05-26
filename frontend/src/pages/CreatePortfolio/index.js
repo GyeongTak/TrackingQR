@@ -1,16 +1,16 @@
 import React, { useRef, useState } from 'react';
 import MainMenu from '../../components/MainMenu';
 import { Button } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import 'antd/dist/antd.min.css';
 import { useRecoilState } from 'recoil';
 import userState from '../../store/user';
 import { useNavigate } from 'react-router-dom';
-import { UserInfoForm, SubTitle } from './style.js';
+import { UserInfoForm, NameWrapper, SubTitle, UserInfo } from './style.js';
 import Avatar from 'components/Avatar';
 import { Input, Table, Form, DatePicker } from 'antd';
 import { useInput } from 'utils/useInput';
+import moment from 'moment';
 const columns = [
     {
       title: '취득 기간',
@@ -22,6 +22,11 @@ const columns = [
       dataIndex: 'certificate_name',
       key: 'certificate_name',
     },
+    {
+        title: '기간(개월)',
+        dataIndex: 'time',
+        key: 'time',
+      },
   ];
 
   const work_columns = [
@@ -42,18 +47,6 @@ const columns = [
       },
   ];
 
-  const data = [
-    {
-      key: '1',
-      acquired_period: '2022-05-03 ~ 2022-05-20',
-      certificate_name: '정보처리기사',
-    },
-    {
-      key: '2',
-      acquired_period: '2022-05-03 ~ 2022-05-20',
-      certificate_name: '정보처리기사',
-    },
-  ];
 
 const CreatePortfolioPage = () => {
     const [ user, setUser ]  = useRecoilState(userState);
@@ -67,6 +60,7 @@ const CreatePortfolioPage = () => {
     const navigate = useNavigate();
 
     const onSubmit = (e) => {
+        console.log(certificates, educationcareers, content);
         const formData = new FormData();
         formData.append('certificates', certificates);
         formData.append('educationcareers', educationcareers);
@@ -88,10 +82,12 @@ const CreatePortfolioPage = () => {
 
     const onChangeRangePicker = (fieldsValue) => {
         const rangeValue = fieldsValue['range-picker'];
+
+        //console.log(moment(rangeValue[1].format('YYYY-MM-DD')).diff(moment(rangeValue[0].format('YYYY-MM-DD')), 'months'));
         setCertificates(prev => [...prev, {
             acquired_period:rangeValue[0].format('YYYY-MM-DD')+" ~ "+rangeValue[1].format('YYYY-MM-DD'),
             certificate_name: certificateName,
-            time: rangeValue[1].format('YYYY-MM-DD')-rangeValue[0].format('YYYY-MM-DD')//
+            time: moment(rangeValue[1].format('YYYY-MM-DD')).diff(moment(rangeValue[0].format('YYYY-MM-DD')), 'months'),
         }]);
         console.log(certificates);
     }
@@ -106,6 +102,15 @@ const CreatePortfolioPage = () => {
         console.log(certificates);
     }
 
+    /**
+     * setUser({
+            userId : id,
+            isClient : is_client,
+            username : username,
+            auth_token : auth_token,
+            profileImage : '',
+        });
+     */
     return (
         <>
         <MainMenu />
@@ -117,6 +122,9 @@ const CreatePortfolioPage = () => {
 
             <UserInfoForm>
                 <Avatar src={'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAKlBMVEXFxcX////CwsLe3t7b29vT09Pn5+f19fXOzs77+/vJycnw8PDq6urt7e0K8aSoAAAE+klEQVR4nO2di5qqMAyEsQpy0fd/3WOXZYuKCiTpTD35n8D50maS0NaqchzHcRzHcRzHcRzHcRzHcRzHcRzHcRzHcRwHQJiD/jHa3CT17enYNEPk0hxPdV99j8wQ2uO16w4PdOem/gaVoaqvT+ISw7EtWmSU91rdFMtTW6rG0J/eRG/Opa0KFBn6yzp5P5xPpUkM1XGDvsjQF6UxrF2fcy7laAzt5/yyRFfKUg2nXfoi1zIkNrsF3sLI7xyhPQsE3jiiFXwgtDtSzINE6iiGWqrvwL0ZBTlmzoDW8RIlgbcKhzSKKkt0hHShtmoCD4cGLWaJXpxF5zBmVKEPPlKzSQySSmaJDq3oAbU0mjijNd0jL2WeodqKYUs/v5oeLSthsEYjRMYfDNZohCafGoWQKNn0RgJpko26Fc7gSDa65do9FEE024WRgUGhdkF6T41WV+k2Tc8QBNGmnEngc42V20/g5+B6o4tl4MvU0gxHwALNFyk+m9pm0kiDXaamdj8C7qGsvSKC9YtgWtCMtFCFlXmiQTuiXWuYwKYaa7+PQD0/QyoFJ9Ow9dTMHjpXaKowgx0eDq7QFbrC/1yhef8LV/j9bpGjpoEq/P669D/oLb6/P8zR42OHbWHfie5NgOc09naBPjpkPy+9oMf65qkG/WnGvjJFf14zr2rwx4asPR9/ViEMtgrBE++IbWkK/0AaMc2m+EVqbPpoux+xzDUMIbStTQnyTMSucoNXbL+YzaM6dD3zRzBSiC5JE0bpFDuCesCk1ac55l2pXltLcF1gM0g2HGaf0C/A6W51a1c2HNXMHOWtyLUJR1S7fc7LzoquyFPM3KOXUNFKXqI0eOtIOoolVKLYUb9To7AXB9I9OCHOqFe0go8In2/hM/ol9uebAh7g+WHXO1gR/hU6EXbZRsfUD35k23t0P/p4RhZrCOG01RmvdUFPRIaq2bMRu6aM1xNDqPfbxZk/kDd9smZ/INcoid8sjmgZL9HQx6wx9HrDKManPoPyPLFh245aCzTBtlQtTtVc0KISCs9BLkLTaRh+yCfpFi0P1BDMTa1W6AR8pWY4rA8+BJ3jvgV0M2a5MoN8CDPLracD0BkznGL/BTOiynER4Q/IOdqcAiGP0+VboiPZF2quJJPIm27y3Kx8IOcNL4jAnBKz3KtcIlcBF+xvAr0iVxkOE5jpCENWp38kh/ODssyEfbYxOWe5BfMRXI6rze8xPqphfctpBbb3hGBOOMfUFfFrNGK4TqFGkbCzjCxzpzXYzabQyv4w0gf2+jlGvo/2+jkmL0kQWGHCwhTh5do9FsVbhndaNqB/o4bGKSbUHcP+zeeNaF/dowuhfhDZQqi9EwlDqB1EvhAqB5HLCycUCxuqciahWNjgRsDvUbsfRZlnInq5Bq3kJUr6yGruOUr1N8l0ZgmliQ3HgG0ZlbEb0fDiGZ1xBu8iVTqiwWqGIwqWSGuGIwqWSNf63qPQCDNn0og4m1J8bXqH+EsUaVuRkDcY3NtQoQ/m9oqI0C+oC5oRYVmT4zVrIdK3eti3oXgj8m9D4Uakd8OIyBELSDTCVEPc3idkjT5/ohGmmhISjSjVFJFoRKmGvPudEHTB9I3FiKC9KCKVipIp+QRjQjLJQP/2lewXyD6jmdg/q+H9JHPP7o/BhdihwBALsUOBIRbRWUR2dxd5/qFSgd1/MFBISfOhqPkHhUBa66YjQ/cAAAAASUVORK5CYII='}></Avatar>
+                <NameWrapper>{user.username? user.username: '김커넥'}<div>{user.skills? user.skills: 'Frontend Developer'}</div></NameWrapper>
+
+                <UserInfo>{user.email? user.email: 'connect@gmail.com'}<div>{user.phone? user.phone: '010-0000-0000'}</div></UserInfo>
             </UserInfoForm>
             
             <div>
