@@ -1,4 +1,6 @@
 from lib2to3.pgen2 import token
+from pydoc import describe
+from jupyter_client import protocol_version_info
 from rest_framework.authtoken.models import Token
 
 from django.shortcuts import render
@@ -9,11 +11,11 @@ from rest_framework import generics , status
 
 
 from portfolio.models import DesignerPopol
+from portfolio.models import Certificate, EducationAndCareer
 from .serializers import PopolSerializer,BriefPopolSerializer
 from rest_framework import status
 
 from users.models import *
-
 
 
 @api_view(['GET']) 
@@ -41,25 +43,43 @@ def PopolDetail(request,pk) :
 # 보낼때는 serializer
 @api_view(['POST'])
 def createPortfolio(request): 
-    user = Client.objects.get(token = 'auth_token')
-    if request.user.is_client == False :
-        # try:
-        
-            #print(request.user.id)
-            #user = User.objects.get(username=request.data['userid'])
-            #designer = Designer.objects.get(user=user)
-            #newPortfolio = DesignerPopol(user=designer, title=request.data['title'], description=request.data['description'], portfolio_image=request.data['image']) 
+    designer = Designer.objects.get(id = request.user.id)
 
-            newPortfolio = DesignerPopol(title=request.data['title'], description=request.data['description'], portfolio_image=request.data['image']) 
-            serializer = PopolSerializer(data=request.data) #request.data = querydict
-            if serializer.is_valid():
-                newPortfolio.designer_id = request.user.id
-                newPortfolio.designer_name = request.user.username
-                newPortfolio.save()
-                return Response({'result':'success', 'message': '성공적으로 등록되었습니다.'}, status=status.HTTP_201_CREATED) #json?
-            else :
-                print(serializer.errors)
-                return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
+    print(request.data['certificates'], type(request.data['certificates'])) #테스트 코드
+
+    certificates = []
+    certificates = request.data['certificates'].split(',')
+    educationAndcareers = []
+    educationAndcareers = request.data['educationcareers'].split(',')
+
+    if request.user.is_client == False :
+
+            newPortfolio = DesignerPopol(
+                designer = designer,
+                description = request.data['description']
+            )
+            newPortfolio.save()
+
+            for i in certificates :
+                newCertificate = Certificate(
+                    portfolio = newPortfolio,
+                    acquired_date = i.acquired_date,
+                    certificate_name = i.certificate_name,
+                    time = i.time
+                )
+                newCertificate.save()
+
+            for j in educationAndcareers :
+                newEducationAndCareer = EducationAndCareer(
+                    portfolio = newPortfolio,
+                    working_period = j.working_period,
+                    company_name = j.company_name,
+                    description = j.description
+                )
+                newEducationAndCareer.save()
+           
+            return Response({'result':'success', 'message': '성공적으로 등록되었습니다.'}, status=status.HTTP_201_CREATED) #json?
+           
 
         # # except:
         #     

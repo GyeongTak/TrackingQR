@@ -73,7 +73,7 @@ const CreatePortfolioPage = () => {
         formData.append('content', content);
         const token = localStorage.getItem('token');
         axios.defaults.headers.common['Authorization'] = "Token "+token;
-        axios.post('http://localhost:8000/sda/portfolio/new', formData)
+        axios.post('http://localhost:8000/api/portfolio/new', formData)
         .then((res) => {
             navigate('/sda');
         })

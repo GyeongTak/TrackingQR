@@ -1,8 +1,12 @@
+from array import ArrayType
 from asyncio.windows_events import NULL
 from distutils.command.upload import upload
+from multiprocessing.dummy import Array
 import os
 from django.db import models
 from uuid import uuid4
+
+from torch import DictType
 from users.models import Designer
 
 def path_and_rename(instance, filename):
@@ -19,24 +23,34 @@ def path_and_rename(instance, filename):
     return os.path.join(upload_to, filename)
 
 
+
+class DesignerPopol(models.Model) :
+    designer = models.OneToOneField(Designer, on_delete=models.CASCADE)
+    description = models.TextField(max_length=300 , blank = True) #About me
+
+    class Meta :
+         verbose_name = 'Portfolio'
+
+class Certificate(models.Model) : 
+    portfolio = models.ForeignKey(DesignerPopol,on_delete=models.CASCADE)
+    acquired_date = models.CharField(max_length=40)
+    certificate_name = models.CharField(max_length=40)
+    time = models.IntegerField()
+
+class EducationAndCareer(models.Model) :
+    portfolio = models.ForeignKey(DesignerPopol, on_delete=models.CASCADE)
+    working_period = models.CharField(max_length=40)
+    company_name = models.CharField(max_length=50)
+    description = models.CharField(max_length=50)
+
+
 class Projects(models.Model) :
     title = models.CharField(max_length=100 , null = False)
     description = models.TextField(max_length=500 , blank= True, null = False)
     participation_date = models.IntegerField()
+    portfolio = models.ForeignKey(DesignerPopol,blank= True, on_delete = models.CASCADE)
     client =models.CharField(max_length=100, null = True)
     image = models.ImageField(height_field=None, width_field=None, max_length=100, upload_to=path_and_rename)
-
-class DesignerPopol(models.Model) :
-    designer = models.OneToOneField(Designer, on_delete=models.CASCADE)
-    projects = models.ForeignKey(Projects,null = True, on_delete = models.SET_NULL)
-    updated = models.DateTimeField(auto_now = True)
-    created = models.DateTimeField(auto_now_add = True)
-
-    def __str__(self) :
-        return self.title
-
-    class Meta :
-         verbose_name = 'Portfolio'
 
 
 
