@@ -5,6 +5,7 @@ from multiprocessing.dummy import Array
 import os
 from django.db import models
 from uuid import uuid4
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 from torch import DictType
 from users.models import Designer
@@ -48,10 +49,10 @@ class Projects(models.Model) :
     title = models.CharField(max_length=100 , null = False)
     description = models.TextField(max_length=500 , blank= True, null = False)
     participation_date = models.IntegerField()
-    portfolio = models.ForeignKey(DesignerPopol,blank= True, on_delete = models.CASCADE)
+    portfolio = models.ForeignKey(DesignerPopol,blank= True, on_delete = models.CASCADE, related_name='portfolio')
     client =models.CharField(max_length=100, null = True)
     image = models.ImageField(height_field=None, width_field=None, max_length=100, upload_to=path_and_rename)
-
+    score = models.IntegerField(default = 0,validators=[MinValueValidator(0), MaxValueValidator(5)])
 
 
 

@@ -12,6 +12,9 @@ from django.core.exceptions import ImproperlyConfigured
 from reborn.client_commission.models import Commission
 from .serializers import *
 
+from datetime import datetime
+
+
 from PIL import Image
 import numpy as np
 import argparse
@@ -21,7 +24,7 @@ import cv2
 import math
 import os
 
-
+datetime_format = "%Y-%m-%d"
 User = get_user_model()
 
 class CommissionViewSet(viewsets.GenericViewSet):
@@ -68,10 +71,12 @@ class CommissionViewSet(viewsets.GenericViewSet):
             
             newCommission = Commission(
                 title=serializer.validated_data['title'],
-                client_id = request.user.id,
+                client = request.user,
+                small_image = request.data['small_image'],
                 budget = request.data['budget'],
                 committion_image = image,
                 finish_date = request.data['finish_date'] ,
+                deadline = request.data['deadline'],
                 description=request.data['description'],
             )
             newCommission.save()

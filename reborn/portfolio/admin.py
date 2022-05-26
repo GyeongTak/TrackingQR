@@ -1,10 +1,14 @@
 from django.contrib import admin
-from .models import DesignerPopol, Projects
+from .models import Certificate, DesignerPopol, EducationAndCareer
 
-# class DesignerPopolAdmin(admin.ModelAdmin):
-#     #fields = ['title']
-#     list_display = ('title',  'created')
+class EducationAndCareerPopolAdmin(admin.ModelAdmin):
+    #fields = ['title']
+    list_display = ('portfolio',  'company_name')
+class CertificatesPopolAdmin(admin.ModelAdmin):
+    #fields = ['title']
+    list_display = ('portfolio',  'certificate_name')
 
 admin.site.register(DesignerPopol)
-admin.site.register(Projects)
+admin.site.register(Certificate,CertificatesPopolAdmin)
+admin.site.register(EducationAndCareer ,EducationAndCareerPopolAdmin)
 

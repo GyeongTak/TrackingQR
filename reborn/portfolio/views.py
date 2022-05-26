@@ -12,7 +12,7 @@ from rest_framework import generics , status
 
 from portfolio.models import DesignerPopol
 from portfolio.models import Certificate, EducationAndCareer
-from .serializers import PopolSerializer,BriefPopolSerializer
+from .serializers import BriefProjectSerializer, PopolSerializer,BriefPopolSerializer
 from rest_framework import status
 
 from users.models import *
@@ -22,9 +22,10 @@ import json
 
 @api_view(['GET']) 
 def PopolList(request) :
-    ListPopol = DesignerPopol.objects.all()
-    serializer = BriefPopolSerializer(ListPopol, many = True)
-    return Response(serializer.data)
+    ListPopol = DesignerPopol.objects.all()   
+    briefportfolio = BriefPopolSerializer(ListPopol, many = True)
+    print(briefportfolio.data)
+    return Response(briefportfolio.data, status = status.HTTP_200_OK)
 
 # @api_view(['GET'])
 # def PopolSearch(request,pk) :

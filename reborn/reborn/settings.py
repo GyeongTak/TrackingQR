@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'Mypage',
 # Mypage App is connected    
 
+    'django_crontab',
     'rest_framework.authtoken',
     'rest_framework',
     'corsheaders',
@@ -190,6 +191,10 @@ LOGIN_REDIRECT_URL = '/'
 # 로그아웃시 이동하는 URL
 LOGOUT_REDIRECT_URL = '/'
 
+
+CRONJOBS = [
+    ('* 0 * * *','reborn.cron.changeStatus','>> schedule.log')
+]
 
 SIMPLE_JWT = {
   'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
