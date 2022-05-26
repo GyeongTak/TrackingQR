@@ -6,7 +6,7 @@ export const postRequest = async (data) => {
     const token = localStorage.getItem('token');
     try {
         const res = await instance.post('/api/client_commission/create_commission', data, {headers: { "Content-Type": 'multipart/form-data',
-        Authorization : "Token" + token}}); //json???
+        Authorization : "Token " + token}}); //json???
         return res.data;
 
     } catch (error) {
