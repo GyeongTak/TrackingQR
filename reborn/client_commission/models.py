@@ -35,17 +35,17 @@ class Commission(models.Model) :
     commission_image = models.ImageField(upload_to=path_and_rename, null = True) # 파노라마 이미지\
 
     title = models.CharField(max_length=300)    #의뢰서 제목
-    description = models.TextField(null=True, blank=True)   #의뢰서 상세 내용
+    description = models.TextField(null=True)   #의뢰서 상세 내용
 
     budget = models.IntegerField(null=False,blank=False) # 예산
     finish_date = models.IntegerField(null=False, blank=False) # 작업 기한 ( 기준 : 일)
     deadline = models.CharField(max_length=50) #모집 마감 기한
 
     request_designer_id =models.CharField(max_length=100) # id , id , id 형식의 문자열
-    request_count = models.IntegerField(default=0, null= False,blank=False) # 받은 제안 수
+    request_count = models.IntegerField(default=0, null= False,blank=True) # 받은 제안 수
     
     Status = models.IntegerField(choices=CommissionStatus.choices, default = 0) # 현재 상태 
-    messageFlag = models.BooleanField(default=0)    
+    messageFlag = models.BooleanField(default=0, blank= True)    
 
     updated = models.DateTimeField(auto_now = True)
     created = models.DateTimeField(auto_now_add = True)

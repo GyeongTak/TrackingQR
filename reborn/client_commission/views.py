@@ -40,8 +40,10 @@ class CommissionViewSet(viewsets.GenericViewSet):
 
     @action(methods=['POST'], detail=False)
     def create_commission(self, request):
+        print(request.data)
+        print(type(request.data['is_panorama']))
         if request.user.is_client == True:
-            if request.data['is_panorama'] == True :
+            if request.data['is_panorama'] == 'true' :
                 image = request.data['images'][0]
             else :
                 images = []
@@ -76,7 +78,7 @@ class CommissionViewSet(viewsets.GenericViewSet):
                 client = request.user,
                 small_image = request.data['small_image'],
                 budget = request.data['budget'],
-                committion_image = image,
+                commission_image = image,
                 finish_date = request.data['finish_date'] ,
                 deadline = request.data['deadline'],
                 description=request.data['description'],

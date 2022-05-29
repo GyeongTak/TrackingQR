@@ -71,7 +71,8 @@ def detail_my_commission(request,pk) :
         selected_designer.append({'username':tmp.username,'id' :tmp.id})
 
     return Response(
-        serializer.data,{
+        serializer.data,
+        {
             'selected_designer':selected_designer
         }
     )
