@@ -28,6 +28,21 @@ const logout = async () =>{
     }
 }
 
+const loadMyInfo = async () => {
+    try {
+        const token = localStorage.getItem('token');
+        await instance.get('api/mypage', {
+            headers: { 
+                "Content-Type": `application/json`,
+                Authorization : "Token" + token,
+            }});
+    } catch (error) {
+        console.log(error);
+        alert(error.response.data);
+    }
+}
+
+/*
 const loadMyInfo = async () =>{
     try {
         const token = localStorage.getItem('token');
@@ -42,5 +57,6 @@ const loadMyInfo = async () =>{
         window.alert(error.response.data);
     }
 }
+*/
 
 export {login, logout, loadMyInfo};

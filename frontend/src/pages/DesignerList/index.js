@@ -55,8 +55,8 @@ const DesignerPage = () => {
         <>
         <MainMenu />
         <div className={'main-container'} style={{padding: '0 10%', width: '100%', height: '100%'}}>
-            <div className={'mainTitle'} style={{fontSize: '32px', fontWeight: 'bold', padding:'50px 0'}}>
-                디자이너를 찾고 계신가요?
+            <div className={'mainTitle'} style={{fontSize: '32px', padding:'50px 0',fontWeight:'500', fontFamily: 'Noto Sans KR, sans-serif'}}>
+                어떤 디자이너를 찾고 계신가요?
             </div>
 
             <div style={{margin: '40px 0', width:'100%', position: 'relative'}}>

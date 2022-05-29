@@ -10,11 +10,13 @@ import { getRequests } from '../../apis/request';
 const listData = [];
 for (let i = 1; i < 25; i++) {
   listData.push({
-    href: 'https://ant.design',
-    title: `외식프랜차이즈 컨셉시안 작업 원합니다.`,
+    title: '제목입니다.',
+    description:'22.05.04',   
+    href: '/request/',
+    finish_date: 5,
+    budget: 1000,
     avatar: 'https://joeschmoe.io/api/v1/random',
-    description:
-      '22.05.04',               
+               
     content:
     '외식업 프랜차이즈 인테리어 디자인 설계 요청',
   });
@@ -126,8 +128,8 @@ const RequestList = () => {
                 <List.Item
                     key={item.title}
                     actions={[
-                    <div>예산  300,000</div>,
-                    <div>작업기간  6일</div>,
+                    <div>{item.budget} 만원</div>,
+                    <div>작업기간  {item.finish_date}일</div>,
                     <div>받은 제안 5개</div>,
                     ]}
                     extra={
@@ -141,7 +143,7 @@ const RequestList = () => {
                     <List.Item.Meta
                     avatar={<Avatar src={item.avatar} />}
                     title={<a href={item.href}>{item.title}</a>}
-                    description={item.description}
+                    description={<div>{item.description} 까지</div>}
                     />
                     {item.content}
                 </List.Item>
