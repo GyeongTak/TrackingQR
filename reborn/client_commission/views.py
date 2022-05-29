@@ -91,8 +91,8 @@ class CommissionViewSet(viewsets.GenericViewSet):
 
     @action(methods=['GET'],permission_classes=[AllowAny, ],detail=False)
     def commission_view(self, request):
-        ListCommision = Commission.objects.get(status = 0) #아직 의뢰가 수락되지 않은 상태의 모든 의뢰 조회
-        serializer = self.get_serializer_class(ListCommision)
+        ListCommision = Commission.objects.filter(status = 0) #아직 의뢰가 수락되지 않은 상태의 모든 의뢰 조회
+        serializer = self.get_serializer_class(ListCommision, many=True)
 
         return Response(serializer.data, status = status.HTTP_200_OK)
 
