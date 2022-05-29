@@ -42,21 +42,21 @@ const MainMenu = () => {
         <div style={menuStyle}>
             <div style={{display: 'flex', alignItems: 'center'}}>
                 <div >
-                    <Link to="../"> 
+                    <Link to="/"> 
                         <Button> Logo </Button>
                     </Link>
                 </div>
-                <div style={{margin: '0 15px', fontSize: '16px', fontWeight: 'bold', cursor:"pointer"}}>
+                <div style={{margin: '0 15px', fontSize: '20px', fontWeight: 'bold', cursor:"pointer"}}>
                     <Link to="/sda"> 
-                        <Button style={{color:'black', fontWeight:'bold'}}> 디자이너 </Button>
+                        <Button style={{fontWeight:'500', fontFamily: 'Noto Sans KR, sans-serif', color:'black'}}> 디자이너 </Button>
                     </Link>
                 </div>
-                <div style={{margin: '0 15px', fontSize: '16px', fontWeight: 'bold', cursor:"pointer"}}>
+                <div style={{margin: '0 15px', fontSize: '20px', fontWeight: 'bold', cursor:"pointer"}}>
                     <Link to="/request"> 
-                        <Button style={{color:'black', fontWeight:'bold', marginLeft:'-15px'}}> 의뢰서 </Button>
+                        <Button style={{fontWeight:'500', fontFamily: 'Noto Sans KR, sans-serif', color:'black', marginLeft:'-15px'}}> 의뢰서 </Button>
                     </Link></div>
                 </div>
-            <Input.Search placeholder="디자이너 검색" onSearch={onSearch} style={{width:'30%'}}/>
+            <Input.Search placeholder="디자이너, 커미션 검색" onSearch={onSearch} style={{width:'30%'}}/>
             <div style={{display: 'flex', alignItems: 'center'}}>
                 {
                     user.userId ?  <div style={{padding: '0 10px'}}>

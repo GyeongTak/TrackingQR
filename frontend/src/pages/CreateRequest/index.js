@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MainMenu from 'components/MainMenu';
 import { Select, Radio, DatePicker, Button, Input } from 'antd';
 import { gap, inputStyle, imageStyle, BudgetInput, TextAreaWrapper } from './style';
@@ -7,6 +7,7 @@ import { useInput } from 'utils/useInput';
 import { postRequest } from 'apis/request';
 import { CloseOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+import moment from 'moment';
 
 const CreateRequest = () => {
     const navigate = useNavigate();
@@ -22,6 +23,10 @@ const CreateRequest = () => {
     //const [ category, onChangeCategory] = useInput('');
     //const [ style, onChangeStyle] = useInput('');
 
+    useEffect(()=>{
+
+    }, []);
+
     const onSubmit = async (e) =>{
         e.preventDefault();
         const formData = new FormData();
@@ -33,9 +38,10 @@ const CreateRequest = () => {
         formData.append('budget', budget);
         formData.append('small_image', titleImage);
         formData.append('is_panorama', isPanorama);
+        formData.append('finish_date', moment(date).diff(moment(), 'months')) 
         //formData.append('category', category);
         //formData.append('style', style);
-
+        console.log(moment(date).diff(moment(), 'months'));
         const result = await postRequest(formData);
         navigate('/request');
     };
@@ -54,12 +60,6 @@ const CreateRequest = () => {
     }
 
     const onChangeTitlePhoto = (e) => {
-        /*
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            setImagePrevious(prev=> [...prev, e.target.result]);
-        };
-        */
         setTitleImage(e.target.files[0]);
     }
 

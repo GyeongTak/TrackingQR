@@ -43,6 +43,28 @@ def profile(request, format=None):
             }
         )
 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getMyInfo(request, format=None):
+    if request.user.is_client == True :
+        tmpuserProfile = Client.objects.get(id = request.user.id)
+        userserializer = ClientProfileSerializer(tmpuserProfile,many= False)
+
+        my_commission  = Commission.objects.filter(client = tmpuserProfile)
+        my_commissionSerializer =  my_commissionBriefSerializer(my_commission, many= True)
+        return Response(
+            userserializer.data,
+            my_commissionSerializer.data
+        )
+
+    else :
+        tmpuserProfile = Designer.objects.get(auth_token = request.auth)
+        userserializer = DesignerProfileSerializer(tmpuserProfile,many= False)
+        return Response(
+           userserializer.data,
+        )
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def delete_my_commission(request,pk) :
