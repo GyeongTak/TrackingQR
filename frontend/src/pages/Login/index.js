@@ -36,6 +36,7 @@ function LoginPage() {
         const { id, username, is_client, auth_token } = await login({"username":userId, "password": password});
         localStorage.setItem('token', auth_token);
         axios.defaults.headers.common['Authorization'] = auth_token;
+        console.log(id, username, is_client, auth_token);
         setUser({
             userId : id,
             isClient : is_client,
