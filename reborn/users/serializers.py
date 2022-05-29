@@ -58,7 +58,7 @@ class ClientRegisterSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(style={"input_type":"password"}, write_only = True)
     class Meta:
         model = Client
-        fields = ('id','email', 'username', 'password','password2','phone','company_name','description', 'is_client')
+        fields = ('email', 'username', 'password','password2','phone','company_name','description', 'is_client')
 
     def validate_username(self, value):
         user = User.objects.filter(username=value)

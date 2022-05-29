@@ -41,7 +41,7 @@ class Commission(models.Model) :
     finish_date = models.IntegerField(null=False, blank=False) # 작업 기한 ( 기준 : 일)
     deadline = models.CharField(max_length=50) #모집 마감 기한
 
-    request_designer_id =models.CharField(max_length=100) # id , id , id 형식의 문자열
+    request_designer_id =models.CharField(max_length=100, blank=True) # id , id , id 형식의 문자열
     request_count = models.IntegerField(default=0, null= False,blank=True) # 받은 제안 수
     
     Status = models.IntegerField(choices=CommissionStatus.choices, default = 0) # 현재 상태 

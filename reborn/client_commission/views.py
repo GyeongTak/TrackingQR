@@ -41,7 +41,7 @@ class CommissionViewSet(viewsets.GenericViewSet):
     @action(methods=['POST'], detail=False)
     def create_commission(self, request):
         print(request.data)
-        print(type(request.data['is_panorama']))
+        print(request.data['is_panorama'])
         if request.user.is_client == True:
             if request.data['is_panorama'] == 'true' :
                 image = request.data['images'][0]
@@ -75,7 +75,7 @@ class CommissionViewSet(viewsets.GenericViewSet):
             
             newCommission = Commission(
                 title=serializer.validated_data['title'],
-                client = request.user,
+                client = request.user.id,
                 small_image = request.data['small_image'],
                 budget = request.data['budget'],
                 commission_image = image,
