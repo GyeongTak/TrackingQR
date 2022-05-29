@@ -6,7 +6,9 @@ const style = css`
         padding: 0;
         font-family: 'Noto Sans KR', sans-serif;
     }
-
+    body {
+        box-sizing: border-box;
+      }
 `
 
 const GlobalStyle = () => {

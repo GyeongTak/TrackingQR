@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     path('', views.profile, name = 'Profile'),
+    path('getMyInfo', views.getMyInfo),
     path('detail-portfolio/<str:pk>/',views.detail_my_portfolio, name = 'detail-portfolio'),
     path('delete-portfolio/', views.delete_portfolio, name = 'delete_portfolio'),
     path('delete_commission/<int:pk>', views.delete_my_commission),

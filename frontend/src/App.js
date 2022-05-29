@@ -17,13 +17,15 @@ import PortfolioDetail from 'pages/PortfolioDetail';
 import RequestDetail from 'pages/RequestDetail';
 import WriteReviewPage from 'pages/WriteReview';
 import { RequireAuth } from 'router/RequireAuth';
+import GlobalStyle from '../src/styles/global';
 
 const App = () => {
   return (
     <RecoilRoot>
       <BrowserRouter>
+      <GlobalStyle />
         <Routes>
-        <Route path = "/" element={<HomePage/>} />
+          <Route path = "/" element={<HomePage/>} />
           <Route path = "/sda" element={<DesignerPage/>} />
           <Route path = "/portfolio/new" element={<CreatePortfolioPage/>} />
           <Route path = "/request/new" element={<CreateRequest/>} />
