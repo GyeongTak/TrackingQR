@@ -44,6 +44,22 @@ const loadMyInfo = async () => {
     }
 }
 
+const getClientInfo = async (id) => {
+    try {
+        const token = localStorage.getItem('token');
+        const result = await instance.get('', {
+            headers: { 
+                "Content-Type": `application/json`,
+                Authorization : "Token " + token,
+            }});
+        
+        return result.data;
+    } catch (error) {
+        console.log(error);
+        alert(error.response.data);
+    }
+}
+
 /*
 const loadMyInfo = async () =>{
     try {
@@ -61,4 +77,4 @@ const loadMyInfo = async () =>{
 }
 */
 
-export {login, logout, loadMyInfo};
+export {login, logout, loadMyInfo, getClientInfo};
