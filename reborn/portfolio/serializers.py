@@ -36,6 +36,11 @@ class ProjectSerializer(serializers.ModelSerializer) :
     class Meta :
         model = Projects
         field = ('title','description','participation_date', 'client', 'image', 'score')
+    
+    def validate_title(self, value):
+        if value=='':
+            raise ValidationError('제목은 필수 항목입니다.')
+        return value
 
 class BriefProjectSerializer(serializers.ModelSerializer) :
     class Meta :
