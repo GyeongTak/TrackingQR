@@ -40,9 +40,9 @@ const CreateRequest = () => {
         formData.append('finish_date', moment(date).diff(moment(), 'months')) 
         //formData.append('category', category);
         //formData.append('style', style);
+        console.log(moment(date).diff(moment(), 'months'));
+        const result = await postRequest(formData);
         navigate('/request');
-        await postRequest(formData);
-        
     };
 
     const onChangeFile = (e) => {

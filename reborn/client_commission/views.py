@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from django.core.exceptions import ImproperlyConfigured
 
 from client_commission.models import Commission
-from users.models import Designer
+from users.models import Designer,Client
 from .serializers import EmptySerializer,CommissionSerializer,CommissionSerializer,CommissionViewSerializer
 
 from datetime import datetime
@@ -41,7 +41,7 @@ class CommissionViewSet(viewsets.GenericViewSet):
     @action(methods=['POST'], detail=False)
     def create_commission(self, request):
         print(request.data)
-        print(request.data['is_panorama'])
+        print(request.data['images'][1])
         if request.user.is_client == True:
             if request.data['is_panorama'] == 'true' :
                 image = request.data['images'][0]
@@ -51,16 +51,16 @@ class CommissionViewSet(viewsets.GenericViewSet):
                     images.append(i)
                 print("[INFO] switching images...")
                 stitcher = cv2.createStitcher() if imutils.is_cv3() else cv2.Stitcher_create()
-                (status, image) = stitcher.stitch(images)
+                (tmpstatus, image) = stitcher.stitch(images)
 
-                if status == 0:
+                if tmpstatus == 0:
                     # write the output stitched image to disk
 
                     # display the output stitched image to our screen
                     cv2.imshow("Stitched", image)
                     cv2.waitKey(0)
                 else:
-                    if status == cv2.STITCHER_ERR_NEED_MORE_IMGS:
+                    if tmpstatus == cv2.STITCHER_ERR_NEED_MORE_IMGS:
                         print("[INFO] image stitching failed (1: STITCHER_ERR_NEED_MORE_IMGS)")
                         raise Exception("[INFO] image stitching failed (1: STITCHER_ERR_NEED_MORE_IMGS)")
                     elif status == cv2.STITCHER_ERR_HOMOGRAPHY_EST_FAIL:
@@ -73,25 +73,27 @@ class CommissionViewSet(viewsets.GenericViewSet):
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             
+            tmpClient = Client.objects.get(id = request.user.id)
+
             newCommission = Commission(
+                client = tmpClient,
                 title=serializer.validated_data['title'],
-                client = request.user.id,
                 small_image = request.data['small_image'],
                 budget = request.data['budget'],
                 commission_image = image,
-                finish_date = request.data['finish_date'] ,
+                finish_date = int(request.data['finish_date']) ,
                 deadline = request.data['deadline'],
                 description=request.data['description'],
             )
-            newCommission.save()
+            #newCommission.save()
 
-            return Response(status.HTTP_200_OK)
+            return Response({'message' : "Success"}, status = status.HTTP_200_OK)
         else :
             Response({'message' : "Cannot create commission"}, status= status.HTTP_401_UNAUTHORIZED)
 
     @action(methods=['GET'],permission_classes=[AllowAny, ],detail=False)
     def commission_view(self, request):
-        ListCommision = Commission.objects.filter(status = 0) #아직 의뢰가 수락되지 않은 상태의 모든 의뢰 조회
+        ListCommision = Commission.objects.filter(current_status = 0) #아직 의뢰가 수락되지 않은 상태의 모든 의뢰 조회
         serializer = self.get_serializer_class(ListCommision, many=True)
 
         return Response(serializer.data, status = status.HTTP_200_OK)

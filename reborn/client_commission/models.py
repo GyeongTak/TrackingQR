@@ -44,7 +44,7 @@ class Commission(models.Model) :
     request_designer_id =models.CharField(max_length=100, blank=True) # id , id , id 형식의 문자열
     request_count = models.IntegerField(default=0, null= False,blank=True) # 받은 제안 수
     
-    Status = models.IntegerField(choices=CommissionStatus.choices, default = 0) # 현재 상태 
+    current_status = models.IntegerField(choices=CommissionStatus.choices, default = 0,blank=True) # 현재 상태 
     messageFlag = models.BooleanField(default=0, blank= True)    
 
     updated = models.DateTimeField(auto_now = True)

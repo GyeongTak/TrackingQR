@@ -1,5 +1,6 @@
 from xml.dom import ValidationErr
 from attr import field
+from numpy import source
 from rest_framework.authtoken.models import Token
 from rest_framework import serializers
 from django.contrib.auth import get_user_model, password_validation
@@ -16,7 +17,7 @@ class CommissionSerializer(serializers.ModelSerializer):
 
     class Meta:
          model = Commission
-         fields = '__all__'
+         fields = ('title','finish_date','budget','description','small_image','commission_image')
         #  read_only_fields = ('id', 'is_client')
     
     # def get_panorama_image(self,obj):
@@ -26,14 +27,17 @@ class CommissionSerializer(serializers.ModelSerializer):
         return value        
 
 class CommissionViewSerializer(serializers.ModelSerializer):
-    brief_description = serializers.SerializerMethodField()
+    client_name = serializers.CharField(source='client.username')
+    client_company_name = serializers.CharField(source='client.company_name')
     class Meta :
         model = Commission
-        fields = ('title', 'created','brief_description','budget','finish_date','request_count')
-    def get_brief_description(self, obj) :
-        return obj.description[:50] 
-        # description 을 50 글자만 표시할 수 있도록 바꾼다.
+        fields = ('title','deadline','budget','finish_date','small_image','client_company_name','client_name','request_count')
+
     
 
 
 
+
+    # def get_brief_description(self, obj) :
+    #     return obj.description[:50] 
+        # description 을 50 글자만 표시할 수 있도록 바꾼다.
