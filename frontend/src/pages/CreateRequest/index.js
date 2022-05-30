@@ -23,14 +23,13 @@ const CreateRequest = () => {
     //const [ category, onChangeCategory] = useInput('');
     //const [ style, onChangeStyle] = useInput('');
 
-    useEffect(()=>{
-
-    }, []);
-
     const onSubmit = async (e) =>{
         e.preventDefault();
         const formData = new FormData();
-        formData.append('images', photos);
+        for (let i =0;i<photos.length; i++) {
+            formData.append("images", photos[i]);
+        }
+        //formData.append('images', photos);
         formData.append('title', title);
         formData.append('deadline', date);
         //formData.append('public', ispublic);

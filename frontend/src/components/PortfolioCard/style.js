@@ -19,7 +19,6 @@ const DescriptionWrapper = styled.div`
 `
 
 const ProjectWrapper = styled.div`
-    width: 70%;
     display:flex;
     font-size: 17px;
     justify-content: space-between;
