@@ -23,7 +23,8 @@ const HomePage = () => {
         };
 
         loadRequests();
-        
+        console.log(portfolios);
+        console.log(requests);
         /*
         setPortfolios([...portfolios, {
             "profile_image": 'https://search.pstatic.net/common/?src=http%3A%2F%2Fpost.phinf.naver.net%2FMjAyMDA3MTZfMjE3%2FMDAxNTk0ODcyNzY2NTE3.q33CvFJq2IiCh9BUVWfG4IWhEJX-giFX9Rp9_K3AJzkg.9N4e_fFoOp3vQ7c5dxqKyvFrabouzwtUKo41KqOAKbAg.JPEG%2FIELuoo7XtRxBS8TA97d-alMucVRc.jpg&type=sc960_832',

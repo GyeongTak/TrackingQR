@@ -7,6 +7,28 @@ import { Link } from 'react-router-dom';
 import { getPortfolios } from '../../apis/portfolio';
 import PortfolioCard from 'components/PortfolioCard';
 
+const dummy = [{
+    profile_image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJxA5cTf-5dh5Eusm0puHbvAhOrCRPtckzjA&usqp=CAU",
+    username:"김커넥",
+    skills:"실내 인테리어",
+    description: "실내인테리어 김커넥 입니다.",
+    projects: [{title:"감성카페 실내인테리어 프로젝트",average_stars:3 },{title:"감성카페 실내인테리어 프로젝트",average_stars:3 },{title:"감성카페 실내인테리어 프로젝트",average_stars:3 }]
+},
+{
+    profile_image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJxA5cTf-5dh5Eusm0puHbvAhOrCRPtckzjA&usqp=CAU",
+    username:"김커넥",
+    skills:"실내 인테리어",
+    description: "실내인테리어 김커넥 입니다.",
+    projects: [{title:"감성카페 실내인테리어 프로젝트",average_stars:3 },{title:"감성카페 실내인테리어 프로젝트",average_stars:3 },{title:"감성카페 실내인테리어 프로젝트",average_stars:3 }]
+},
+{
+    profile_image:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJxA5cTf-5dh5Eusm0puHbvAhOrCRPtckzjA&usqp=CAU",
+    username:"김커넥",
+    skills:"실내 인테리어",
+    description: "실내인테리어 김커넥 입니다.",
+    projects: [{title:"감성카페 실내인테리어 프로젝트",average_stars:3 },{title:"감성카페 실내인테리어 프로젝트",average_stars:3 },{title:"감성카페 실내인테리어 프로젝트",average_stars:3 }]
+}
+]
 const menu = (
     <Menu>
       <Menu.Item>
@@ -78,7 +100,7 @@ const DesignerPage = () => {
                 </Dropdown>
                 </div>
             </div>
-            {portfolios && portfolios.map((portfolio,index)=>
+            {dummy && dummy.map((portfolio,index)=>
             (<PortfolioCard key={index} portfolio={portfolio}/>))}
         </div>
         
