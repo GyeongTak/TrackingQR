@@ -14,13 +14,13 @@ User = get_user_model()
 class ClientUserSerializer(serializers.Serializer):
     class Meta :
         models = Client
-        field = ('__all__', 'p')
+        field = ('__all__')
 
 class  MyReviewBriefSerialzier(serializers.Serializer) :
     brief_description = serializers.SerializerMethodField()
     class Meta :
         models = customerReview
-        fields = ('id','score', 'small_image','designer_id','brief_description','title')
+        fields = ('score', 'small_image','designer_id','brief_description','title')
     def get_brief_description(self, obj) :
         return obj.description[:30] + '...'
         # description 을 30 글자만 표시할 수 있도록 바꾼다.
