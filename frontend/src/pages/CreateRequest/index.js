@@ -43,7 +43,7 @@ const CreateRequest = () => {
         //formData.append('style', style);
         console.log(moment(date).diff(moment(), 'months'));
         const result = await postRequest(formData);
-        navigate('/request');
+        // navigate('/request');
     };
 
     const onChangeFile = (e) => {
