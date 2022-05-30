@@ -1,10 +1,12 @@
 from email.policy import HTTP
+from http import client
 from django.shortcuts import render
 from portfolio.models import DesignerPopol
 from portfolio.serializers import BriefPopolSerializer
 from rest_framework.response import Response
 from rest_framework import  status
 from users.models import *
+from userReview.models import customerReview
 from client_commission.models import Commission
 from client_commission.serializers import CommissionSerializer
 
@@ -12,21 +14,27 @@ from portfolio.serializers import PopolSerializer, DesignerProfileSerializer, Cl
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 
-from .serializers import  my_commissionBriefSerializer,my_commissionSerializer
+from .serializers import  MyCommissionBriefSerializer,MyCommissionSerializer, MyReviewBriefSerialzier
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def profile(request, format=None):
     if request.user.is_client == True :
+        client = Client.objects.get(id = request.user.id)
         tmpuserProfile = Client.objects.get(id = request.user.id)
         userserializer = ClientProfileSerializer(tmpuserProfile,many= False)
 
         my_commission  = Commission.objects.filter(client = tmpuserProfile)
-        my_commissionSerializer =  my_commissionBriefSerializer(my_commission, many= True)
-        return Response(
-            userserializer.data,
-            my_commissionSerializer.data
-        )
+        my_commissionSerializer =  MyCommissionBriefSerializer(my_commission, many= True)
+        
+        my_review = customerReview.objects.filter(client= client)
+        my_reviewSerializer = MyReviewBriefSerialzier(my_review, many = True)
+
+        return Response({
+            'user' : userserializer.data,
+            'commissions' : my_commissionSerializer.data,
+            'reviews' :  my_reviewSerializer.data
+        })
 
     else :
         tmpuserProfile = Designer.objects.get(auth_token = request.auth)
@@ -52,7 +60,7 @@ def getMyInfo(request, format=None):
         userserializer = ClientProfileSerializer(tmpuserProfile,many= False)
 
         my_commission  = Commission.objects.filter(client = tmpuserProfile)
-        my_commissionSerializer =  my_commissionBriefSerializer(my_commission, many= True)
+        my_commissionSerializer =  MyCommissionBriefSerializer(my_commission, many= True)
         return Response(
             userserializer.data,
             my_commissionSerializer.data
@@ -85,7 +93,7 @@ def detail_my_portfolio(request,pk) :
 @permission_classes([IsAuthenticated])
 def detail_my_commission(request,pk) :
     commission = Commission.objects.get(id = pk)
-    serializer = my_commissionSerializer(commission, many = False)
+    serializer = MyCommissionSerializer(commission, many = False)
 
     selected_designer={}
     for i in commission.request_designer_id :

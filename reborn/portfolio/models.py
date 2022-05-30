@@ -10,6 +10,8 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from torch import DictType
 from users.models import Designer
 
+from ckeditor.fields import RichTextField
+
 def path_and_rename(instance, filename):
 
     upload_to = 'SearchDesignerApi/Designer_Portfolio_Image'
@@ -47,11 +49,11 @@ class EducationAndCareer(models.Model) :
 
 class Projects(models.Model) :
     title = models.CharField(max_length=100 , null = False)
-    description = models.TextField(max_length=500 , blank= True, null = False)
+    description = RichTextField()
     participation_date = models.IntegerField()
     portfolio = models.ForeignKey(DesignerPopol,blank= True, on_delete = models.CASCADE, related_name='portfolio')
     client =models.CharField(max_length=100, null = True)
-    image = models.ImageField(height_field=None, width_field=None, max_length=100, upload_to=path_and_rename)
+    # image = models.ImageField(height_field=None, width_field=None, max_length=100, upload_to=path_and_rename)
     score = models.IntegerField(default = 0,validators=[MinValueValidator(0), MaxValueValidator(5)])
 
 

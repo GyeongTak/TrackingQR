@@ -1,23 +1,41 @@
 from dataclasses import field
+import fileinput
 from pydoc import describe
 from django.forms import ValidationError
 from matplotlib import projections
 from nbformat import read
+from numpy import source
 from rest_framework import serializers
 from sklearn.metrics import average_precision_score
-from . models import DesignerPopol,Projects
+from . models import Certificate, DesignerPopol, EducationAndCareer,Projects
 from users.models import User,Designer,Client
 
 class PopolSerializer(serializers.ModelSerializer):
+    designer_name = serializers.CharField(source= 'designer.username')
+    designer_id = serializers.IntegerField(source='designer.id')
     class Meta :
         model = DesignerPopol
-        fields = '__all__'
+        fields = ('designer_name','designer_id','description')
 
     def validate_title(self, value):
         if value=='':
             raise ValidationError('제목은 필수 항목입니다.')
         return value
+class  CertificateSerializer(serializers.ModelSerializer) :
+    class Meta :
+        model = Certificate
+        field = ('acquired_date','certificate_name','time')
 
+class EduAndCareeSerializer(serializers.ModelSerializer) :
+    class Meta :
+        model = EducationAndCareer
+        field = ('working_period','company_name','description')
+
+
+class ProjectSerializer(serializers.ModelSerializer) :
+    class Meta :
+        model = Projects
+        field = ('title','description','participation_date', 'client', 'image', 'score')
 
 class BriefProjectSerializer(serializers.ModelSerializer) :
     class Meta :

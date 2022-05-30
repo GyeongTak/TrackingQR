@@ -10,7 +10,7 @@ const PortfolioCard = ({portfolio}) => {
         
         <PortfolioCardContainer>
             <div>
-            <Avatar src={`http://localhost:8000${portfolio.profile_image}`} shape="square" ></Avatar>
+            <Avatar src={`http://127.0.0.1:8000${portfolio.profile_image}`} shape="square" ></Avatar>
             <NameWrapper>{portfolio.username}</NameWrapper>
             <NameWrapper>{portfolio.skills}</NameWrapper>
             </div>

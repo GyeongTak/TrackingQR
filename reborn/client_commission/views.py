@@ -1,9 +1,5 @@
-from http.client import ResponseNotReady
-from pathlib import Path
-from django.shortcuts import render
 from django.contrib.auth import get_user_model
-from rest_framework import viewsets
-from rest_framework import status
+from rest_framework import viewsets,status
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
@@ -40,15 +36,16 @@ class CommissionViewSet(viewsets.GenericViewSet):
 
     @action(methods=['POST'], detail=False)
     def create_commission(self, request):
-        print(request.data)
-        print(request.data['images'][1])
+        # for obj in request.data.getlist('images') :  
+        # print(request.FILES)python
         if request.user.is_client == True:
             if request.data['is_panorama'] == 'true' :
-                image = request.data['images'][0]
+                image = request.data.getlist('images')[0]
+               # print(image)
             else :
                 images = []
-                for i in request.data['images'] :
-                    images.append(i)
+                images = request.data.getlist('images') 
+            
                 print("[INFO] switching images...")
                 stitcher = cv2.createStitcher() if imutils.is_cv3() else cv2.Stitcher_create()
                 (tmpstatus, image) = stitcher.stitch(images)
@@ -85,7 +82,7 @@ class CommissionViewSet(viewsets.GenericViewSet):
                 deadline = request.data['deadline'],
                 description=request.data['description'],
             )
-            #newCommission.save()
+            newCommission.save()
 
             return Response({'message' : "Success"}, status = status.HTTP_200_OK)
         else :
