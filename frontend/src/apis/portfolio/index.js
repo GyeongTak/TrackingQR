@@ -8,7 +8,7 @@ const getPortfolios = async () => {
         return result.data;
     } catch (error) {
         console.error(error);
-        window.alert(error.response.data);
+        alert(error.response.data);
     }
 }
 
@@ -20,7 +20,7 @@ const getPortfolio = async (data) => {
         return result.data;
     } catch (error) {
         console.error(error);
-        window.alert(error.response.data);
+        alert(error.response.data);
     }
 }
 

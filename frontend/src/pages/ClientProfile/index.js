@@ -1,46 +1,87 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useEffect } from 'react';
 import MainMenu from '../../components/MainMenu';
-import Tabs from '../../components/Tabs';
+//import Tabs from '../../components/Tabs';
 import { container, memberInfoContainer, userInfoContent, editButtonWrapper} from './style';
 import Avartar from '../../components/Avatar';
 import { useRecoilState } from 'recoil';
 import userState from '../../store/user';
-import { Card, Tag, Button, Modal, Input } from 'antd';
-import { HeartTwoTone } from '@ant-design/icons';
+import { List, Button, Modal, Input, Rate, Space, Tabs } from 'antd';
+import {  HeartTwoTone, DownOutlined, MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.min.css';
 import { useNavigate, useLocation, useParams} from 'react-router-dom';
-import { loadMyInfo } from '../../apis/user';
+import { getClientInfo } from '../../apis/user';
 import Avatar from '../../components/Avatar';
+import { Link } from 'react-router-dom';
 
-const dummydata = [
-];
-
-const me = {
-    userId: 1,
-    username:'user1',
-    userEmail: 'user1@email.com',
-    skills: '건축인테리어',
-    phone: '01000000000',
-    description : '안녕하세요 user1입니다.'
+const clientDummy = {
+        'user': {
+        "profile_image": '',
+        "username" : "tticjswo2",
+        "email" : "tticjswo2@naver.com",
+        "phone" : "01023872521",
+        "company_name" : "Samsung",
+        "description" : "Company Samsung is upcoming"
+        },
+        'commissions':
+        [{
+        'small_image':'', //
+        'request_count':5,//
+        'title':'제목',//
+        'deadline': '2022-05-03', //
+        'description': 'description', //
+        'budget': 1000,//
+        'finish_date':5,//
+        'client_company_name':'soongsil',
+        }],
+        'reviews' : [{
+        'id': 4,
+        'score': 3,
+        'small_image': '',//
+        'desinger_name':'디자이너 이름',
+        'brief_description':'description',//
+        'title': 'review - title'//
+        }]
+        
 };
 
+const IconText = ({ icon, text }) => (
+    <Space>
+      {React.createElement(icon)}
+      {text}
+    </Space>
+  );
+
+  
 const ClientProfile = () => {
+    const [ clientInfo, setClientInfo ] = useState({});
     const [modal, setModal] = useState(false);
     const { id } = useParams();
     const { search } = useLocation();
     const query = new URLSearchParams(search);
-    //const [user, setUser]  = useRecoilState(userState);
+    const [ activeTab, setActiveTab] = useState("request");
+    const [user, setUser]  = useRecoilState(userState);
     const navigate = useNavigate();
+    console.log(activeTab);
+    
 
     useEffect(()=>{
-        const load = async () => {
-            const result = await loadMyInfo();
+        //console.log(clientDummy.user.username);
+        //setClientInfo(clientDummy);
+        
+        const loadClientInfo = async () => {
+            const result = await getClientInfo();
+            setClientInfo(result);
             console.log(result);
         }
-        load();
-    }, []);
+        loadClientInfo();
+    
+       
+    },[]);
 
+    const onClickTab = (key) => {
+        setActiveTab(key);
+    }
     const onClickEditButton = () => {
         setModal(true);
     };
@@ -54,37 +95,85 @@ const ClientProfile = () => {
         <MainMenu />
         <div css={container}>
 
+        
         <div css={memberInfoContainer}>
-            <Avartar src='https://search.pstatic.net/common/?src=http%3A%2F%2Fpost.phinf.naver.net%2FMjAyMDA3MTZfMjE3%2FMDAxNTk0ODcyNzY2NTE3.q33CvFJq2IiCh9BUVWfG4IWhEJX-giFX9Rp9_K3AJzkg.9N4e_fFoOp3vQ7c5dxqKyvFrabouzwtUKo41KqOAKbAg.JPEG%2FIELuoo7XtRxBS8TA97d-alMucVRc.jpg&type=sc960_832' />
+            <Avartar
+            style={{width:"200px", height:'200px'}} 
+            src={`http://localhost:8000${clientInfo?.user?.profile_image}`} />
             <div css={userInfoContent}>
-            <h2>{me.username}님</h2>
-            <h3>{me.email}</h3>
-            <h3>{me.description}</h3>
-            <h3>{me.phone}</h3>
-            <h3>분야</h3>
-            <Tag color="geekblue">{me.skills}</Tag>
+            <h2>{clientInfo?.user?.username}님</h2>
+            
+            <h3>{clientInfo?.user?.email}</h3>
+            <h3>{clientInfo?.user?.phone}</h3>
+            <h3>{clientInfo?.user?.company_name}</h3>
+            <h3>{clientInfo?.user?.description}</h3>
             </div>
             {
-                me?.userId === parseInt(id, 10)? <Button onClick={onClickEditButton} css={editButtonWrapper}>프로필 수정</Button>:
+                user?.id === parseInt(id, 10)? <Button onClick={onClickEditButton} css={editButtonWrapper}>프로필 수정</Button>:
                 null
             }
-            
         </div>
-        <Tabs tab={query.get('tab')} common="request" tapItems={[{name:'의뢰서', tab:'request'},{name:'리뷰', tab:'review'}]}></Tabs>        
-        <div style={{margin: '20px 0', width: '100%', display: 'inline-grid', gridTemplateColumns: 'repeat(auto-fill, minmax(25%, auto))', }}>
-        {dummydata.map((portfolio, i)=>
-                        <div key={i} style={{marginRight: '10%', marginBottom: '10%'}}>
-                        <Card
-                        hoverable
-                        cover={<img alt="example" src={portfolio.portfolio_image}/>}
-                    >
-                        <Card.Meta 
-                        title={<div style={{position: 'relative', top:'2px'}}>{portfolio.title}
-                        <HeartTwoTone style={{position: 'absolute', right:'0'}} twoToneColor='#ff69b4'/></div>} />
-                        {portfolio.desciption}
-                    </Card>
-                    </div>
-                    )}
+        <Tabs defaultActiveKey="1" onChange={onClickTab}>
+            <Tabs.TabPane tab="의뢰서" key="request">
+            <List
+      itemLayout="vertical"
+      size="large"
+      dataSource={clientInfo.commissions}
+      renderItem={item => (
+        <List.Item
+          key={item.title}
+          actions={[
+            <div>{item.budget} 만원</div>,
+            <div>작업기간  {item.finish_date}일</div>,
+            <div>받은 제안 {item.request_count}개</div>,
+          ]}
+          extra={
+            <img
+                    width={272}
+                    alt="logo"
+                    src={`http://localhost:8000${item.small_image}`}
+                />
+          }
+        >
+          <List.Item.Meta
+            avatar={<Avatar src={item.profile_image} />}
+            title={<a href={item.href}>{item.title}</a>}
+            description={<div>{item.deadline} 회사명: {item.client_company_name}</div>}
+          />
+          {item.description}
+        </List.Item>
+      )}
+    />
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="리뷰" key="review">
+            <List
+        itemLayout="vertical"
+        size="large"
+        dataSource={clientInfo.reviews}
+        renderItem={item => (
+            <List.Item
+                key={item.title}
+                extra={
+                <img
+                    width={272}
+                    alt="logo"
+                    src={`http://localhost:8000${item.small_image}`}
+                />
+                }
+            >
+                <List.Item.Meta
+                title={<Link to={`/review/${item.id}`}>{item.title}</Link>}
+                description={<><Rate disabled defaultValue={item.score} /><div>Desinger: {item.desinger_name}</div></>}
+                />
+                {item.brief_description}
+            </List.Item>
+            )}
+      />
+            </Tabs.TabPane>
+        </Tabs>
+        {/*<Tabs tab={query.get('tab')} onClick={onClickTab} common="request" tapItems={[{name:'의뢰서', tab:'request'},{name:'리뷰', tab:'review'}]}></Tabs>*/}        
+        <div>
+        
         </div>
         </div>
 
@@ -101,3 +190,73 @@ const ClientProfile = () => {
 };
 
 export default ClientProfile;
+
+
+
+
+/**
+ * 
+ * 
+ * 
+ * 
+ * {activeTab === 'review'? 
+        <List
+        itemLayout="vertical"
+        size="large"
+        dataSource={clientInfo.reviews}
+        renderItem={item => (
+            <List.Item
+                key={item.title}
+                actions={[
+                <div>{item.budget} 만원</div>,
+                <div>작업기간  {item.finish_date}일</div>,
+                <div>받은 제안 {item.request_count}개</div>,
+                ]}
+                extra={
+                <img
+                    width={272}
+                    alt="logo"
+                    src={`http://localhost:8000${item.small_image}`}
+                />
+                }
+            >
+                <List.Item.Meta
+                title={<Link to={`/review/${item.id}`}>{item.title}</Link>}
+                description={<><Rate disabled defaultValue={item.score} /><div>Desinger: {item.desinger_name}</div></>}
+                />
+                {item.brief_description}
+            </List.Item>
+            )}
+      />
+      :
+      <List
+      itemLayout="vertical"
+      size="large"
+      dataSource={clientInfo.commissions}
+      renderItem={item => (
+        <List.Item
+          key={item.title}
+          actions={[
+            <div>{item.budget} 만원</div>,
+            <div>작업기간  {item.finish_date}일</div>,
+            <div>받은 제안 {item.request_count}개</div>,
+          ]}
+          extra={
+            <img
+                    width={272}
+                    alt="logo"
+                    src={`http://localhost:8000${item.small_image}`}
+                />
+          }
+        >
+          <List.Item.Meta
+            avatar={<Avatar src={item.profile_image} />}
+            title={<a href={item.href}>{item.title}</a>}
+            description={<div>{item.deadline} {item.client_company_name}</div>}
+          />
+          {item.description}
+        </List.Item>
+      )}
+    />
+        }
+ */
