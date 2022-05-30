@@ -1,20 +1,31 @@
 from importlib_metadata import MetadataPathFinder
+from numpy import source
 from rest_framework.authtoken.models import Token
 from rest_framework import serializers
 from django.contrib.auth import get_user_model, password_validation
 from django.contrib.auth.models import AbstractBaseUser
 from django.db import models
+from userReview.models import customerReview
 from users.models import *
 from client_commission.models import *
 
 User = get_user_model()
 
-class UserLoginSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length=300, required=True)
-    password = serializers.CharField(required=True, write_only=True)
+class ClientUserSerializer(serializers.Serializer):
+    class Meta :
+        models = Client
+        field = ('__all__', 'p')
 
+class  MyReviewBriefSerialzier(serializers.Serializer) :
+    brief_description = serializers.SerializerMethodField()
+    class Meta :
+        models = customerReview
+        fields = ('id','score', 'small_image','designer_id','brief_description','title')
+    def get_brief_description(self, obj) :
+        return obj.description[:30] + '...'
+        # description 을 30 글자만 표시할 수 있도록 바꾼다.
 
-class  my_commissionBriefSerializer(serializers.ModelSerializer) :
+class  MyCommissionBriefSerializer(serializers.ModelSerializer) :
     brief_description = serializers.SerializerMethodField()
     class Meta :
         model = Commission
@@ -23,7 +34,7 @@ class  my_commissionBriefSerializer(serializers.ModelSerializer) :
         return obj.description[:50] 
         # description 을 50 글자만 표시할 수 있도록 바꾼다.
 
-class my_commissionSerializer(serializers.ModelSerializer) :
+class MyCommissionSerializer(serializers.ModelSerializer) :
     class Meta :
         model = Commission
         fields = ('__all__')

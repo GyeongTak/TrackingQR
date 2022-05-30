@@ -100,7 +100,7 @@ const DesignerPage = () => {
                 </Dropdown>
                 </div>
             </div>
-            {dummy && dummy.map((portfolio,index)=>
+            {portfolios.map((portfolio,index)=>
             (<PortfolioCard key={index} portfolio={portfolio}/>))}
         </div>
         

@@ -1,96 +1,115 @@
 from lib2to3.pgen2 import token
 from pydoc import describe
+from re import L
+import certifi
 from jupyter_client import protocol_version_info
 from rest_framework.authtoken.models import Token
 
-from django.shortcuts import render
-from rest_framework.decorators import api_view
+from rest_framework import viewsets,status
+from rest_framework.decorators import action
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+
+from rest_framework.decorators import api_view
 
 from rest_framework import generics , status
 
 
-from portfolio.models import DesignerPopol
-from portfolio.models import Certificate, EducationAndCareer
-from .serializers import BriefProjectSerializer, PopolSerializer,BriefPopolSerializer
+from portfolio.models import DesignerPopol,Projects,Certificate, EducationAndCareer
+from .serializers import BriefProjectSerializer, PopolSerializer,BriefPopolSerializer,CertificateSerializer, EduAndCareeSerializer, ProjectSerializer
 from rest_framework import status
 
 from users.models import *
 
-import json
+
+class PortfolioViewSet(viewsets.GenericViewSet):
+    @action(methods=['GET'],permission_classes=[AllowAny, ], detail=False)
+    def portfolio_view(self, request):
+        ListPopol = DesignerPopol.objects.all()   
+        briefportfolio = BriefPopolSerializer(ListPopol, many = True)
+        print(briefportfolio.data)
+        return Response(briefportfolio.data, status = status.HTTP_200_OK)
+
+    @action(methods=['GET'], permission_classes=[AllowAny, ], detail=False)
+    def portfolio_view_detail(self, request, pk):
+    
+        Popol = DesignerPopol.objects.get(id = pk)
+        serializer_popol = PopolSerializer(Popol, many = False)
+
+        certifits = Certificate.objects.filter(portfolio= Popol)
+        serializer_certificate = CertificateSerializer(certifits, many= True)
+
+        eduandcareers = EducationAndCareer.objects.filter(portfolio= Popol)
+        serializer_educareer = EduAndCareeSerializer(eduandcareers, many=True)
+
+        projects = Projects.objects.filter(portfolio= Popol)
+        serializer_projects = ProjectSerializer(projects, many=True)
+
+        
+        return Response(
+            serializer_popol.data , {
+                'certificates ' : serializer_certificate.data,
+                'educationandcareer' : serializer_educareer.data ,
+                'projects' : serializer_projects.data ,
+            }
+            , status = status.HTTP_200_OK
+        )
 
 
-@api_view(['GET']) 
-def PopolList(request) :
-    ListPopol = DesignerPopol.objects.all()   
-    briefportfolio = BriefPopolSerializer(ListPopol, many = True)
-    print(briefportfolio.data)
-    return Response(briefportfolio.data, status = status.HTTP_200_OK)
+    # Parsers in Django REST are used to parse the content of incoming HTTP request.
+    # 보낼때는 serializer
+    @action(methods=['POST'], permission_classes = [IsAuthenticated, ], detail=False)
+    def create_portfolio(self, request):
+        designer = Designer.objects.get(id = request.user.id)
 
-# @api_view(['GET'])
-# def PopolSearch(request,pk) :
-#     print(pk)
-#     if self.request.
-#         SearchResult = DesignerPopol.objects.all().filter(title__contains= pk)
-#     serializer = PopolSerializer(SearchResult, many = True)
-#     return Response(serializer.data)
+        if request.user.is_client == False :
 
-@api_view(['GET'])
-def PopolDetail(request,pk) :
-    Popol = DesignerPopol.objects.get(id = pk)
-    serializer = PopolSerializer(Popol, many = False)
-    return Response(serializer.data)
-
-
-# Parsers in Django REST are used to parse the content of incoming HTTP request.
-# 보낼때는 serializer
-@api_view(['POST'])
-def createPortfolio(request): 
-    designer = Designer.objects.get(id = request.user.id)
-    # print(request.data['certificates'][0] )#테스트 코드
-
-    # print(request.data['content'])
-    # print(designer.id)
-
-    # request.data['certificates']
-    # certificates = []
-    # certificates = request.data['certificates'].split(',')
-    # educationAndcareers = []
-    # educationAndcareers = request.data['educationcareers'].split(',')
-
-    if request.user.is_client == False :
-
-            newPortfolio = DesignerPopol(
-                designer = designer,
-                description = request.data['content']
-            )
-            newPortfolio.save()
-
-            for i in request.data['certificates'] :
-                newCertificate = Certificate(
-                    portfolio = newPortfolio,
-                    acquired_date = i['acquired_period'],
-                    certificate_name = i['certificate_name'],
-                    time = i['time']
+                newPortfolio = DesignerPopol(
+                    designer = designer,
+                    description = request.data['content']
                 )
-                newCertificate.save()
+                newPortfolio.save()
 
-            for j in request.data['educationcareers'] :
-                newEducationAndCareer = EducationAndCareer(
-                    portfolio = newPortfolio,
-                    working_period = j['working_period'],
-                    company_name = j['company_name'],
-                    description = j['job_position']
-                )
-                newEducationAndCareer.save()
-           
-            return Response({'result':'success', 'message': '성공적으로 등록되었습니다.'}, status=status.HTTP_201_CREATED) #json?
-           
+                for i in request.data['certificates'] :
+                    newCertificate = Certificate(
+                        portfolio = newPortfolio,
+                        acquired_date = i['acquired_period'],
+                        certificate_name = i['certificate_name'],
+                        time = i['time']
+                    )
+                    newCertificate.save()
 
-        # # except:
-        #     
-    else :
-        return Response({'result':'fail', 'message': '디자이너가 아니십니다'}, status=status.HTTP_404_NOT_FOUND)
+                for j in request.data['educationcareers'] :
+                    newEducationAndCareer = EducationAndCareer(
+                        portfolio = newPortfolio,
+                        working_period = j['working_period'],
+                        company_name = j['company_name'],
+                        description = j['job_position']
+                    )
+                    newEducationAndCareer.save()
+            
+                return Response({'result':'success', 'message': '성공적으로 등록되었습니다.'}, status=status.HTTP_201_CREATED) #json?
+            
+
+            # # except:
+            #     
+        else :
+            return Response({'result':'fail', 'message': '디자이너가 아니십니다'}, status=status.HTTP_404_NOT_FOUND)
+
+# class ProjectViewSet(viewsets.GenericViewSet) :
+#     @action(methods=['POST'],permission_classes=[IsAuthenticated, ], detail=False)
+#     def create_project(self, request):
+#         if request.user.is_client == False :
+#             newProject = Projects(
+#                 title = request.data['title'],
+#                 description = request.data['description'],
+#                 participation_date = request.data['participation_date'],
+#                 portfolio = 
+                
+#             )
+
+        
+
 
 
 
