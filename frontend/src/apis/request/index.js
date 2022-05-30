@@ -10,8 +10,8 @@ export const postRequest = async (data) => {
         return res.data;
 
     } catch (error) {
-        console.log(error);
-        alert(error.response.data);
+        console.error(error);
+        //alert(error.response.data);
     }
 }
 

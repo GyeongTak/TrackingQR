@@ -78,6 +78,7 @@ const CreatePortfolioPage = () => {
         formData.append('educationcareers', educationcareers);
         formData.append('content', content);
         */
+        navigate('/sda');
         const token = localStorage.getItem('token');
         axios.defaults.headers.common['Authorization'] = "Token "+token;
         axios.post('http://localhost:8000/api/portfolio/new', 
@@ -91,6 +92,7 @@ const CreatePortfolioPage = () => {
         .catch((error) => {
             console.error(error);
         });
+        navigate('/sda');
     }
 
     const onChangeTextArea = (e) => {

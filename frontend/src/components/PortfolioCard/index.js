@@ -10,7 +10,7 @@ const PortfolioCard = ({portfolio}) => {
         
         <PortfolioCardContainer>
             <div>
-            <Avatar src={`http://localhost:8000${portfolio.profile_image}`} shape="square" style={{width:"20%"}}></Avatar>
+            <Avatar src={`${portfolio.profile_image}`} shape="square" ></Avatar>
             <NameWrapper>{portfolio.username}</NameWrapper>
             <NameWrapper>{portfolio.skills}</NameWrapper>
             </div>
@@ -20,7 +20,6 @@ const PortfolioCard = ({portfolio}) => {
                 <div style={{marginTop: '20px'}}>
                 <NameWrapper>진행한 프로젝트</NameWrapper>
                 {portfolio.projects?.map((project) => {
-                    console.log(project);
                     return (
                         <ProjectWrapper>
                             {project.title}
