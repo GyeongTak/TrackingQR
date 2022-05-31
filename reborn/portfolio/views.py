@@ -18,6 +18,11 @@ from rest_framework import status
 
 from users.models import *
 
+import os
+from django.conf import settings
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+
 
 class PortfolioViewSet(viewsets.GenericViewSet):
     @action(methods=['GET'],permission_classes=[AllowAny, ], detail=False)
@@ -120,8 +125,14 @@ class ProjectViewSet(viewsets.GenericViewSet) :
 
     @action(methods=['POST'],permission_classes=[IsAuthenticated, ], detail=False)
     def image_handler(self, request):
-        print(request.data)
-        return Response(status=status.HTTP_200_OK)
+        #print(request.data['files'])
+        image = request.FILES['files'] # or self.files['image'] in your form
+        filename = request.FILES['files']
+        user = User.objects.get(id = request.user.id)  
+        filename_and_path= 'project_image/'+str(user.username)+'/'+ str(filename)
+        path = default_storage.save(filename_and_path, ContentFile(image.read()))
+        path = 'media/'+ path
+        return Response({'file_path' : path})
 
 
         

@@ -121,18 +121,19 @@ const ClientProfile = () => {
           {item.brief_description}
 
           <fieldset style={{border:'1px solid #f0f0f1', marginTop: '15px', padding: '10px'}}>
-          <legend style={{fontSize: '16px', margin:'0', padding:'1px'}}>지원한 디자이너 목록</legend>
+          <legend style={{fontSize: '16px', margin:'0', padding:'1px'}}>지원한 전문가 목록</legend>
           {item.request_designer.map((designer)=>
                 <div style={{display: 'flex', alignItems: 'center'}}>
                 <div key={designer.designer_id} 
                 onClick={()=>navigate(`/portfolio/${parseInt(designer.designer_id, 10)}`)} 
                 style={{display: 'flex',  alignItems: 'center', margin:'0', padding:'0', cursor:"pointer"}}>
-                <Avatar style={{width:'50px', height:'50px'}}src={`http://localhost:8000$${designer.profile_image}`}/>
+                <Avatar style={{width:'50px', height:'50px', marginRight:'10px'}} src={`http://localhost:8000${designer.designer_profile_image}`}/>
                 {designer.designer_username}
                 <Rate style={{marginLeft:'10px'}} disabled defaultValue={designer.designer_average_stars} />
                 
                 </div>
-                <Button style={{marginLeft:'10px' }} onClick={()=>onClickDesigner(designer.designer_id, item.id)}>선택</Button>
+                {(item.current_status === 1 || item.current_status === 0) && 
+                <Button style={{marginLeft:'10px'}} onClick={()=>onClickDesigner(designer.designer_id, item.id)}>선택</Button>}                
                 </div>
             )}
           </fieldset>

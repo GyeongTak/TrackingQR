@@ -41,7 +41,7 @@ const getRequestsMain = async () =>{
 
 const patchSelectDesigner = async (data) => {
     try {
-        const res = await instance.patch('', data);
+        const res = await instance.post('api/mypage/designer_selected_for_commission', data);
         return res.data;
     } catch (error) {
         console.log(error);
@@ -49,4 +49,4 @@ const patchSelectDesigner = async (data) => {
     }
 }
 
-export { postRequest,getRequests,getRequestsMain,patchSelectDesigner  } ;
+export { postRequest,getRequests,getRequestsMain,patchSelectDesigner };

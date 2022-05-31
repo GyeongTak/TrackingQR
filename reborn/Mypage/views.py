@@ -37,7 +37,12 @@ def profile(request, format=None):
         my_review = customerReview.objects.filter(client= clientUser)
         my_reviewSerializer = MyReviewBriefSerialzier(my_review, many = True)
         
-        
+        print({
+            'user' : userSerializer.data,
+            'commissions' : my_commissionSerializer.data,
+            'reviews' :  my_reviewSerializer.data,
+            'messages' : messageSerializer.data,
+        })
 
         return Response({
             'user' : userSerializer.data,

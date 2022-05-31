@@ -2,6 +2,9 @@ import React, {useState, useMemo} from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { postProject } from 'apis/project';
+import axios from 'axios';
+
+
 
 const QuillEditor = () => {
     //이미지 url 제어
@@ -29,17 +32,33 @@ const QuillEditor = () => {
             const formData = new FormData();
             formData.append('files', files[0]);
 
-            //file 등록
-            const tempFile = await postProject(formData);
-            console.log('check');
-            /*
-            tempFile.then(response => {
-                //커서위치 및 fileSrno 얻기
-                const fileSrno = response.fileSrno;
+            const token = localStorage.getItem('token');
+            axios.defaults.headers.common['Authorization'] = "Token "+token;
+            axios.post('http://localhost:8000/api/portfolio/projects/image_handler', 
+            formData)
+            .then((res) => {
+                console.log(res.data)
                 const range = this.quill.getSelection();
-                this.quill.insertEmbed(range.index, 'image', 'http://localhost:8002/master/api/v1/upload/img/'+fileSrno);
+                this.quill.insertEmbed(range.index, 'image', 'http://localhost:8000/'+ res.data['file_path']);
+            })
+            .catch((error) => {
+                console.error(error);
             });
-            */
+            //file 등록
+            // const tempFile = await postProject(formData);
+            // console.log('check')
+            // .then((res) => {
+            //     console.log(res.data);
+            
+            // })
+            // tempFile.then(response => {
+            //     //커서위치 및 fileSrno 얻기
+            //     const fileSrno = response.fileSrno;
+            //     console.log(fileSrno)
+            //     const range = this.quill.getSelection();
+            //     this.quill.insertEmbed(range.index, 'image', 'http://localhost:8002/master/api/v1/upload/img/'+fileSrno);
+            // });
+            
         }
     }
 
