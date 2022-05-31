@@ -118,6 +118,11 @@ class ProjectViewSet(viewsets.GenericViewSet) :
         
         return Response({'message': 'success'}, status=status.HTTP_200_OK)
 
+    @action(methods=['POST'],permission_classes=[IsAuthenticated, ], detail=False)
+    def image_handler(self, request):
+        print(request.data)
+        return Response(status=status.HTTP_200_OK)
+
         
 
 

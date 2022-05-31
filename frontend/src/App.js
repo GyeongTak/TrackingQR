@@ -16,6 +16,9 @@ import CreateRequest from 'pages/CreateRequest';
 import PortfolioDetail from 'pages/PortfolioDetail';
 import RequestDetail from 'pages/RequestDetail';
 import GlobalStyle from '../src/styles/global';
+import CreateProjectPage from 'pages/CreateProject'
+import CreateProjectPage2 from 'pages/CreateProject2'
+import WriteReviewPage from 'pages/WriteReview'
 
 const App = () => {
   return (
@@ -37,6 +40,9 @@ const App = () => {
           <Route path = "/Join/Designer" element={<JoinDesignerPage/>} />
           <Route path = "/review" element={<ClientReviewPage/>} />
           <Route path = "/request" element={<RequestList />} />
+          <Route path = "/WriteReview" element={<WriteReviewPage />} />
+          <Route path = "/CreateProject" element={<CreateProjectPage />} />
+          <Route path = "/CreateProject2" element={<CreateProjectPage2 />} />
           <Route path = "*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
