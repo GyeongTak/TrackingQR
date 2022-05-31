@@ -153,7 +153,7 @@ const ClientProfile = () => {
             >
           <List.Item.Meta
             title={<Link to={`/portfolio/${item.id}`}>{item.title}</Link>}
-            description={<div>작업기한  {item.deadline} 회사명 {item.client_company_name}</div>}
+            description={<div>작업기한  {item.deadline} </div>}
           />
           {item.brief_description}
 
