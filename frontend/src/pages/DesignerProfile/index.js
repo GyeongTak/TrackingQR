@@ -128,6 +128,7 @@ const DesignerProfile = () => {
         const loadProfileInfo = async () => {
             const result = await getProfileInfo();
             setUserInfo(result);
+            console.log('result');
             console.log(result);
             
         }
@@ -147,9 +148,9 @@ const DesignerProfile = () => {
         <div css={container}>
 
         <UserInfoForm>
-            {userInfo?.user?.profile_image?
+            {userInfo?.profile_image?
             <Avartar
-            src={`http://localhost:8000${userInfo.user.profile_image}`} />:
+            src={`http://localhost:8000${userInfo.profile_image}`} />:
             <Avartar
             style={{width:'200px', height:'200px'}}
             src={userImg}

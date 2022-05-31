@@ -5,7 +5,15 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-
+const loadUser = () => {
+  try{
+    const user = localStorage.getItem('token');
+    console.log(user);
+    if(!user) return;
+  } catch(e) {
+    console.log('localStorage is not working')
+  }
+}
 
 ReactDOM.render(
   <React.StrictMode>
