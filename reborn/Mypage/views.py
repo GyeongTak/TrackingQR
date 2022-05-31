@@ -1,6 +1,6 @@
 from email.policy import HTTP
 from django.shortcuts import render
-from portfolio.models import DesignerPopol
+from portfolio.models import DesignerPopol, Projects
 from portfolio.serializers import BriefPopolSerializer,ClientProfileSerializer
 from rest_framework.response import Response
 from rest_framework import  status
@@ -14,13 +14,16 @@ from portfolio.serializers import PopolSerializer, DesignerProfileSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 
-from .serializers import  MyCommissionBriefSerializer,MyCommissionSerializer,MyReviewBriefSerialzier, ClientUserSerializer,DesignerUserSerializer,PartInCommissionSerializer,EndCommissionSerializer
+from .serializers import  PortfolioSerializer,ProjectSerializer,MyCommissionBriefSerializer,MyCommissionSerializer,MyReviewBriefSerialzier, ClientUserSerializer,DesignerUserSerializer,PartInCommissionSerializer,EndCommissionSerializer
 
 import datetime
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def profile(request, format=None):
+    if request.user == None:
+        print('nothing')
+        return Response({'message':'nothing'})
     if request.user.is_client == True :
         clientUser = Client.objects.get(id = request.user.id)
         userSerializer = ClientUserSerializer(clientUser, many=False)
@@ -48,7 +51,7 @@ def profile(request, format=None):
         userserializer = DesignerUserSerializer(designerUser,many= False)
         
         portfolio = DesignerPopol.objects.get(designer = designerUser )
-        portfolioSerializer = portfolioSerializer(portfolio, many= False)
+        portfolioSerializer = PortfolioSerializer(portfolio, many= False)
 
         partincommission = Commission.objects.filter(designer_id = request.user.id , current_status=2)
         partincommissionSerializer = PartInCommissionSerializer(partincommission, many=True)
@@ -59,12 +62,24 @@ def profile(request, format=None):
         endcommission = Commission.objects.filter(designer_id = request.user.id , current_status = 3)
         endcommissionSerializer = EndCommissionSerializer(endcommission, many=True)
 
+        projects = Projects.objects.filter(portfolio = portfolio)
+        projectSerializer = ProjectSerializer(projects, many=True)
+        print(
+             {
+                'user' : userserializer.data,
+                'portfolio' :portfolioSerializer.data,
+                'part_in_commission':partincommissionSerializer.data,
+                'projects' :projectSerializer.data,
+                'end_commission' : endcommissionSerializer.data
+            }
+        )
         return Response(
            
             {
                 'user' : userserializer.data,
                 'portfolio' :portfolioSerializer.data,
                 'part_in_commission':partincommissionSerializer.data,
+                'projects' :projectSerializer.data,
                 'end_commission' : endcommissionSerializer.data
             }
         )

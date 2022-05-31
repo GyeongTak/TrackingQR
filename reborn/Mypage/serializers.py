@@ -6,6 +6,8 @@ from rest_framework.authtoken.models import Token
 from rest_framework import serializers
 from django.contrib.auth import get_user_model, password_validation
 from django.db import models
+from portfolio.models import Projects
+from portfolio.models import DesignerPopol
 from userReview.models import customerReview
 from users.models import Client, Designer, User
 from client_commission.models import *
@@ -39,7 +41,7 @@ class  MyCommissionBriefSerializer(serializers.ModelSerializer) :
     request_designer = RequestedDesignerSerializer(many=True, read_only=True)
     class Meta :
         model = Commission
-        fields = ('title', 'created','brief_description','budget','finish_date','small_image','request_designer','deadline')
+        fields = ('id','title', 'created','brief_description','budget','finish_date','small_image','request_designer','deadline')
     def get_brief_description(self, obj) :
         return obj.description[:50] 
         # description 을 50 글자만 표시할 수 있도록 바꾼다.
@@ -74,6 +76,11 @@ class DesignerUserSerializer(serializers.ModelSerializer) :
         model = Designer
         fields = ['username','email','phone','skills','description','profile_image','average_stars']
 
+class PortfolioSerializer(serializers.ModelSerializer) :
+    class Meta :
+        model = DesignerPopol
+        fields = ['description']
+
 class PartInCommissionSerializer(serializers.ModelSerializer) :
     client_phone = serializers.CharField(source='client.phone')
     client_username = serializers.CharField(source='client.username')
@@ -88,6 +95,13 @@ class EndCommissionSerializer(serializers.ModelSerializer) :
     class Meta :
         model = Commission
         fields = ['client_username','client_company_name','title','budget','small_image','updated'] # 여기서 updated 는 마지막으로 수정 날짜 즉, 이 커미션이 종료된 날짜이다
+
+
+
+class  ProjectSerializer(serializers.ModelSerializer) :
+    class Meta :
+        model = Projects 
+        fields = ('title','description','score','participation_date','client','score')
 
 
 class EmptySerializer(serializers.Serializer):
