@@ -1,7 +1,3 @@
-from lib2to3.pgen2 import token
-from pydoc import describe
-from re import L
-import certifi
 from jupyter_client import protocol_version_info
 from rest_framework.authtoken.models import Token
 
@@ -96,17 +92,25 @@ class PortfolioViewSet(viewsets.GenericViewSet):
         else :
             return Response({'result':'fail', 'message': '디자이너가 아니십니다'}, status=status.HTTP_404_NOT_FOUND)
 
-# class ProjectViewSet(viewsets.GenericViewSet) :
-#     @action(methods=['POST'],permission_classes=[IsAuthenticated, ], detail=False)
-#     def create_project(self, request):
-#         if request.user.is_client == False :
-#             newProject = Projects(
-#                 title = request.data['title'],
-#                 description = request.data['description'],
-#                 participation_date = request.data['participation_date'],
-#                 portfolio = 
-                
-#             )
+class ProjectViewSet(viewsets.GenericViewSet) :
+    @action(methods=['POST'],permission_classes=[IsAuthenticated, ], detail=False)
+    def create_project(self, request):
+        tmpdesigner= Designer.objects.get(id = request.user.id)
+        tmpportfolio = DesignerPopol.objects.get(designer= tmpdesigner)
+        serializer = ProjectSerializer(request.data)
+        serializer.is_valid(raise_exception=True)
+
+        if request.user.is_client == False :
+            newProject = Projects(
+                title = request.data['title'],
+                description = request.data['description'],
+                participation_date = request.data['participation_date'],
+                portfolio = tmpportfolio,
+       
+            )
+            newProject.save()
+        
+        return Response({'message': 'success'}, status=status.HTTP_200_OK)
 
         
 

@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from django.core.exceptions import ImproperlyConfigured
 
 from client_commission.models import Commission
+from client_commission.models import RequestedDesigner
 from users.models import Designer,Client
 from .serializers import EmptySerializer,CommissionSerializer,CommissionSerializer,CommissionViewSerializer
 
@@ -100,7 +101,8 @@ class CommissionViewSet(viewsets.GenericViewSet):
     def commission_view_detail(self,request) :
         commission = Commission.objects.get(id = request.pk)
         serializer = self.get_serializer(commission)
-        return Response(serializer.data , status= status.HTTP_200_OK)
+        request_count = RequestedDesigner.objects.filter(commission=commission).count()
+        return Response(serializer.data ,{'request_count':request_count}, status= status.HTTP_200_OK)
 
     @action(methods=['POST'], permission_classes=[IsAuthenticated,] ,detail=False)
     def commission_select_for_designer(self,request) :

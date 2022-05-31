@@ -35,7 +35,7 @@ class CommissionViewSerializer(serializers.ModelSerializer):
     client_company_name = serializers.CharField(source='client.company_name')
     class Meta :
         model = Commission
-        fields = ('title','deadline','budget','finish_date','small_image','client_company_name','client_name','request_count')
+        fields = ('title','deadline','budget','finish_date','small_image','client_company_name','client_name')
 
     
 

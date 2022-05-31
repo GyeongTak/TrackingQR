@@ -10,6 +10,8 @@ from client_commission.models import *
 
 from django.core.exceptions import ImproperlyConfigured
 
+from users.models import DesignerReview, Designer
+
 from . import serializers
 
 from .models import customerReview
@@ -37,6 +39,7 @@ class AuthViewSet(viewsets.GenericViewSet):
     @action(methods=['POST', ], detail=False)
     def create_review(self, request):
         tmpcommission = Commission.objects.get(id = request.data['commission_id'])
+        tmpdesigner = Designer.objects.get(od = tmpcommission.designer_id)
         if request.user.is_client() and tmpcommission.status == 2 :
             images = []
             images = request.data['images'].split(',')
@@ -71,7 +74,14 @@ class AuthViewSet(viewsets.GenericViewSet):
             title = tmpcommission.title,
             description=request.data['description'],
         )
+        
+        newDesignerReview = DesignerReview(
+            designer = tmpdesigner,
+            review = request.data['designer_review'],
+            score = request.data['designer_score']
+        )
         newReview.save()
+        newDesignerReview.save()
         return Response(status=status.HTTP_200_OK)
 
             

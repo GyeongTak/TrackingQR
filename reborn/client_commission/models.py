@@ -3,7 +3,7 @@ import os
 from django.db import models
 from django.forms import JSONField
 from tomlkit import datetime
-from users.models import Client
+from users.models import Client,Designer
 from uuid import uuid4
 
 datetime_format = ["%Y-%m-%d"]
@@ -38,11 +38,8 @@ class Commission(models.Model) :
     description = models.TextField(null=True)   #의뢰서 상세 내용
 
     budget = models.IntegerField(null=False,blank=False) # 예산
-    finish_date = models.IntegerField(null=False, blank=False) # 작업 기한 ( 기준 : 일)
+    finish_date = models.IntegerField(null=False, blank=False) # 작업 기한 ( 기준 : 개월)
     deadline = models.CharField(max_length=50) #모집 마감 기한
-
-    request_designer_id =models.CharField(max_length=100, blank=True) # id , id , id 형식의 문자열
-    request_count = models.IntegerField(default=0, null= False,blank=True) # 받은 제안 수
     
     current_status = models.IntegerField(choices=CommissionStatus.choices, default = 0,blank=True) # 현재 상태 
     messageFlag = models.BooleanField(default=0, blank= True)    
@@ -50,11 +47,14 @@ class Commission(models.Model) :
     updated = models.DateTimeField(auto_now = True)
     created = models.DateTimeField(auto_now_add = True)
 
-
-
     def __str__(self) :
         return self.title
 
     class Meta :
          verbose_name = 'Commission'
 
+
+class RequestedDesigner(models.Model):
+    commission = models.ForeignKey(Commission,on_delete=models.CASCADE,related_name='request_designer')
+    designer = models.ForeignKey(Designer, on_delete=models.SET_NULL, null=True)
+    

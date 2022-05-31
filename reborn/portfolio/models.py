@@ -52,9 +52,9 @@ class Projects(models.Model) :
     description = RichTextField()
     participation_date = models.IntegerField()
     portfolio = models.ForeignKey(DesignerPopol,blank= True, on_delete = models.CASCADE, related_name='portfolio')
-    client =models.CharField(max_length=100, null = True)
+    client =models.CharField(max_length=100, null = True,blank=True)
     # image = models.ImageField(height_field=None, width_field=None, max_length=100, upload_to=path_and_rename)
-    score = models.IntegerField(default = 0,validators=[MinValueValidator(0), MaxValueValidator(5)])
+    score = models.IntegerField(default = 0,validators=[MinValueValidator(0), MaxValueValidator(5)],blank=True)
 
 
 

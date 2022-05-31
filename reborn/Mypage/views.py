@@ -1,53 +1,71 @@
 from email.policy import HTTP
-from http import client
 from django.shortcuts import render
 from portfolio.models import DesignerPopol
-from portfolio.serializers import BriefPopolSerializer
+from portfolio.serializers import BriefPopolSerializer,ClientProfileSerializer
 from rest_framework.response import Response
 from rest_framework import  status
+from client_commission.models import RequestedDesigner
 from users.models import *
 from userReview.models import customerReview
 from client_commission.models import Commission
 from client_commission.serializers import CommissionSerializer
 
-from portfolio.serializers import PopolSerializer, DesignerProfileSerializer, ClientProfileSerializer
+from portfolio.serializers import PopolSerializer, DesignerProfileSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 
-from .serializers import  MyCommissionBriefSerializer,MyCommissionSerializer, MyReviewBriefSerialzier
+from .serializers import  MyCommissionBriefSerializer,MyCommissionSerializer,MyReviewBriefSerialzier, ClientUserSerializer,DesignerUserSerializer,PartInCommissionSerializer,EndCommissionSerializer
+
+import datetime
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def profile(request, format=None):
     if request.user.is_client == True :
-        client = Client.objects.get(id = request.user.id)
-        tmpuserProfile = Client.objects.get(id = request.user.id)
-        userserializer = ClientProfileSerializer(tmpuserProfile,many= False)
+        clientUser = Client.objects.get(id = request.user.id)
+        userSerializer = ClientUserSerializer(clientUser, many=False)
 
-        my_commission  = Commission.objects.filter(client = tmpuserProfile)
-        my_commissionSerializer =  MyCommissionBriefSerializer(my_commission, many= True)
+        my_commission  = Commission.objects.filter(client = clientUser)
+        my_commissionSerializer =  MyCommissionBriefSerializer(my_commission, many= True)        
         
-        my_review = customerReview.objects.filter(client= client)
+        my_review = customerReview.objects.filter(client= clientUser)
         my_reviewSerializer = MyReviewBriefSerialzier(my_review, many = True)
+        print(
+           userSerializer.data,
+           my_commissionSerializer.data,
+           my_reviewSerializer.data
+
+        )
 
         return Response({
-            'user' : userserializer.data,
+            'user' : userSerializer.data,
             'commissions' : my_commissionSerializer.data,
             'reviews' :  my_reviewSerializer.data
         })
 
     else :
-        tmpuserProfile = Designer.objects.get(auth_token = request.auth)
-        userserializer = DesignerProfileSerializer(tmpuserProfile,many= False)
+        designerUser = Designer.objects.get(id = request.user.id)
+        userserializer = DesignerUserSerializer(designerUser,many= False)
         
-        portfolio = DesignerPopol.objects.get(designer =tmpuserProfile )
+        portfolio = DesignerPopol.objects.get(designer = designerUser )
+        portfolioSerializer = portfolioSerializer(portfolio, many= False)
 
-        part_in_commission = Commission.objects.get(id = tmpuserProfile.prccessing_commission_id )
+        partincommission = Commission.objects.filter(designer_id = request.user.id , current_status=2)
+        partincommissionSerializer = PartInCommissionSerializer(partincommission, many=True)
+        
+        for i in partincommissionSerializer.data :
+            tmp = datetime.datetime.now() - i['updated']
+            i['updated'] = tmp
+        endcommission = Commission.objects.filter(designer_id = request.user.id , current_status = 3)
+        endcommissionSerializer = EndCommissionSerializer(endcommission, many=True)
+
         return Response(
-           userserializer.data,
+           
             {
-                'portfolio' : portfolio,
-                'part_in_commission':part_in_commission
+                'user' : userserializer.data,
+                'portfolio' :portfolioSerializer.data,
+                'part_in_commission':partincommissionSerializer.data,
+                'end_commission' : endcommissionSerializer.data
             }
         )
 
