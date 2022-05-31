@@ -1,46 +1,99 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useEffect } from 'react';
 import MainMenu from '../../components/MainMenu';
-import Tabs from '../../components/Tabs';
-import { container, memberInfoContainer, userInfoContent, editButtonWrapper} from './style';
+//import Tabs from '../../components/Tabs';
+import { UserInfoForm, container, memberInfoContainer, userInfoContent, editButtonWrapper} from './style';
 import Avartar from '../../components/Avatar';
 import { useRecoilState } from 'recoil';
 import userState from '../../store/user';
-import { Card, Tag, Button, Modal, Input } from 'antd';
-import { HeartTwoTone } from '@ant-design/icons';
+import { List, Button, Modal, Input, Rate, Space, Tabs, Tag } from 'antd';
+import { MailOutlined, PhoneOutlined, HomeOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.min.css';
 import { useNavigate, useLocation, useParams} from 'react-router-dom';
-import { loadMyInfo } from '../../apis/user';
+import { getProfileInfo } from '../../apis/user';
 import Avatar from '../../components/Avatar';
+import { Link } from 'react-router-dom';
+import userImg from '../../assets/user.png';
 
-const dummydata = [
-];
-
-const me = {
-    userId: 1,
-    username:'user1',
-    userEmail: 'user1@email.com',
-    skills: '건축인테리어',
-    phone: '01000000000',
-    description : '안녕하세요 user1입니다.'
+const clientDummy = {
+        'user': {
+        "profile_image": '',
+        "username" : "tticjswo2",
+        "email" : "tticjswo2@naver.com",
+        "phone" : "01023872521",
+        "company_name" : "Samsung",
+        "description" : "Company Samsung is upcoming"
+        },
+        'commissions':
+        [{
+        'id':4,
+        'small_image':'', 
+        'request_count':5,
+        'title':'제목',
+        'deadline': '2022-05-03', 
+        'brief_description': 'brief_description', 
+        'budget': 1000,
+        'finish_date':5,
+        'client_company_name':'soongsil',
+        'request_designer':[{
+            'designer_username':'디자이너Lee',
+            'designer_average_stars':5,
+            'designer_id' : 3
+        },
+        {
+            'designer_username':'디자이너Lee',
+            'designer_average_stars':5,
+            'designer_id' : 3
+        }]
+        }],
+        'reviews' : [{
+        'id': 4,
+        'score': 3,
+        'small_image': '',
+        'desinger_name':'디자이너 Lee',
+        'brief_description':'description',
+        'title': 'review - title'
+        }]
+        
 };
 
+const IconText = ({ icon, text }) => (
+    <Space>
+      {React.createElement(icon)}
+      {text}
+    </Space>
+  );
+
+  
 const ClientProfile = () => {
+    const [ clientInfo, setClientInfo ] = useState({});
     const [modal, setModal] = useState(false);
     const { id } = useParams();
     const { search } = useLocation();
     const query = new URLSearchParams(search);
-    //const [user, setUser]  = useRecoilState(userState);
+    const [ activeTab, setActiveTab] = useState("request");
+    const [user, setUser]  = useRecoilState(userState);
     const navigate = useNavigate();
+    console.log(activeTab);
+    
 
     useEffect(()=>{
-        const load = async () => {
-            const result = await loadMyInfo();
+        //console.log(clientDummy.user.username);
+        //setClientInfo(clientDummy);
+        
+        const loadClientInfo = async () => {
+            const result = await getProfileInfo();
+            setClientInfo(result);
             console.log(result);
         }
-        load();
-    }, []);
+        loadClientInfo();
+        
+       
+    },[]);
 
+    const onClickTab = (key) => {
+        setActiveTab(key);
+    }
     const onClickEditButton = () => {
         setModal(true);
     };
@@ -54,50 +107,188 @@ const ClientProfile = () => {
         <MainMenu />
         <div css={container}>
 
-        <div css={memberInfoContainer}>
-            <Avartar src='https://search.pstatic.net/common/?src=http%3A%2F%2Fpost.phinf.naver.net%2FMjAyMDA3MTZfMjE3%2FMDAxNTk0ODcyNzY2NTE3.q33CvFJq2IiCh9BUVWfG4IWhEJX-giFX9Rp9_K3AJzkg.9N4e_fFoOp3vQ7c5dxqKyvFrabouzwtUKo41KqOAKbAg.JPEG%2FIELuoo7XtRxBS8TA97d-alMucVRc.jpg&type=sc960_832' />
-            <div css={userInfoContent}>
-            <h2>{me.username}님</h2>
-            <h3>{me.email}</h3>
-            <h3>{me.description}</h3>
-            <h3>{me.phone}</h3>
-            <h3>분야</h3>
-            <Tag color="geekblue">{me.skills}</Tag>
-            </div>
-            {
-                me?.userId === parseInt(id, 10)? <Button onClick={onClickEditButton} css={editButtonWrapper}>프로필 수정</Button>:
-                null
+        <UserInfoForm>
+            {clientInfo?.user?.profile_image?
+            <Avartar
+            src={`http://localhost:8000${clientInfo.user.profile_image}`} />:
+            <Avartar
+            style={{width:'200px', height:'200px'}}
+            src={userImg}
+            shape="square" />
             }
+            <div css={userInfoContent}>
+            <h2>{clientInfo?.user?.username}님</h2>
             
-        </div>
-        <Tabs tab={query.get('tab')} common="request" tapItems={[{name:'의뢰서', tab:'request'},{name:'리뷰', tab:'review'}]}></Tabs>        
-        <div style={{margin: '20px 0', width: '100%', display: 'inline-grid', gridTemplateColumns: 'repeat(auto-fill, minmax(25%, auto))', }}>
-        {dummydata.map((portfolio, i)=>
-                        <div key={i} style={{marginRight: '10%', marginBottom: '10%'}}>
-                        <Card
-                        hoverable
-                        cover={<img alt="example" src={portfolio.portfolio_image}/>}
-                    >
-                        <Card.Meta 
-                        title={<div style={{position: 'relative', top:'2px'}}>{portfolio.title}
-                        <HeartTwoTone style={{position: 'absolute', right:'0'}} twoToneColor='#ff69b4'/></div>} />
-                        {portfolio.desciption}
-                    </Card>
-                    </div>
-                    )}
+            <div><MailOutlined style={{marginRight:'5px'}}/>{clientInfo?.user?.email}</div>
+            <div><PhoneOutlined style={{marginRight:'5px'}}/>{clientInfo?.user?.phone}</div>
+            <div><HomeOutlined style={{marginRight:'5px'}}/>{clientInfo?.user?.company_name}</div>
+            <div style={{marginTop: '20px', width:'50%'}}>{clientInfo?.user?.description}
+            </div>
+            </div>
+            <Button onClick={onClickEditButton} css={editButtonWrapper}>프로필 수정</Button>
+            
+        </UserInfoForm>
+       
+        <Tabs defaultActiveKey="1" onChange={onClickTab}>
+            <Tabs.TabPane tab="의뢰서" key="request">
+            <List
+            itemLayout="vertical"
+            size="large"
+            dataSource={clientInfo.commissions}
+            renderItem={item => (
+                <List.Item
+                key={item.title}
+                actions={[
+                    <div>{item.budget} 만원</div>,
+                    <div>작업기간  {item.finish_date}개월</div>,
+                    <div>받은 제안 {item.request_count}개</div>,
+                ]}
+                extra={
+                    <img
+                            width={272}
+                            alt="logo"
+                            src={`http://localhost:8000${item.small_image}`}
+                        />
+                }
+            >
+          <List.Item.Meta
+            title={<Link to={`/portfolio/${item.id}`}>{item.title}</Link>}
+            description={<div>작업기한  {item.deadline} </div>}
+          />
+          {item.brief_description}
+
+          <div style={{fontWeight:'500', marginTop:"5px"}}>지원한 디자이너 목록</div>
+            {item.request_designer.map((designer)=>
+            <div key={designer.designer_id} 
+            onClick={()=>navigate(`/portfolio/${parseInt(designer.designer_id, 10)}`)} 
+            style={{margin:'0', padding:'0', cursor:"pointer"}}>
+            <Tag color="blue">{designer.designer_username}</Tag>
+            <Rate disabled defaultValue={designer.designer_average_stars} />
+            </div>
+            )}
+        </List.Item>
+      )}
+    />
+            </Tabs.TabPane>
+            <Tabs.TabPane tab="리뷰" key="review">
+            <List
+        itemLayout="vertical"
+        size="large"
+        dataSource={clientInfo.reviews}
+        renderItem={item => (
+            <List.Item
+                key={item.title}
+                extra={
+                <img
+                    width={272}
+                    alt="logo"
+                    src={`http://localhost:8000${item.small_image}`}
+                />
+                }
+            >
+                <List.Item.Meta
+                title={<Link to={`/review/${item.id}`}>{item.title}</Link>}
+                description={<><div>Desinger {item.desinger_name}</div><Rate disabled defaultValue={item.score} /></>}
+                />
+                {item.brief_description}
+                
+            </List.Item>
+            )}
+      />
+            </Tabs.TabPane>
+        </Tabs>
+        {/*<Tabs tab={query.get('tab')} onClick={onClickTab} common="request" tapItems={[{name:'의뢰서', tab:'request'},{name:'리뷰', tab:'review'}]}></Tabs>*/}        
+        <div>
+        
         </div>
         </div>
 
         <Modal visible={modal} onCancel={onCancelEdit}>
             <h2>프로필 수정</h2>
-            <Avatar src={'https://search.pstatic.net/common/?src=http%3A%2F%2Fpost.phinf.naver.net%2FMjAyMDA3MTZfMjE3%2FMDAxNTk0ODcyNzY2NTE3.q33CvFJq2IiCh9BUVWfG4IWhEJX-giFX9Rp9_K3AJzkg.9N4e_fFoOp3vQ7c5dxqKyvFrabouzwtUKo41KqOAKbAg.JPEG%2FIELuoo7XtRxBS8TA97d-alMucVRc.jpg&type=sc960_832'}></Avatar>
+            {clientInfo?.user?.profile_image?
+            <Avartar
+            src={`http://localhost:8000${clientInfo.user.profile_image}`} />:
+            <Avartar
+            src={userImg}
+            shape="square" />
+            }
             <div style={{margin:"20px 0"}}><Input placeholder="email"></Input></div>
             <div style={{margin:"20px 0"}}><Input placeholder="phone"></Input></div>
-            <div style={{margin:"20px 0"}}><Input placeholder="skills"></Input></div>
-            <div style={{margin:"20px 0"}}><Input placeholder="description"></Input></div>
+            <div style={{margin:"20px 0"}}><Input placeholder="회사 이름"></Input></div>
+            <div style={{margin:"20px 0"}}><Input placeholder="자기 소개"></Input></div>
         </Modal>
         </>
     );
 };
 
 export default ClientProfile;
+
+
+
+
+/**
+ * 
+ * 
+ * 
+ * 
+ * {activeTab === 'review'? 
+        <List
+        itemLayout="vertical"
+        size="large"
+        dataSource={clientInfo.reviews}
+        renderItem={item => (
+            <List.Item
+                key={item.title}
+                actions={[
+                <div>{item.budget} 만원</div>,
+                <div>작업기간  {item.finish_date}일</div>,
+                <div>받은 제안 {item.request_count}개</div>,
+                ]}
+                extra={
+                <img
+                    width={272}
+                    alt="logo"
+                    src={`http://localhost:8000${item.small_image}`}
+                />
+                }
+            >
+                <List.Item.Meta
+                title={<Link to={`/review/${item.id}`}>{item.title}</Link>}
+                description={<><Rate disabled defaultValue={item.score} /><div>Desinger: {item.desinger_name}</div></>}
+                />
+                {item.brief_description}
+            </List.Item>
+            )}
+      />
+      :
+      <List
+      itemLayout="vertical"
+      size="large"
+      dataSource={clientInfo.commissions}
+      renderItem={item => (
+        <List.Item
+          key={item.title}
+          actions={[
+            <div>{item.budget} 만원</div>,
+            <div>작업기간  {item.finish_date}일</div>,
+            <div>받은 제안 {item.request_count}개</div>,
+          ]}
+          extra={
+            <img
+                    width={272}
+                    alt="logo"
+                    src={`http://localhost:8000${item.small_image}`}
+                />
+          }
+        >
+          <List.Item.Meta
+            avatar={<Avatar src={item.profile_image} />}
+            title={<a href={item.href}>{item.title}</a>}
+            description={<div>{item.deadline} {item.client_company_name}</div>}
+          />
+          {item.description}
+        </List.Item>
+      )}
+    />
+        }
+ */

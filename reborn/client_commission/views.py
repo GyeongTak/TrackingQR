@@ -1,15 +1,12 @@
-from http.client import ResponseNotReady
-from pathlib import Path
-from django.shortcuts import render
 from django.contrib.auth import get_user_model
-from rest_framework import viewsets
-from rest_framework import status
+from rest_framework import viewsets,status
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from django.core.exceptions import ImproperlyConfigured
 
 from client_commission.models import Commission
+from client_commission.models import RequestedDesigner
 from users.models import Designer,Client
 from .serializers import EmptySerializer,CommissionSerializer,CommissionSerializer,CommissionViewSerializer
 
@@ -40,15 +37,16 @@ class CommissionViewSet(viewsets.GenericViewSet):
 
     @action(methods=['POST'], detail=False)
     def create_commission(self, request):
-        print(request.data)
-        print(request.data['images'][1])
+        # for obj in request.data.getlist('images') :  
+        # print(request.FILES)python
         if request.user.is_client == True:
             if request.data['is_panorama'] == 'true' :
-                image = request.data['images'][0]
+                image = request.data.getlist('images')[0]
+               # print(image)
             else :
                 images = []
-                for i in request.data['images'] :
-                    images.append(i)
+                images = request.data.getlist('images') 
+            
                 print("[INFO] switching images...")
                 stitcher = cv2.createStitcher() if imutils.is_cv3() else cv2.Stitcher_create()
                 (tmpstatus, image) = stitcher.stitch(images)
@@ -85,7 +83,7 @@ class CommissionViewSet(viewsets.GenericViewSet):
                 deadline = request.data['deadline'],
                 description=request.data['description'],
             )
-            #newCommission.save()
+            newCommission.save()
 
             return Response({'message' : "Success"}, status = status.HTTP_200_OK)
         else :
@@ -103,7 +101,8 @@ class CommissionViewSet(viewsets.GenericViewSet):
     def commission_view_detail(self,request) :
         commission = Commission.objects.get(id = request.pk)
         serializer = self.get_serializer(commission)
-        return Response(serializer.data , status= status.HTTP_200_OK)
+        request_count = RequestedDesigner.objects.filter(commission=commission).count()
+        return Response(serializer.data ,{'request_count':request_count}, status= status.HTTP_200_OK)
 
     @action(methods=['POST'], permission_classes=[IsAuthenticated,] ,detail=False)
     def commission_select_for_designer(self,request) :

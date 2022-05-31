@@ -25,13 +25,17 @@ class CommissionSerializer(serializers.ModelSerializer):
         if value=='' or len(value)> 30 :
             raise ValidationError('Not Validate title')
         return value        
+    def validate_images(self,value):
+        if len(value) == 0 or len(value) > 30 :
+            raise ValidationError('Not Validate images')
+        return value
 
 class CommissionViewSerializer(serializers.ModelSerializer):
     client_name = serializers.CharField(source='client.username')
     client_company_name = serializers.CharField(source='client.company_name')
     class Meta :
         model = Commission
-        fields = ('title','deadline','budget','finish_date','small_image','client_company_name','client_name','request_count')
+        fields = ('title','deadline','budget','finish_date','small_image','client_company_name','client_name')
 
     
 

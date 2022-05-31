@@ -2,6 +2,7 @@ from email.policy import default
 from django.db import models
 
 from django.db.models.signals import post_save
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 from django.contrib.auth.models import AbstractUser
@@ -37,6 +38,12 @@ class Designer(User) :
     class Meta :
         verbose_name = 'Designer'
     # def __unicode__(self):
+
+
+class DesignerReview(models.Model) :
+    review = models.TextField(max_length=200)
+    designer = models.ForeignKey(Designer,on_delete=models.CASCADE)
+    score = models.IntegerField(default = 0,validators=[MinValueValidator(0), MaxValueValidator(5)],blank=True)
 
 
 class Client(User) :

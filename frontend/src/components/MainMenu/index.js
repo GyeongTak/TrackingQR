@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import userState from '../../store/user';
 import { logout } from 'apis/user/index';
+import { useNavigate } from 'react-router-dom';
 
 const menuStyle = {
     top: '0',
@@ -17,6 +18,7 @@ const menuStyle = {
 
 const MainMenu = () => {
     const [user, setUser]  = useRecoilState(userState);
+    const navigate = useNavigate();
 
     const onSearch = () => {
 
@@ -36,6 +38,8 @@ const MainMenu = () => {
             auth_token : null,
             profileImage : '',
         });
+        navigate('/');
+
     };
 
     return(

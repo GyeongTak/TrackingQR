@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Certificate, DesignerPopol, EducationAndCareer
+from .models import Certificate, DesignerPopol, EducationAndCareer, Projects
 
 class EducationAndCareerPopolAdmin(admin.ModelAdmin):
     #fields = ['title']
@@ -11,4 +11,5 @@ class CertificatesPopolAdmin(admin.ModelAdmin):
 admin.site.register(DesignerPopol)
 admin.site.register(Certificate,CertificatesPopolAdmin)
 admin.site.register(EducationAndCareer ,EducationAndCareerPopolAdmin)
+admin.site.register(Projects)
 

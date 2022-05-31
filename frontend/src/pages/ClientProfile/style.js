@@ -1,11 +1,24 @@
 /** @jsxImportSource @emotion/react */
 import { jsx, css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 const container = css`
     padding: 0 10%;
 `
+
+
+const UserInfoForm = styled.div`
+    padding:50px 20px;
+    display: flex;
+    align-items: center;
+    border-radius: 1%;
+    background-color: #f0f0f1;
+    position:relative;
+    margin: 78px 0;    
+`
+
 const memberInfoContainer = css`
-    margin: 78px 0;
+    
     display: flex;
     align-items: center;
     position:relative;
@@ -16,6 +29,7 @@ const userInfoContent = css`
 `
 const editButtonWrapper = css`
     position: absolute;
-    right: 0;
+    right: 30px;
+
 `
-export { container, memberInfoContainer, userInfoContent, editButtonWrapper};
+export { UserInfoForm, container, memberInfoContainer, userInfoContent, editButtonWrapper};

@@ -1,13 +1,10 @@
-from re import template
-from django.urls import URLPattern, path
-from . import views
-# from django.views.generic import TemplateView
+from rest_framework import routers
 
-urlpatterns = [
-    path('',views.PopolList,name='popol-list'),
-    # path('popol-search/<str:pk>', views.PopolSearch, name = 'popol-search'),
-    path('detail/<int:pk>', views.PopolDetail, name = 'popol-detail'),
-    path('new', views.createPortfolio, name='createPortfolio'),
-    # path('portfolio/edit', views.updatePortfolio, name='updatePortfolio'),
-    # path('portfolio/delete/<int:id>', views.deletePortfolio, name='deletePortfolio'),
-]
+
+from .views import PortfolioViewSet, ProjectViewSet
+
+router = routers.DefaultRouter(trailing_slash=False)
+router.register('',PortfolioViewSet, basename='portfolio')
+router.register('projects/',ProjectViewSet, basename='projects')
+
+urlpatterns = router.urls
