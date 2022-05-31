@@ -68,7 +68,7 @@ class CommissionViewSet(viewsets.GenericViewSet):
                         print("[INFO] image stitching failed (3: STITCHER_ERR_CAMERA_PARAMETERS_ADJUSTMENT_FAIL)")
                         raise Exception("[INFO] image stitching failed (3: STITCHER_ERR_CAMERA_PARAMETERS_ADJUSTMENT_FAIL)")
 
-            serializer = self.get_serializer(data=request.data)
+            serializer = self.get_serializer_class(data=request.data)
             serializer.is_valid(raise_exception=True)
             
             tmpClient = Client.objects.get(id = request.user.id)
@@ -92,7 +92,7 @@ class CommissionViewSet(viewsets.GenericViewSet):
     @action(methods=['GET'],permission_classes=[AllowAny, ],detail=False)
     def commission_view(self, request):
         ListCommision = Commission.objects.filter(current_status = 0) #아직 의뢰가 수락되지 않은 상태의 모든 의뢰 조회
-        serializer = self.get_serializer_class(ListCommision, many=True)
+        serializer = CommissionViewSerializer(ListCommision, many=True)
 
         return Response(serializer.data, status = status.HTTP_200_OK)
 

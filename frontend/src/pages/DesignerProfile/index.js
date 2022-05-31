@@ -177,12 +177,7 @@ const DesignerProfile = () => {
             <SubTitle>경력 사항</SubTitle>
             {
             <div style={{margin: '30px 0'}}>
-<<<<<<< HEAD
-            
-            <Table  columns={work_columns} dataSource={userInfo?.portfolio?.educationcareers} pagination={false}/>
-=======
             <Table  columns={work_columns} dataSource={userInfo?.educationandcareers} pagination={false}/>
->>>>>>> b49c6c9af63908053e7bca647d870766a2a1cb27
             </div>}
             <SubTitle>프로젝트</SubTitle>
             <ul style={{display:'flex', listStyle:"none", paddingLeft: '0px'}}>
@@ -267,11 +262,7 @@ const DesignerProfile = () => {
                 )}
             />
             </Tabs.TabPane>
-<<<<<<< HEAD
-        </Tabs>      
-=======
         </Tabs>
->>>>>>> b49c6c9af63908053e7bca647d870766a2a1cb27
         </div>
         </>
     );
