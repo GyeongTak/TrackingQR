@@ -10,7 +10,8 @@ const PortfolioCardContainer = styled.div`
 const NameWrapper = styled.div`
     margin: 5px;
     font-size: 18px;
-    font-weight: bold;
+    font-weight: 500;
+    white-space: nowrap;
 `
 const DescriptionWrapper = styled.div`
     width: 80%;
