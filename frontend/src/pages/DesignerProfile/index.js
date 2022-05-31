@@ -5,7 +5,7 @@ import { container,UserInfoForm, SubTitle, userInfoContent, editButtonWrapper} f
 import Avartar from '../../components/Avatar';
 import { useRecoilState } from 'recoil';
 import userState from '../../store/user';
-import { List, Rate, Button, Tabs, Table } from 'antd';
+import { List, Rate, Button, Tabs, Table, Card } from 'antd';
 import { HeartTwoTone } from '@ant-design/icons';
 import 'antd/dist/antd.min.css';
 import { useNavigate, useLocation, useParams} from 'react-router-dom';
@@ -36,6 +36,15 @@ const designerInfo = {
         }],
         'content' :'portfolio content'
     },
+    'projects' : [{
+        'title':"title",
+        'description' :'description',
+        'participation_date':'2022.05.10~2023.03.25',
+        'client':'client',
+        'score':5
+    }
+    ],
+
     'part_in_commission':[
         {
             'client_username':'client',//
@@ -116,16 +125,12 @@ const DesignerProfile = () => {
     const navigate = useNavigate();
 
     useEffect(()=> {
-        /*
         const loadProfileInfo = async () => {
             const result = await getProfileInfo();
-            //setUserInfo(result);
+            setUserInfo(result);
             console.log(result);
         }
         loadProfileInfo();
-        */
-        setUserInfo(designerInfo);
-        setTableLoading(false);
     }, []);
     const onClickEditButton = () => {
         navigate('#editprofile');
@@ -136,7 +141,6 @@ const DesignerProfile = () => {
     }
     
     return (
-    
         <>
         <MainMenu />
         <div css={container}>
@@ -157,8 +161,7 @@ const DesignerProfile = () => {
             <div><PhoneOutlined style={{marginRight:'5px'}}/>{userInfo?.user?.phone}</div>
             <div>{userInfo?.user?.skills} 전문</div>
             <div><Rate disabled defaultValue={userInfo?.user?.average_stars} /></div>
-            <div style={{width:'50%'}}>{userInfo?.user?.description}
-            {'Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....'}</div>
+            <div style={{width:'50%'}}>{userInfo?.user?.description}</div>
             </div>
             <Button onClick={onClickEditButton} css={editButtonWrapper}>프로필 수정</Button>
         </UserInfoForm> 
@@ -176,8 +179,19 @@ const DesignerProfile = () => {
             <SubTitle>경력 사항</SubTitle>
             <Table loading={tableLoading} columns={work_columns} dataSource={userInfo.portfolio.educationcareers} pagination={false}/>
             </div>}
-            
-            
+            <SubTitle>프로젝트</SubTitle>
+            {
+                userInfo.projects.map(project=>
+                <Card
+                    hoverable
+                    style={{
+                      width: 240,
+                    }}
+                    cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+                  >
+                    <Card.Meta title="Europe Street beat" description="www.instagram.com" />
+                  </Card>)
+            }
             </Tabs.TabPane>
             <Tabs.TabPane tab="진행중인 의뢰" key="part_in_commission">
                 <List

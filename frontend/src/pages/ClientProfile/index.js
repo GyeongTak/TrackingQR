@@ -78,16 +78,16 @@ const ClientProfile = () => {
     
 
     useEffect(()=>{
-        console.log(clientDummy.user.username);
-        setClientInfo(clientDummy);
-        /*
+        //console.log(clientDummy.user.username);
+        //setClientInfo(clientDummy);
+        
         const loadClientInfo = async () => {
             const result = await getProfileInfo();
             setClientInfo(result);
             console.log(result);
         }
         loadClientInfo();
-        */
+        
        
     },[]);
 
