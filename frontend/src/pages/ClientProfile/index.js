@@ -6,55 +6,14 @@ import { UserInfoForm, container, memberInfoContainer, userInfoContent, editButt
 import Avatar from '../../components/Avatar';
 import { useRecoilState } from 'recoil';
 import userState from '../../store/user';
-import { List, Button, Modal, Input, Rate, Space, Tabs, Tag } from 'antd';
+import { List, Button, Modal, Input, Rate, Space, Tabs } from 'antd';
 import { MailOutlined, PhoneOutlined, HomeOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.min.css';
 import { useNavigate, useLocation, useParams} from 'react-router-dom';
 import { getProfileInfo } from '../../apis/user';
 import { Link } from 'react-router-dom';
 import userImg from '../../assets/user.png';
-
-const clientDummy = {
-        'user': {
-        "profile_image": '',
-        "username" : "tticjswo2",
-        "email" : "tticjswo2@naver.com",
-        "phone" : "01023872521",
-        "company_name" : "Samsung",
-        "description" : "Company Samsung is upcoming"
-        },
-        'commissions':
-        [{
-        'id':4,
-        'small_image':'', 
-        'request_count':5,
-        'title':'제목',
-        'deadline': '2022-05-03', 
-        'brief_description': 'brief_description', 
-        'budget': 1000,
-        'finish_date':5,
-        'client_company_name':'soongsil',
-        'request_designer':[{
-            'designer_username':'디자이너Lee',
-            'designer_average_stars':5,
-            'designer_id' : 3
-        },
-        {
-            'designer_username':'디자이너Lee',
-            'designer_average_stars':5,
-            'designer_id' : 3
-        }]
-        }],
-        'reviews' : [{
-        'id': 4,
-        'score': 3,
-        'small_image': '',
-        'desinger_name':'디자이너 Lee',
-        'brief_description':'description',
-        'title': 'review - title'
-        }]
-        
-};
+import { patchSelectDesigner } from '../../apis/request';
 
 const IconText = ({ icon, text }) => (
     <Space>
@@ -90,7 +49,7 @@ const ClientProfile = () => {
        
     },[]);
 
-    console.log(clientInfo?.commissions?.request_designer?.length);
+    
     const onClickTab = (key) => {
         setActiveTab(key);
     }
@@ -102,6 +61,10 @@ const ClientProfile = () => {
         setModal(false);
     }
 
+    const onClickDesigner = async (designerId, commissionId) => {
+        await patchSelectDesigner({designer_id: designerId, commission_id:commissionId});
+        console.log(designerId, commissionId);
+    }
     return (
         <>
         <MainMenu />
@@ -160,13 +123,17 @@ const ClientProfile = () => {
           <fieldset style={{border:'1px solid #f0f0f1', marginTop: '15px', padding: '10px'}}>
           <legend style={{fontSize: '16px', margin:'0', padding:'1px'}}>지원한 디자이너 목록</legend>
           {item.request_designer.map((designer)=>
-            <div key={designer.designer_id} 
-            onClick={()=>navigate(`/portfolio/${parseInt(designer.designer_id, 10)}`)} 
-            style={{display: 'flex',  alignItems: 'center', margin:'0', padding:'0', cursor:"pointer"}}>
-            <Avatar style={{width:'50px', height:'50px'}}src={`http://localhost:8000$${designer.profile_image}`}/>
-            {designer.designer_username}
-            <Rate style={{marginLeft:'10px'}}disabled defaultValue={designer.designer_average_stars} />
-            </div>
+                <div style={{display: 'flex', alignItems: 'center'}}>
+                <div key={designer.designer_id} 
+                onClick={()=>navigate(`/portfolio/${parseInt(designer.designer_id, 10)}`)} 
+                style={{display: 'flex',  alignItems: 'center', margin:'0', padding:'0', cursor:"pointer"}}>
+                <Avatar style={{width:'50px', height:'50px'}}src={`http://localhost:8000$${designer.profile_image}`}/>
+                {designer.designer_username}
+                <Rate style={{marginLeft:'10px'}} disabled defaultValue={designer.designer_average_stars} />
+                
+                </div>
+                <Button style={{marginLeft:'10px' }} onClick={()=>onClickDesigner(designer.designer_id, item.id)}>선택</Button>
+                </div>
             )}
           </fieldset>
         </List.Item>
@@ -228,70 +195,46 @@ export default ClientProfile;
 
 
 
-
 /**
- * 
- * 
- * 
- * 
- * {activeTab === 'review'? 
-        <List
-        itemLayout="vertical"
-        size="large"
-        dataSource={clientInfo.reviews}
-        renderItem={item => (
-            <List.Item
-                key={item.title}
-                actions={[
-                <div>{item.budget} 만원</div>,
-                <div>작업기간  {item.finish_date}일</div>,
-                <div>받은 제안 {item.request_count}개</div>,
-                ]}
-                extra={
-                <img
-                    width={272}
-                    alt="logo"
-                    src={`http://localhost:8000${item.small_image}`}
-                />
-                }
-            >
-                <List.Item.Meta
-                title={<Link to={`/review/${item.id}`}>{item.title}</Link>}
-                description={<><Rate disabled defaultValue={item.score} /><div>Desinger: {item.desinger_name}</div></>}
-                />
-                {item.brief_description}
-            </List.Item>
-            )}
-      />
-      :
-      <List
-      itemLayout="vertical"
-      size="large"
-      dataSource={clientInfo.commissions}
-      renderItem={item => (
-        <List.Item
-          key={item.title}
-          actions={[
-            <div>{item.budget} 만원</div>,
-            <div>작업기간  {item.finish_date}일</div>,
-            <div>받은 제안 {item.request_count}개</div>,
-          ]}
-          extra={
-            <img
-                    width={272}
-                    alt="logo"
-                    src={`http://localhost:8000${item.small_image}`}
-                />
-          }
-        >
-          <List.Item.Meta
-            avatar={<Avatar src={item.profile_image} />}
-            title={<a href={item.href}>{item.title}</a>}
-            description={<div>{item.deadline} {item.client_company_name}</div>}
-          />
-          {item.description}
-        </List.Item>
-      )}
-    />
-        }
+ * const clientDummy = {
+        'user': {
+        "profile_image": '',
+        "username" : "tticjswo2",
+        "email" : "tticjswo2@naver.com",
+        "phone" : "01023872521",
+        "company_name" : "Samsung",
+        "description" : "Company Samsung is upcoming"
+        },
+        'commissions':
+        [{
+        'id':4,
+        'small_image':'', 
+        'request_count':5,
+        'title':'제목',
+        'deadline': '2022-05-03', 
+        'brief_description': 'brief_description', 
+        'budget': 1000,
+        'finish_date':5,
+        'client_company_name':'soongsil',
+        'request_designer':[{
+            'designer_username':'디자이너Lee',
+            'designer_average_stars':5,
+            'designer_id' : 3
+        },
+        {
+            'designer_username':'디자이너Lee',
+            'designer_average_stars':5,
+            'designer_id' : 3
+        }]
+        }],
+        'reviews' : [{
+        'id': 4,
+        'score': 3,
+        'small_image': '',
+        'desinger_name':'디자이너 Lee',
+        'brief_description':'description',
+        'title': 'review - title'
+        }]
+        
+};
  */
