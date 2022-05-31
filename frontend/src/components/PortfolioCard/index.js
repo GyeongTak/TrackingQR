@@ -2,20 +2,24 @@ import React from 'react';
 import { PortfolioCardContainer, NameWrapper, DescriptionWrapper, ProjectWrapper } from './style.js';
 import Avatar from 'components/Avatar/index.js';
 import { Rate } from 'antd';
-
+import { useNavigate } from 'react-router-dom';
 
 const PortfolioCard = ({portfolio}) => {
+    const navigate = useNavigate();
 
+    const onClickProfolio = () => {
+        navigate(`/portfolio/${portfolio.id}`);
+    }
     return (
         
-        <PortfolioCardContainer>
+        <PortfolioCardContainer onClick={onClickProfolio}>
             <div>
             <Avatar src={`http://127.0.0.1:8000${portfolio?.profile_image}`} shape="square" ></Avatar>
             <NameWrapper>{portfolio?.username}</NameWrapper>
             <NameWrapper>{portfolio?.skills}</NameWrapper>
             </div>
 
-            <div style={{marginLeft: '15px'}}>
+            <div style={{marginLeft: '100px'}}>
                 <DescriptionWrapper>{portfolio?.description}</DescriptionWrapper>
                 <div style={{marginTop: '20px'}}>
                 <NameWrapper>진행한 프로젝트</NameWrapper>

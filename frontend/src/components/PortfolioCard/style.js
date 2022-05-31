@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 
 const PortfolioCardContainer = styled.div`
+    cursor: pointer;
     display: flex;
     border-bottom: 1px solid #e6e7eb;
     margin: 50px 0;
@@ -9,7 +10,8 @@ const PortfolioCardContainer = styled.div`
 const NameWrapper = styled.div`
     margin: 5px;
     font-size: 18px;
-    font-weight: bold;
+    font-weight: 500;
+    white-space: nowrap;
 `
 const DescriptionWrapper = styled.div`
     width: 80%;
