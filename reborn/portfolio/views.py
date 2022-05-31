@@ -22,9 +22,14 @@ from users.models import *
 class PortfolioViewSet(viewsets.GenericViewSet):
     @action(methods=['GET'],permission_classes=[AllowAny, ], detail=False)
     def portfolio_view(self, request):
-        ListPopol = DesignerPopol.objects.all()   
+        ListPopol = DesignerPopol.objects.all()
+           
         briefportfolio = BriefPopolSerializer(ListPopol, many = True)
-        print(briefportfolio.data)
+
+        for i in range(0,len(briefportfolio.data)) :
+            if len(briefportfolio.data[i]['projects']) > 3 :
+                briefportfolio.data[i]['projects'] = briefportfolio.data[i]['projects'][:3]
+        
         return Response(briefportfolio.data, status = status.HTTP_200_OK)
 
     @action(methods=['GET'], permission_classes=[AllowAny, ], detail=False)

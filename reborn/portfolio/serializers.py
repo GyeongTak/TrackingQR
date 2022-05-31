@@ -47,12 +47,14 @@ class BriefProjectSerializer(serializers.ModelSerializer) :
         model = Projects
         fields = ['title', 'score']
 
+
+
 class BriefPopolSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='designer.username')
     profile_image = serializers.ImageField(source = 'designer.profile_image')
     skills = serializers.CharField(source='designer.skills')
     average_stars = serializers.IntegerField(source = 'designer.average_stars')
-    projects =  BriefProjectSerializer(many=True, read_only=True)
+    projects = BriefProjectSerializer(many=True, read_only=True)
     class Meta : 
         model = DesignerPopol
         fields = ['username','profile_image','skills','average_stars','description','projects']
