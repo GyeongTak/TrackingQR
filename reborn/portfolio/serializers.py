@@ -26,7 +26,7 @@ class  CertificateSerializer(serializers.ModelSerializer) :
         model = Certificate
         field = ('acquired_date','certificate_name','time')
 
-class EduAndCareeSerializer(serializers.ModelSerializer) :
+class EduAndCareerSerializer(serializers.ModelSerializer) :
     class Meta :
         model = EducationAndCareer
         field = ('working_period','company_name','description')
