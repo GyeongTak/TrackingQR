@@ -1,10 +1,13 @@
 from email.policy import HTTP
+import certifi
 from django.shortcuts import render
 from portfolio.models import DesignerPopol, Projects
 from portfolio.serializers import BriefPopolSerializer,ClientProfileSerializer
 from rest_framework.response import Response
 from rest_framework import  status
 from client_commission.models import RequestedDesigner
+from portfolio.models import Certificate, EducationAndCareer
+from portfolio.serializers import CertificateSerializer, EduAndCareerSerializer
 from users.models import *
 from userReview.models import customerReview
 from client_commission.models import Commission
@@ -21,9 +24,6 @@ import datetime
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def profile(request, format=None):
-    if request.user == None:
-        print('nothing')
-        return Response({'message':'nothing'})
     if request.user.is_client == True :
         clientUser = Client.objects.get(id = request.user.id)
         userSerializer = ClientUserSerializer(clientUser, many=False)
@@ -33,12 +33,10 @@ def profile(request, format=None):
         
         my_review = customerReview.objects.filter(client= clientUser)
         my_reviewSerializer = MyReviewBriefSerialzier(my_review, many = True)
-        print(
-           userSerializer.data,
-           my_commissionSerializer.data,
-           my_reviewSerializer.data
-
-        )
+        
+        # if my_commission.messageflag == True :
+        #     alarm = True;
+        #     message = ''
 
         return Response({
             'user' : userSerializer.data,
@@ -52,6 +50,12 @@ def profile(request, format=None):
         
         portfolio = DesignerPopol.objects.get(designer = designerUser )
         portfolioSerializer = PortfolioSerializer(portfolio, many= False)
+        
+        certificates = Certificate.objects.filter(portfolio = portfolio)
+        certificateSerializer = CertificateSerializer(certificates, many= True)
+
+        eduandcareers = EducationAndCareer.objects.filter(portfolio= portfolio)
+        eduAndCareerSerializer = EduAndCareerSerializer(eduandcareers,many= True)
 
         partincommission = Commission.objects.filter(designer_id = request.user.id , current_status=2)
         partincommissionSerializer = PartInCommissionSerializer(partincommission, many=True)
@@ -59,6 +63,7 @@ def profile(request, format=None):
         for i in partincommissionSerializer.data :
             tmp = datetime.datetime.now() - i['updated']
             i['updated'] = tmp
+
         endcommission = Commission.objects.filter(designer_id = request.user.id , current_status = 3)
         endcommissionSerializer = EndCommissionSerializer(endcommission, many=True)
 
@@ -78,6 +83,8 @@ def profile(request, format=None):
             {
                 'user' : userserializer.data,
                 'portfolio' :portfolioSerializer.data,
+                'certificates' : certificateSerializer.data,
+                'educationandcareers' : eduAndCareerSerializer.data,
                 'part_in_commission':partincommissionSerializer.data,
                 'projects' :projectSerializer.data,
                 'end_commission' : endcommissionSerializer.data

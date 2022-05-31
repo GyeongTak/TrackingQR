@@ -12,7 +12,8 @@ from rest_framework import generics , status
 
 
 from portfolio.models import DesignerPopol,Projects,Certificate, EducationAndCareer
-from .serializers import BriefProjectSerializer, PopolSerializer,BriefPopolSerializer,CertificateSerializer, EduAndCareeSerializer, ProjectSerializer
+from Mypage import serializers
+from .serializers import BriefProjectSerializer, PopolSerializer,BriefPopolSerializer,CertificateSerializer, EduAndCareerSerializer, ProjectSerializer
 from rest_framework import status
 
 from users.models import *
@@ -36,7 +37,7 @@ class PortfolioViewSet(viewsets.GenericViewSet):
         serializer_certificate = CertificateSerializer(certifits, many= True)
 
         eduandcareers = EducationAndCareer.objects.filter(portfolio= Popol)
-        serializer_educareer = EduAndCareeSerializer(eduandcareers, many=True)
+        serializer_educareer = EduAndCareerSerializer(eduandcareers, many=True)
 
         projects = Projects.objects.filter(portfolio= Popol)
         serializer_projects = ProjectSerializer(projects, many=True)
