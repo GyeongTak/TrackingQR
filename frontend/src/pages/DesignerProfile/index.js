@@ -57,7 +57,7 @@ const DesignerProfile = () => {
         </div>
         <Tabs tab={query.get('tab')} common="portfolio"></Tabs>        
         <div style={{margin: '20px 0', width: '100%', display: 'inline-grid', gridTemplateColumns: 'repeat(auto-fill, minmax(25%, auto))', }}>
-        {dummydata.map((portfolio, i)=>
+        {dummydata?.map((portfolio, i)=>
                         <div key={i} style={{marginRight: '10%', marginBottom: '10%'}}>
                         <Card
                         hoverable
