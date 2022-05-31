@@ -45,6 +45,7 @@ def profile(request, format=None):
         })
 
     else :
+        print('hello')
         designerUser = Designer.objects.get(id = request.user.id)
         userserializer = DesignerUserSerializer(designerUser,many= False)
         

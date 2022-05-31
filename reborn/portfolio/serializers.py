@@ -24,18 +24,18 @@ class PopolSerializer(serializers.ModelSerializer):
 class  CertificateSerializer(serializers.ModelSerializer) :
     class Meta :
         model = Certificate
-        field = ('acquired_date','certificate_name','time')
+        fields= ('acquired_date','certificate_name','time')
 
 class EduAndCareerSerializer(serializers.ModelSerializer) :
     class Meta :
         model = EducationAndCareer
-        field = ('working_period','company_name','description')
+        fields = ('working_period','company_name','description')
 
 
 class ProjectSerializer(serializers.ModelSerializer) :
     class Meta :
         model = Projects
-        field = ('title','description','participation_date', 'client', 'image', 'score')
+        fields = ('title','description','participation_date', 'client', 'image', 'score')
     
     def validate_title(self, value):
         if value=='':
@@ -45,7 +45,7 @@ class ProjectSerializer(serializers.ModelSerializer) :
 class BriefProjectSerializer(serializers.ModelSerializer) :
     class Meta :
         model = Projects
-        field = ['title', 'score']
+        fields = ['title', 'score']
 
 class BriefPopolSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='designer.username')
