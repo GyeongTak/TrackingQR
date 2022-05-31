@@ -81,8 +81,8 @@ const designerInfo = {
 const columns = [
     {
       title: '취득 기간',
-      dataIndex: 'acquired_period',
-      key: 'acquired_period',
+      dataIndex: 'acquired_date',
+      key: 'acquired_date',
     },
     {
       title: '자격증',
@@ -109,8 +109,8 @@ const columns = [
     },
     {//job_position
         title: '직무',
-        dataIndex: 'job_position',
-        key: 'job_position',
+        dataIndex: 'description',
+        key: 'description',
       },
   ];
 
@@ -129,6 +129,7 @@ const DesignerProfile = () => {
             const result = await getProfileInfo();
             setUserInfo(result);
             console.log(result);
+            
         }
         loadProfileInfo();
     }, []);
@@ -157,6 +158,25 @@ const DesignerProfile = () => {
             <div css={userInfoContent}>
             <h2>{userInfo?.user?.username}님</h2>
             
+<<<<<<< HEAD
+        </div>
+        <Tabs tab={query.get('tab')} common="portfolio"></Tabs>        
+        <div style={{margin: '20px 0', width: '100%', display: 'inline-grid', gridTemplateColumns: 'repeat(auto-fill, minmax(25%, auto))', }}>
+        {dummydata?.map((portfolio, i)=>
+                        <div key={i} style={{marginRight: '10%', marginBottom: '10%'}}>
+                        <Card
+                        hoverable
+                        cover={<img alt="example" src={portfolio.portfolio_image}/>}
+                    >
+                        <Card.Meta 
+                        title={<div style={{position: 'relative', top:'2px'}}>{portfolio.title}
+                        <HeartTwoTone style={{position: 'absolute', right:'0'}} twoToneColor='#ff69b4'/></div>} />
+                        {portfolio.desciption}
+                    </Card>
+                    </div>
+                    )}
+        </div>
+=======
             <div><MailOutlined style={{marginRight:'5px'}}/>{userInfo?.user?.email}</div>
             <div><PhoneOutlined style={{marginRight:'5px'}}/>{userInfo?.user?.phone}</div>
             <div>{userInfo?.user?.skills} 전문</div>
@@ -168,17 +188,26 @@ const DesignerProfile = () => {
 
         <Tabs defaultActiveKey="1" onChange={onChangeTab}>
             <Tabs.TabPane tab="포트폴리오" key="portfolio">
+            <SubTitle>포트폴리오 소개</SubTitle>
+            <div style={{margin: '30px 0'}}>
+            {userInfo?.portfolio?.description}
+            </div>
+
             <SubTitle>자격증</SubTitle>
             {
             <div style={{margin: '30px 0'}}>
-            <Table  columns={columns} dataSource={userInfo?.portfolio?.certificates} pagination={false}/>
+            <Table  columns={columns} dataSource={userInfo?.certificates} pagination={false}/>
             </div>}
 
             <SubTitle>경력 사항</SubTitle>
             {
             <div style={{margin: '30px 0'}}>
             
+<<<<<<< HEAD
             <Table  columns={work_columns} dataSource={userInfo?.portfolio?.educationcareers} pagination={false}/>
+=======
+            <Table  columns={work_columns} dataSource={userInfo?.educationandcareers} pagination={false}/>
+>>>>>>> db8e4d72449ec6feff57239a5f323fab8c9b2e7e
             </div>}
             <SubTitle>프로젝트</SubTitle>
             {
@@ -261,6 +290,7 @@ const DesignerProfile = () => {
             />
             </Tabs.TabPane>
         </Tabs>      
+>>>>>>> e58225518b6fd17fd97012e27d16eef18ef79763
         </div>
         </>
     );
