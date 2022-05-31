@@ -9,6 +9,7 @@ import './index.css';
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Editor from 'components/Editor';
+import QuillEditor from 'components/TestEditor';
 
 const CreateProjectPage2 = ({ placeholder, value, ...rest }) => {
   
@@ -82,6 +83,34 @@ const CreateProjectPage2 = ({ placeholder, value, ...rest }) => {
                 </div>
         </Form>
 
+        <div style={{marginTop:'10px', fontWeight:'bold'}}>
+          <span style={{marginLeft:'300px', fontSize:'16px', fontWeight:'normal'}}>[ 프로젝트 대표 이미지를 첨부해주세요 ]</span>
+        </div>
+
+        <div style={{textAlign:'center', marginTop:'30px', marginLeft:'290px', width:'940px', height:'220px', borderRadius: 10,
+        border:'1px solid gray'}}>
+            <input type="file" multiple onChange={saveFileImage} style={{marginTop:'20px', display:'none'}} ref={imageInput}/>
+            <button style={{width:'150px', height:'150px', marginLeft:'-50px',marginTop:'20px', backgroundColor:'rgb(231, 236, 240)', fontSize:'50px', border:'1px solid rgb(246, 249, 251)'}} 
+            onClick={onCickImageUpload}>+</button>
+
+            <button style={{borderRadius: 10, border:'1px solid rgb(246, 249, 251)', backgroundColor:'rgb(231, 236, 240)', color:'black', width: "120px", height: "30px", 
+            cursor: "pointer", position:'absolute', marginTop:'180px', marginLeft:'-135px'}}
+                    onClick={() => deleteFileImage()}
+            >
+              이미지 삭제
+            </button>
+
+            <div style={{position:'absolute', marginLeft:'370px', marginTop:'-150px'}}>
+                {fileImage && (
+                  <img
+                    alt="sample"
+                    src={fileImage}
+                    style={{height:'150px', width:'150px' }}
+                  />
+                )}
+            </div>
+        </div>
+
         <div style={{marginTop:'30px', textAlign:'center'}}>
           <div style={{fontSize:'16px', textAlign:'left', marginLeft:'300px', height:'10px'}}>[ 프로젝트 타이틀 ]</div>
           <textarea
@@ -106,6 +135,9 @@ const CreateProjectPage2 = ({ placeholder, value, ...rest }) => {
         <div style={{fontSize:'16px', textAlign:'left', marginLeft:'300px', height:'10px', marginTop:'40px'}}>[ 프로젝트 상세설명 ]</div>
         <div style={{marginTop:'40px', textAlign:'center', width:'940px', marginLeft:'290px'}}>
             <Editor></Editor>
+        </div>
+        <div style={{marginTop:'40px', textAlign:'center', width:'940px', marginLeft:'290px'}}>
+            <QuillEditor></QuillEditor>
         </div>
       
         <button className='submit' type='submit' onClick={onSubmit}>등록</button><br/><br/><br/><br/>

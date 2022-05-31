@@ -40,6 +40,9 @@ const App = () => {
           <Route path = "/Join/Designer" element={<JoinDesignerPage/>} />
           <Route path = "/review" element={<ClientReviewPage/>} />
           <Route path = "/request" element={<RequestList />} />
+          <Route path = "/WriteReview" element={<WriteReviewPage />} />
+          <Route path = "/CreateProject" element={<CreateProjectPage />} />
+          <Route path = "/CreateProject2" element={<CreateProjectPage2 />} />
           <Route path = "*" element={<NotFoundPage />} />
           <Route path = "/WriteReview" element={<WriteReviewPage />} />
           <Route path = "/CreateProject" element={<CreateProjectPage />} />
