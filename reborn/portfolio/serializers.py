@@ -57,7 +57,7 @@ class BriefPopolSerializer(serializers.ModelSerializer):
     projects = BriefProjectSerializer(many=True, read_only=True)
     class Meta : 
         model = DesignerPopol
-        fields = ['username','profile_image','skills','average_stars','description','projects']
+        fields = ['id','username','profile_image','skills','average_stars','description','projects']
 
 
 

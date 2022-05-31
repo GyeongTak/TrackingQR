@@ -9,7 +9,7 @@ from django.db import models
 from portfolio.models import Projects
 from portfolio.models import DesignerPopol
 from userReview.models import customerReview
-from users.models import Client, Designer, User
+from users.models import Client, Designer, User,Message
 from client_commission.models import *
 import datetime
 
@@ -32,9 +32,10 @@ class RequestedDesignerSerializer(serializers.ModelSerializer) :
     designer_username = serializers.CharField(source='designer.username')
     designer_average_stars = serializers.FloatField(source='designer.average_stars')
     designer_id = serializers.IntegerField(source = 'designer.id')
+    designer_profile_image = serializers.ImageField(source= 'designer.profile_image')
     class Meta  :
         model = RequestedDesigner
-        fields = ('designer_username','designer_average_stars','designer_id')
+        fields = ('designer_username','designer_average_stars','designer_id','designer_profile_image')
 
 class  MyCommissionBriefSerializer(serializers.ModelSerializer) :
     brief_description = serializers.SerializerMethodField()
@@ -103,6 +104,13 @@ class  ProjectSerializer(serializers.ModelSerializer) :
         model = Projects 
         fields = ('title','description','score','participation_date','client')
 
+#--------------------------------------------------------------------
 
+
+class MessageSerializer(serializers.ModelSerializer) :
+  
+    class Meta :
+        model = Message
+        fields = ('message', 'created')
 class EmptySerializer(serializers.Serializer):
     pass

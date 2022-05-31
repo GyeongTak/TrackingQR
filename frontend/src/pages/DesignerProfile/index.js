@@ -128,8 +128,8 @@ const DesignerProfile = () => {
         const loadProfileInfo = async () => {
             const result = await getProfileInfo();
             setUserInfo(result);
+            console.log('result');
             console.log(result);
-            
         }
         loadProfileInfo();
     }, []);
@@ -147,9 +147,9 @@ const DesignerProfile = () => {
         <div css={container}>
 
         <UserInfoForm>
-            {userInfo?.user?.profile_image?
+            {userInfo?.profile_image?
             <Avartar
-            src={`http://localhost:8000${userInfo.user.profile_image}`} />:
+            src={`http://localhost:8000${userInfo.profile_image}`} />:
             <Avartar
             style={{width:'200px', height:'200px'}}
             src={userImg}
@@ -169,11 +169,6 @@ const DesignerProfile = () => {
 
         <Tabs defaultActiveKey="1" onChange={onChangeTab}>
             <Tabs.TabPane tab="포트폴리오" key="portfolio">
-            <SubTitle>포트폴리오 소개</SubTitle>
-            <div style={{margin: '30px 0'}}>
-            {userInfo?.portfolio?.description}
-            </div>
-
             <SubTitle>자격증</SubTitle>
             {
             <div style={{margin: '30px 0'}}>

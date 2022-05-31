@@ -44,6 +44,9 @@ const App = () => {
           <Route path = "/CreateProject" element={<CreateProjectPage />} />
           <Route path = "/CreateProject2" element={<CreateProjectPage2 />} />
           <Route path = "*" element={<NotFoundPage />} />
+          <Route path = "/WriteReview" element={<WriteReviewPage />} />
+          <Route path = "/CreateProject" element={<CreateProjectPage />} />
+          <Route path = "/CreateProject2" element={<CreateProjectPage2 />} />
         </Routes>
       </BrowserRouter>
     </RecoilRoot>

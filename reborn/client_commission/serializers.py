@@ -17,7 +17,7 @@ class CommissionSerializer(serializers.ModelSerializer):
 
     class Meta:
          model = Commission
-         fields = ('title','finish_date','budget','description','small_image','commission_image')
+         fields = ('id','title','finish_date','budget','description','small_image','commission_image')
         #  read_only_fields = ('id', 'is_client')
     
     # def get_panorama_image(self,obj):
@@ -33,9 +33,10 @@ class CommissionSerializer(serializers.ModelSerializer):
 class CommissionViewSerializer(serializers.ModelSerializer):
     client_name = serializers.CharField(source='client.username')
     client_company_name = serializers.CharField(source='client.company_name')
+    client_profile_image = serializers.ImageField(source = 'client.profile_image')
     class Meta :
         model = Commission
-        fields = ('title','deadline','budget','finish_date','small_image','client_company_name','client_name')
+        fields = ('title', 'client_profile_image','deadline','budget','finish_date','small_image','client_company_name','client_name')
 
     
 
