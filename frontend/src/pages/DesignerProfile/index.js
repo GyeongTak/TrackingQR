@@ -168,16 +168,17 @@ const DesignerProfile = () => {
 
         <Tabs defaultActiveKey="1" onChange={onChangeTab}>
             <Tabs.TabPane tab="포트폴리오" key="portfolio">
-            
-            {userInfo.portfolio?.certificates && <div style={{margin: '30px 0'}}>
             <SubTitle>자격증</SubTitle>
-            <Table loading={tableLoading} columns={columns} dataSource={userInfo.portfolio.certificates} pagination={false}/>
+            {
+            <div style={{margin: '30px 0'}}>
+            <Table  columns={columns} dataSource={userInfo?.portfolio?.certificates} pagination={false}/>
             </div>}
 
-            {userInfo.portfolio?.educationcareers && 
-            <div style={{margin: '30px 0'}}>
             <SubTitle>경력 사항</SubTitle>
-            <Table loading={tableLoading} columns={work_columns} dataSource={userInfo.portfolio.educationcareers} pagination={false}/>
+            {
+            <div style={{margin: '30px 0'}}>
+            
+            <Table  columns={work_columns} dataSource={userInfo.portfolio.educationcareers} pagination={false}/>
             </div>}
             <SubTitle>프로젝트</SubTitle>
             {
@@ -190,7 +191,12 @@ const DesignerProfile = () => {
                     }}
                     cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
                   >
-                    <Card.Meta title="Europe Street beat" description="www.instagram.com" />
+                    <Card.Meta title={project.title} 
+                    description={<>
+                    <div>{project.description}</div>
+                    <div>{project.participation_date}</div>
+                    <div>{project.client}</div>
+                    <div><Rate disabled defaultValue={project.score} /></div></>} />
                   </Card>)
             }
             </Tabs.TabPane>
