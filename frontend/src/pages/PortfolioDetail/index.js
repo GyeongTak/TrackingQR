@@ -87,7 +87,7 @@ const PortfolioDetail = () => {
 
         loadPortfolio();
         */
-       setPortfolio(dummy);
+        setPortfolio(dummy);
     }, []);
 
     return (
@@ -117,7 +117,7 @@ const PortfolioDetail = () => {
             {
             <div style={{margin: '30px 0'}}>
             
-            <Table  columns={work_columns} dataSource={portfolio?.educationandcareers} pagination={false}/>
+            <Table  columns={work_columns} dataSource={portfolio?.educationandcareer} pagination={false}/>
             </div>}
             <SubTitle>프로젝트</SubTitle>
             {

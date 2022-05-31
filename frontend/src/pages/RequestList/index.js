@@ -3,31 +3,8 @@ import MainMenu from '../../components/MainMenu';
 import { Card, Avatar, Dropdown, Button, Menu, List, Space } from 'antd';
 import {  HeartTwoTone, DownOutlined, MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.min.css';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { getRequests } from '../../apis/request';
-
-const listData = [];
-for (let i = 1; i < 25; i++) {
-  listData.push({
-    title: '제목입니다.',
-    description:'22.05.04',   
-    href: '/request/',
-    finish_date: 5,
-    budget: 1000,
-    avatar: 'https://joeschmoe.io/api/v1/random',
-               
-    content:
-    '외식업 프랜차이즈 인테리어 디자인 설계 요청',
-  });
-}
-
-const IconText = ({ icon, text }) => (
-    <Space>
-      {React.createElement(icon)}
-      {text}
-    </Space>
-  );
 
 const menu = (
     <Menu>
@@ -77,14 +54,25 @@ const RequestList = () => {
 
     useEffect(() => {
 
-        const getRequests = async () => {
+        const loadRequests = async () => {
             const result = await getRequests();
             setReviews([...result]);
         }
         
-        getRequests();
+        loadRequests();
     }, []);
     
+    /**
+     * title*
+     * deadline*
+     * finish_date*
+     * budget*
+     * small_image*
+     * client_name*
+     * client_company_name*
+     * request_count
+     * id
+     */
     return (
         <>
         <MainMenu />
@@ -122,7 +110,7 @@ const RequestList = () => {
                 },
                 pageSize: 5,
                 }}
-                dataSource={listData}
+                dataSource={reviews}
               
                 renderItem={item => (
                 <List.Item
@@ -130,22 +118,22 @@ const RequestList = () => {
                     actions={[
                     <div>{item.budget} 만원</div>,
                     <div>작업기간  {item.finish_date}일</div>,
-                    <div>받은 제안 5개</div>,
+                    <div>받은 제안 {item.request_count}개</div>,
                     ]}
                     extra={
                     <img
                         width={272}
                         alt="logo"
-                        src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                        src={`http://localhost:8000${item.small_image}`}
                     />
                     }
                 >
                     <List.Item.Meta
                     avatar={<Avatar src={item.avatar} />}
-                    title={<a href={item.href}>{item.title}</a>}
-                    description={<div>{item.description} 까지</div>}
+                    title={<Link to={`/request/${item.id}`}>{item.title}</Link>}
+                    description={<div>{item.deadline} 까지</div>}
                     />
-                    {item.content}
+                    {item.client_name} {item.client_company_name}
                 </List.Item>
                 )}
             />

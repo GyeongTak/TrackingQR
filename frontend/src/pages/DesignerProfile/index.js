@@ -183,12 +183,14 @@ const DesignerProfile = () => {
             <SubTitle>경력 사항</SubTitle>
             {
             <div style={{margin: '30px 0'}}>
-            <Table  columns={work_columns} dataSource={userInfo?.portfolio?.educationcareers} pagination={false}/>
+            <Table  columns={work_columns} dataSource={userInfo?.educationandcareers} pagination={false}/>
             </div>}
             <SubTitle>프로젝트</SubTitle>
+            <ul style={{display:'flex', listStyle:"none", paddingLeft: '0px'}}>
             {
                 userInfo?.projects&& 
                 userInfo.projects.map(project=>
+                    <li style={{margin: '20px'}}>
                 <Card
                     hoverable
                     style={{
@@ -202,8 +204,9 @@ const DesignerProfile = () => {
                     <div>{project.participation_date}</div>
                     <div>{project.client}</div>
                     <div><Rate disabled defaultValue={project.score} /></div></>} />
-                  </Card>)
+                  </Card></li>)
             }
+            </ul>
             </Tabs.TabPane>
             <Tabs.TabPane tab="진행중인 의뢰" key="part_in_commission">
                 <List
