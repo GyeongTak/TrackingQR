@@ -40,8 +40,10 @@ const getRequestsMain = async () =>{
 }
 
 const patchSelectDesigner = async (data) => {
+    const token = localStorage.getItem('token');
     try {
-        const res = await instance.post('api/mypage/designer_selected_for_commission', data);
+        const res = await instance.post('/api/mypage/designer_selected_for_commission', data,
+        {headers: { Authorization : "Token " + token}});
         return res.data;
     } catch (error) {
         console.log(error);
