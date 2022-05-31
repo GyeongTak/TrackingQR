@@ -1,4 +1,5 @@
 
+from multiprocessing.dummy import Process
 from urllib.request import Request
 from attr import field
 from numpy import source
@@ -28,6 +29,8 @@ class  MyReviewBriefSerialzier(serializers.ModelSerializer) :
         return obj.description[:30] + '...'
         # description 을 30 글자만 표시할 수 있도록 바꾼다.
 
+
+
 class RequestedDesignerSerializer(serializers.ModelSerializer) :
     designer_username = serializers.CharField(source='designer.username')
     designer_average_stars = serializers.FloatField(source='designer.average_stars')
@@ -46,6 +49,22 @@ class MyCommissionBriefSerializer(serializers.ModelSerializer) :
     def get_brief_description(self, obj) :
         return obj.description[:200] 
         # description 을 200 글자만 표시할 수 있도록 바꾼다.
+
+
+
+class MyCommissionAlreadyStartedBriefSerializer(serializers.ModelSerializer) :
+    brief_description = serializers.SerializerMethodField()
+    designer_username = serializers.CharField(source='designer.username')
+    designer_id = serializers.IntegerField(source='designer.id')
+    class Meta :
+        model = Commission
+        fields = ('id','title', 'created','brief_description','budget','finish_date','small_image','designer_username','designer.id','deadline','current_status')
+    def get_brief_description(self, obj) :
+        return obj.description[:200] 
+        # description 을 200 글자만 표시할 수 있도록 바꾼다.
+
+
+
 
 
 class MyCommissionSerializer(serializers.ModelSerializer) :

@@ -28,7 +28,7 @@ class CommissionStatus(models.IntegerChoices):
 
 class Commission(models.Model) :
     client = models.ForeignKey(Client,on_delete=models.CASCADE)
-    designer_id = models.IntegerField(null = True, blank = True)
+    designer = models.ForeignKey(Designer, on_delete=models.CASCADE ,null = True, blank = True)
 
     small_image = models.ImageField(upload_to = path_and_rename ,null = True ) # 썸네일용 이미지
     commission_image = models.ImageField(upload_to=path_and_rename, null = True) # 파노라마 이미지\
