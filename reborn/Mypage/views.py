@@ -36,14 +36,6 @@ def profile(request, format=None):
         
         my_review = customerReview.objects.filter(client= clientUser)
         my_reviewSerializer = MyReviewBriefSerialzier(my_review, many = True)
-        
-        print({
-            'user' : userSerializer.data,
-            'commissions' : my_commissionSerializer.data,
-            'reviews' :  my_reviewSerializer.data,
-            'messages' : messageSerializer.data,
-        })
-
         return Response({
             'user' : userSerializer.data,
             'commissions' : my_commissionSerializer.data,
@@ -77,19 +69,6 @@ def profile(request, format=None):
 
         projects = Projects.objects.filter(portfolio = portfolio)
         projectSerializer = ProjectSerializer(projects, many=True)
-        print(
-             {
-                'user' : userserializer.data,
-                'portfolio' :portfolioSerializer.data,
-                'certificates' : certificateSerializer.data,
-                'educationandcareers' : eduAndCareerSerializer.data,
-                'part_in_commission':partincommissionSerializer.data,
-                'projects' :projectSerializer.data,
-                'end_commission' : endcommissionSerializer.data,
-                'messages' : messageSerializer.data,
-
-            }
-        )
         return Response(
            
             {
@@ -125,6 +104,34 @@ def getMyInfo(request, format=None):
         return Response(
            userserializer.data,
         )
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def designer_selected_for_commission(request) :
+    if request.user.is_client == True :
+        commission = Commission.objects.get(id = request.data['commission_id'])
+        commission.designer_id = request.data['designer_id']
+        commission.current_status = 2
+        commission.save()
+
+        designer = Designer.objects.get(id= request.data['designer_id'])
+        selectedUser = User.objects.get(id = request.data['designer_id'])
+        newProcessingCommission = ProcessingCommission(
+            designer = designer,
+            commission = commission
+        )
+        newProcessingCommission.save()
+
+
+        newMessage = Message(
+            user = selectedUser,
+            message = str(selectedUser.username) + "님이 '" + str(commission.title)  +"' 의뢰에 선택되셨습니다."
+        )
+        
+        newMessage.save()
+
+    else :
+        return Response({'message':'Designer can not select'},status=status.HTTP_403_FORBIDDEN)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

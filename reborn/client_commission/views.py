@@ -95,7 +95,6 @@ class CommissionViewSet(viewsets.GenericViewSet):
         serializer = CommissionViewSerializer(ListCommision, many=True)
         for i in range(0,len(serializer.data)) :
             serializer.data[i]['request_count'] = RequestedDesigner.objects.filter(commission = ListCommision[i]).count()
-            print(serializer.data[i]['request_count']) 
             #= RequestedDesigner.objects.filter(commission = ListCommision[i])
         print(serializer.data)
         return Response(serializer.data, status = status.HTTP_200_OK)
@@ -108,8 +107,10 @@ class CommissionViewSet(viewsets.GenericViewSet):
         request_count = RequestedDesigner.objects.filter(commission=commission).count()
         return Response(serializer.data ,{'request_count':request_count}, status= status.HTTP_200_OK)
 
+
+
     @action(methods=['POST'], permission_classes=[IsAuthenticated,] ,detail=False)
-    def commission_select_for_designer(self,request) :
+    def commission_selected_by_client(self,request) :
         if request.user.is_client == False :
             pass
         else :
@@ -124,7 +125,6 @@ class CommissionViewSet(viewsets.GenericViewSet):
             commission.request_designer_id = tmp_string
             commission.save()
             return Response(status=status.HTTP_200_OK)
-
 
 
 

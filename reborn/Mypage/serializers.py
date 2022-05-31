@@ -37,7 +37,7 @@ class RequestedDesignerSerializer(serializers.ModelSerializer) :
         model = RequestedDesigner
         fields = ('designer_username','designer_average_stars','designer_id','designer_profile_image')
 
-class  MyCommissionBriefSerializer(serializers.ModelSerializer) :
+class MyCommissionBriefSerializer(serializers.ModelSerializer) :
     brief_description = serializers.SerializerMethodField()
     request_designer = RequestedDesignerSerializer(many=True, read_only=True)
     class Meta :

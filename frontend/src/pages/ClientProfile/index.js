@@ -121,7 +121,10 @@ const ClientProfile = () => {
           {item.brief_description}
 
           <fieldset style={{border:'1px solid #f0f0f1', marginTop: '15px', padding: '10px'}}>
-          <legend style={{fontSize: '16px', margin:'0', padding:'1px'}}>지원한 전문가 목록</legend>
+
+          <legend style={{fontSize: '16px', margin:'0', padding:'1px'}}>
+          {item.current_status === 2? '거래 중인 전문가':'지원한 전문가 목록'}</legend>
+
           {item.request_designer.map((designer)=>
                 <div style={{display: 'flex', alignItems: 'center'}}>
                 <div key={designer.designer_id} 
