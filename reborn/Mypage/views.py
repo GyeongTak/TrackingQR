@@ -74,6 +74,8 @@ def profile(request, format=None):
              {
                 'user' : userserializer.data,
                 'portfolio' :portfolioSerializer.data,
+                'certificates' : certificateSerializer.data,
+                'educationandcareers' : eduAndCareerSerializer.data,
                 'part_in_commission':partincommissionSerializer.data,
                 'projects' :projectSerializer.data,
                 'end_commission' : endcommissionSerializer.data

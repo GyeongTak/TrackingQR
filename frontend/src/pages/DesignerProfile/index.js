@@ -178,7 +178,7 @@ const DesignerProfile = () => {
             {
             <div style={{margin: '30px 0'}}>
             
-            <Table  columns={work_columns} dataSource={userInfo.portfolio.educationcareers} pagination={false}/>
+            <Table  columns={work_columns} dataSource={userInfo?.portfolio?.educationcareers} pagination={false}/>
             </div>}
             <SubTitle>프로젝트</SubTitle>
             {
