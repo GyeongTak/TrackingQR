@@ -56,6 +56,7 @@ const RequestList = () => {
 
         const loadRequests = async () => {
             const result = await getRequests();
+            console.log(result);
             setReviews([...result]);
         }
         
@@ -77,7 +78,7 @@ const RequestList = () => {
         <>
         <MainMenu />
         <div className={'main-container'} style={{padding: '0 10%', width: '100%', height: '100%'}}>
-            <div className={'mainTitle'} style={{fontSize: '32px', fontWeight: 'bold', padding:'50px 0'}}>
+            <div className={'mainTitle'} style={{fontSize: '32px', fontWeight: '500', padding:'50px 0'}}>
                 프로젝트 리스트
             </div>
 
@@ -93,7 +94,7 @@ const RequestList = () => {
                 
                 <div style={{position: 'absolute', right:'0', top: '0'}}>
                 <Link to="/request/new"> 
-                        <Button style={{color:'black', fontWeight:'bold', marginRight:'15px'}}>의뢰서 등록하기</Button>
+                        <Button style={{color:'black', fontWeight:'400', marginRight:'15px'}}>의뢰서 등록하기</Button>
                 </Link>
                 <Dropdown overlay={menu_date} placement="bottomLeft">
                     <Button icon={<DownOutlined />} >최신순</Button>
@@ -122,18 +123,19 @@ const RequestList = () => {
                     ]}
                     extra={
                     <img
-                        width={272}
+                        width={250}
                         alt="logo"
                         src={`http://localhost:8000${item.small_image}`}
                     />
                     }
                 >
                     <List.Item.Meta
-                    avatar={<Avatar src={item.avatar} />}
+                    avatar={<Avatar style={{width:'80px', height:'80px'}}src={`http://localhost:8000${item.profile_image}`} />}
                     title={<Link to={`/request/${item.id}`}>{item.title}</Link>}
-                    description={<div>{item.deadline} 까지</div>}
+                    description={<div>{item.client_name} 님의 의뢰 ({item.client_company_name})</div>}
                     />
-                    {item.client_name} {item.client_company_name}
+                    <div  style={{height:"100px"}}>{item.deadline} 까지</div>
+                    
                 </List.Item>
                 )}
             />

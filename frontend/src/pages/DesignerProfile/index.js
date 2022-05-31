@@ -81,8 +81,8 @@ const designerInfo = {
 const columns = [
     {
       title: '취득 기간',
-      dataIndex: 'acquired_period',
-      key: 'acquired_period',
+      dataIndex: 'acquired_date',
+      key: 'acquired_date',
     },
     {
       title: '자격증',
@@ -109,8 +109,8 @@ const columns = [
     },
     {//job_position
         title: '직무',
-        dataIndex: 'job_position',
-        key: 'job_position',
+        dataIndex: 'description',
+        key: 'description',
       },
   ];
 
@@ -128,6 +128,7 @@ const DesignerProfile = () => {
         const loadProfileInfo = async () => {
             const result = await getProfileInfo();
             setUserInfo(result);
+            console.log('result');
             console.log(result);
         }
         loadProfileInfo();
@@ -146,9 +147,9 @@ const DesignerProfile = () => {
         <div css={container}>
 
         <UserInfoForm>
-            {userInfo?.user?.profile_image?
+            {userInfo?.profile_image?
             <Avartar
-            src={`http://localhost:8000${userInfo.user.profile_image}`} />:
+            src={`http://localhost:8000${userInfo.profile_image}`} />:
             <Avartar
             style={{width:'200px', height:'200px'}}
             src={userImg}
@@ -171,7 +172,7 @@ const DesignerProfile = () => {
             <SubTitle>자격증</SubTitle>
             {
             <div style={{margin: '30px 0'}}>
-            <Table  columns={columns} dataSource={userInfo?.portfolio?.certificates} pagination={false}/>
+            <Table  columns={columns} dataSource={userInfo?.certificates} pagination={false}/>
             </div>}
 
             <SubTitle>경력 사항</SubTitle>
