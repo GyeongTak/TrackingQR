@@ -2,9 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import MainMenu from 'components/MainMenu';
 import { getPortfolio } from '../../apis/portfolio';
-import { container,UserInfoForm, userInfoContent, editButtonWrapper, SubTitle} from './style';
+import { container,UserInfoForm, userInfoContent, editButtonWrapper, SubTitle, ProjectWrapper} from './style';
 import { StepForwardOutlined } from '@ant-design/icons';
-import { Card, Table, Rate } from 'antd';
+import { List, Table, Rate } from 'antd';
+import { Link } from 'react-router-dom';
 import PortfolioCard from 'components/PortfolioCard';
 
 const dummy =
@@ -26,12 +27,13 @@ const dummy =
     }],
     'projects' :[
     {
-    'title' : 'title',//
-    'description' : 'desc',//
+    'id': 5,
+    'title' : '프로젝트 제목',//
+    'description' : '프로젝트 소개....프로젝트 소개....프로젝트 소개....프로젝트 소개....',//
     'participation_date' : '2022-05-03',//
     'client' : 'client',//
     'image': '' ,//
-    'score': 5,
+    'score': 3,
     },]
 };
 
@@ -99,37 +101,67 @@ const PortfolioDetail = () => {
             <div>{portfolio?.description}</div>
             </div>
         </UserInfoForm> 
-        <SubTitle>자격증</SubTitle>
-        {portfolio?.certificates && <div style={{margin: '30px 0'}}>
-        
-        <Table  columns={columns} dataSource={portfolio?.certificates} pagination={false}/>
-        </div>}
 
-        <SubTitle>경력 사항</SubTitle>
-        {portfolio?.educationandcareer && 
-        <div style={{margin: '30px 0'}}>
-        
-        <Table  columns={work_columns} dataSource={portfolio?.educationcareers} pagination={false}/>
-        </div>}
+        <SubTitle>포트폴리오 소개</SubTitle>
+            <div style={{margin: '30px 0'}}>
+            {portfolio?.description}
+            </div>
 
-        {
-            portfolio?.projects && portfolio?.projects.map((project, index)=>{
-                return(
-            <Card
-                key={index}
-                hoverable
-                style={{ width: 240 }}
-                cover={<img alt="example" src={`http://localhost:8000${project.image}`} />}
-              >
-                <Card.Meta title={project.title} 
-                description={<>
-                <div>{project.participation_date}</div>
-                <div>{project.description}</div>
-                <div>{project.client}</div></>} />
-                <div><Rate disabled defaultValue={project.score} /></div>
-              </Card>);
-            })
-        }
+            <SubTitle>자격증</SubTitle>
+            {
+            <div style={{margin: '30px 0'}}>
+            <Table  columns={columns} dataSource={portfolio?.certificates} pagination={false}/>
+            </div>}
+
+            <SubTitle>경력 사항</SubTitle>
+            {
+            <div style={{margin: '30px 0'}}>
+            
+            <Table  columns={work_columns} dataSource={portfolio?.educationandcareers} pagination={false}/>
+            </div>}
+            <SubTitle>프로젝트</SubTitle>
+            {
+                portfolio?.projects&& 
+                portfolio?.projects?.map((project) => {
+                    return (
+                        <>
+                        <ProjectWrapper>
+                        {project?.title}
+                        <Rate defaultValue={project?.score} disabled/>
+                        </ProjectWrapper>
+                        </>
+                    );
+                })
+            }
+
+            <div style={{margin: '30px 0'}}>
+            <SubTitle>프로젝트 상세</SubTitle>
+            <List
+            itemLayout="vertical"
+            size="large"
+            dataSource={portfolio?.projects}
+            renderItem={item => (
+            <List.Item
+                key={item.title}
+                extra={
+                <img
+                    width={272}
+                    alt="logo"
+                    src={`http://localhost:8000${item.image}`}
+                />
+                }
+            >
+                <List.Item.Meta
+                title={<Link to={`/project/${item.id}`}>{item.title}</Link>}
+                description={<><div>{item.client}님의 의뢰</div><Rate defaultValue={item.score} disabled/></>}
+                />
+                {item.description}
+            </List.Item>
+            )}
+  />
+        </div>
+
+
         </div>
         </>
 
