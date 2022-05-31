@@ -14,47 +14,6 @@ import { getProfileInfo } from '../../apis/user';
 import { Link } from 'react-router-dom';
 import userImg from '../../assets/user.png';
 
-const clientDummy = {
-        'user': {
-        "profile_image": '',
-        "username" : "tticjswo2",
-        "email" : "tticjswo2@naver.com",
-        "phone" : "01023872521",
-        "company_name" : "Samsung",
-        "description" : "Company Samsung is upcoming"
-        },
-        'commissions':
-        [{
-        'id':4,
-        'small_image':'', 
-        'request_count':5,
-        'title':'제목',
-        'deadline': '2022-05-03', 
-        'brief_description': 'brief_description', 
-        'budget': 1000,
-        'finish_date':5,
-        'client_company_name':'soongsil',
-        'request_designer':[{
-            'designer_username':'디자이너Lee',
-            'designer_average_stars':5,
-            'designer_id' : 3
-        },
-        {
-            'designer_username':'디자이너Lee',
-            'designer_average_stars':5,
-            'designer_id' : 3
-        }]
-        }],
-        'reviews' : [{
-        'id': 4,
-        'score': 3,
-        'small_image': '',
-        'desinger_name':'디자이너 Lee',
-        'brief_description':'description',
-        'title': 'review - title'
-        }]
-        
-};
 
 const IconText = ({ icon, text }) => (
     <Space>
@@ -158,13 +117,13 @@ const ClientProfile = () => {
           {item.brief_description}
 
           <fieldset style={{border:'1px solid #f0f0f1', marginTop: '15px', padding: '10px'}}>
-          <legend style={{fontSize: '16px', margin:'0', padding:'1px'}}>지원한 디자이너 목록</legend>
+          <legend style={{fontSize: '16px', margin:'0', padding:'1px'}}>지원한 전문가 목록</legend>
           {item.request_designer.map((designer)=>
             <div key={designer.designer_id} 
             onClick={()=>navigate(`/portfolio/${parseInt(designer.designer_id, 10)}`)} 
             style={{display: 'flex',  alignItems: 'center', margin:'0', padding:'0', cursor:"pointer"}}>
-            <Avatar style={{width:'50px', height:'50px'}}src={`http://localhost:8000$${designer.profile_image}`}/>
-            {designer.designer_username}
+            <Avatar style={{width:'50px', height:'50px'}}src={`http://localhost:8000$${designer.designer_profile_image}`}/>
+            ' {designer.designer_username} ' 님 
             <Rate style={{marginLeft:'10px'}}disabled defaultValue={designer.designer_average_stars} />
             </div>
             )}

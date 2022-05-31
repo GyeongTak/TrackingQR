@@ -110,7 +110,7 @@ class CommissionViewSet(viewsets.GenericViewSet):
 
     @action(methods=['POST'], permission_classes=[IsAuthenticated,] ,detail=False)
     def commission_select_for_designer(self,request) :
-        if request.user.is_client() :
+        if request.user.is_client == False :
             pass
         else :
             designer = Designer.objects.get(user= request.user)
