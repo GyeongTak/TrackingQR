@@ -6,7 +6,7 @@ const AvatarWrapper = styled.div`
     height: 100px;
     ${props => props.src && 'background-image: url("'+props.src+'")'};
     background-position: center;
-    background-size: cover;
+    background-size: contain;
     background-repeat: no-repeat;
     &:hover {
         opacity: 0.5;
