@@ -102,7 +102,7 @@ const CreatePortfolioPage = () => {
 
     const onChangeRangePicker = (fieldsValue) => {
         const rangeValue = fieldsValue['range-picker'];
-
+        console.log(rangeValue);
         //console.log(moment(rangeValue[1].format('YYYY-MM-DD')).diff(moment(rangeValue[0].format('YYYY-MM-DD')), 'months'));
         setCertificates(prev => [...prev, {
             acquired_period:rangeValue[0].format('YYYY-MM-DD')+" ~ "+rangeValue[1].format('YYYY-MM-DD'),
@@ -114,6 +114,7 @@ const CreatePortfolioPage = () => {
 
     const onChangeRangeCareer = (fieldsValue) => {
         const rangeValue = fieldsValue['range-picker'];
+        
         setEducationcareers(prev => [...prev, {
             working_period:rangeValue[0].format('YYYY-MM-DD')+" ~ "+rangeValue[1].format('YYYY-MM-DD'),
             company_name: companyName,
