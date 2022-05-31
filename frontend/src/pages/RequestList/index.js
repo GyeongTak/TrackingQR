@@ -62,24 +62,13 @@ const RequestList = () => {
         
         loadRequests();
     }, []);
-    
-    /**
-     * title*
-     * deadline*
-     * finish_date*
-     * budget*
-     * small_image*
-     * client_name*
-     * client_company_name*
-     * request_count
-     * id
-     */
+
     return (
         <>
         <MainMenu />
         <div className={'main-container'} style={{padding: '0 10%', width: '100%', height: '100%'}}>
             <div className={'mainTitle'} style={{fontSize: '32px', fontWeight: '500', padding:'50px 0'}}>
-                프로젝트 리스트
+                의뢰서 목록
             </div>
 
             <div style={{margin: '10px 0', width:'100%', position: 'relative'}}>
@@ -130,11 +119,11 @@ const RequestList = () => {
                     }
                 >
                     <List.Item.Meta
-                    avatar={<Avatar style={{width:'80px', height:'80px'}}src={`http://localhost:8000${item.profile_image}`} />}
-                    title={<Link to={`/request/${item.id}`}>{item.title}</Link>}
-                    description={<div>{item.client_name} 님의 의뢰 ({item.client_company_name})</div>}
+                    avatar={<Avatar style={{width:'80px', height:'80px'}}src={`http://localhost:8000${item.client_profile_image}`} />}
+                    title={<Link to={`/request/${item.id}`}><h3 style={{marginLeft:"10px"}}>{item.title}</h3></Link>}
+                    description={<div style={{marginLeft:"25px"}}>{item.client_name} 님의 의뢰 ({item.client_company_name})</div>}
                     />
-                    <div  style={{height:"100px"}}>{item.deadline} 까지</div>
+                    <div  style={{height:"100px"}}>마감일 : {item.deadline} 까지</div>
                     
                 </List.Item>
                 )}
