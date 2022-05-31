@@ -181,6 +181,7 @@ const DesignerProfile = () => {
             </div>}
             <SubTitle>프로젝트</SubTitle>
             {
+                userInfo?.projects&& 
                 userInfo.projects.map(project=>
                 <Card
                     hoverable

@@ -99,14 +99,16 @@ const PortfolioDetail = () => {
             <div>{portfolio?.description}</div>
             </div>
         </UserInfoForm> 
-        {portfolio?.certificates && <div style={{margin: '30px 0'}}>
         <SubTitle>자격증</SubTitle>
+        {portfolio?.certificates && <div style={{margin: '30px 0'}}>
+        
         <Table  columns={columns} dataSource={portfolio?.certificates} pagination={false}/>
         </div>}
 
+        <SubTitle>경력 사항</SubTitle>
         {portfolio?.educationandcareer && 
         <div style={{margin: '30px 0'}}>
-        <SubTitle>경력 사항</SubTitle>
+        
         <Table  columns={work_columns} dataSource={portfolio?.educationcareers} pagination={false}/>
         </div>}
 
