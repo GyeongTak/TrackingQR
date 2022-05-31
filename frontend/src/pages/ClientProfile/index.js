@@ -2,17 +2,18 @@
 import React, { useState, useEffect } from 'react';
 import MainMenu from '../../components/MainMenu';
 //import Tabs from '../../components/Tabs';
-import { container, memberInfoContainer, userInfoContent, editButtonWrapper} from './style';
+import { UserInfoForm, container, memberInfoContainer, userInfoContent, editButtonWrapper} from './style';
 import Avartar from '../../components/Avatar';
 import { useRecoilState } from 'recoil';
 import userState from '../../store/user';
-import { List, Button, Modal, Input, Rate, Space, Tabs } from 'antd';
-import {  HeartTwoTone, DownOutlined, MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
+import { List, Button, Modal, Input, Rate, Space, Tabs, Tag } from 'antd';
+import { MailOutlined, PhoneOutlined, HomeOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.min.css';
 import { useNavigate, useLocation, useParams} from 'react-router-dom';
-import { getClientInfo } from '../../apis/user';
+import { getProfileInfo } from '../../apis/user';
 import Avatar from '../../components/Avatar';
 import { Link } from 'react-router-dom';
+import userImg from '../../assets/user.png';
 
 const clientDummy = {
         'user': {
@@ -25,22 +26,33 @@ const clientDummy = {
         },
         'commissions':
         [{
-        'small_image':'', //
-        'request_count':5,//
-        'title':'제목',//
-        'deadline': '2022-05-03', //
-        'description': 'description', //
-        'budget': 1000,//
-        'finish_date':5,//
+        'id':4,
+        'small_image':'', 
+        'request_count':5,
+        'title':'제목',
+        'deadline': '2022-05-03', 
+        'brief_description': 'brief_description', 
+        'budget': 1000,
+        'finish_date':5,
         'client_company_name':'soongsil',
+        'request_designer':[{
+            'designer_username':'디자이너Lee',
+            'designer_average_stars':5,
+            'designer_id' : 3
+        },
+        {
+            'designer_username':'디자이너Lee',
+            'designer_average_stars':5,
+            'designer_id' : 3
+        }]
         }],
         'reviews' : [{
         'id': 4,
         'score': 3,
-        'small_image': '',//
-        'desinger_name':'디자이너 이름',
-        'brief_description':'description',//
-        'title': 'review - title'//
+        'small_image': '',
+        'desinger_name':'디자이너 Lee',
+        'brief_description':'description',
+        'title': 'review - title'
         }]
         
 };
@@ -66,16 +78,16 @@ const ClientProfile = () => {
     
 
     useEffect(()=>{
-        //console.log(clientDummy.user.username);
-        //setClientInfo(clientDummy);
-        
+        console.log(clientDummy.user.username);
+        setClientInfo(clientDummy);
+        /*
         const loadClientInfo = async () => {
-            const result = await getClientInfo();
+            const result = await getProfileInfo();
             setClientInfo(result);
             console.log(result);
         }
         loadClientInfo();
-    
+        */
        
     },[]);
 
@@ -95,52 +107,65 @@ const ClientProfile = () => {
         <MainMenu />
         <div css={container}>
 
-        
-        <div css={memberInfoContainer}>
+        <UserInfoForm>
+            {clientInfo?.user?.profile_image?
             <Avartar
-            style={{width:"200px", height:'200px'}} 
-            src={`http://localhost:8000${clientInfo?.user?.profile_image}`} />
+            src={`http://localhost:8000${clientInfo.user.profile_image}`} />:
+            <Avartar
+            style={{width:'200px', height:'200px'}}
+            src={userImg}
+            shape="square" />
+            }
             <div css={userInfoContent}>
             <h2>{clientInfo?.user?.username}님</h2>
             
-            <h3>{clientInfo?.user?.email}</h3>
-            <h3>{clientInfo?.user?.phone}</h3>
-            <h3>{clientInfo?.user?.company_name}</h3>
-            <h3>{clientInfo?.user?.description}</h3>
+            <div><MailOutlined style={{marginRight:'5px'}}/>{clientInfo?.user?.email}</div>
+            <div><PhoneOutlined style={{marginRight:'5px'}}/>{clientInfo?.user?.phone}</div>
+            <div><HomeOutlined style={{marginRight:'5px'}}/>{clientInfo?.user?.company_name}</div>
+            <div style={{marginTop: '20px', width:'50%'}}>{clientInfo?.user?.description}
+            {'Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....'}</div>
             </div>
-            {
-                user?.id === parseInt(id, 10)? <Button onClick={onClickEditButton} css={editButtonWrapper}>프로필 수정</Button>:
-                null
-            }
-        </div>
+            <Button onClick={onClickEditButton} css={editButtonWrapper}>프로필 수정</Button>
+            
+        </UserInfoForm>
+       
         <Tabs defaultActiveKey="1" onChange={onClickTab}>
             <Tabs.TabPane tab="의뢰서" key="request">
             <List
-      itemLayout="vertical"
-      size="large"
-      dataSource={clientInfo.commissions}
-      renderItem={item => (
-        <List.Item
-          key={item.title}
-          actions={[
-            <div>{item.budget} 만원</div>,
-            <div>작업기간  {item.finish_date}일</div>,
-            <div>받은 제안 {item.request_count}개</div>,
-          ]}
-          extra={
-            <img
-                    width={272}
-                    alt="logo"
-                    src={`http://localhost:8000${item.small_image}`}
-                />
-          }
-        >
+            itemLayout="vertical"
+            size="large"
+            dataSource={clientInfo.commissions}
+            renderItem={item => (
+                <List.Item
+                key={item.title}
+                actions={[
+                    <div>{item.budget} 만원</div>,
+                    <div>작업기간  {item.finish_date}개월</div>,
+                    <div>받은 제안 {item.request_count}개</div>,
+                ]}
+                extra={
+                    <img
+                            width={272}
+                            alt="logo"
+                            src={`http://localhost:8000${item.small_image}`}
+                        />
+                }
+            >
           <List.Item.Meta
-            avatar={<Avatar src={item.profile_image} />}
-            title={<a href={item.href}>{item.title}</a>}
-            description={<div>{item.deadline} 회사명: {item.client_company_name}</div>}
+            title={<Link to={`/portfolio/${item.id}`}>{item.title}</Link>}
+            description={<div>작업기한  {item.deadline} 회사명 {item.client_company_name}</div>}
           />
-          {item.description}
+          {item.brief_description}
+
+          <div style={{fontWeight:'500', marginTop:"5px"}}>지원한 디자이너 목록</div>
+            {item.request_designer.map((designer)=>
+            <div key={designer.designer_id} 
+            onClick={()=>navigate(`/portfolio/${parseInt(designer.designer_id, 10)}`)} 
+            style={{margin:'0', padding:'0', cursor:"pointer"}}>
+            <Tag color="blue">{designer.designer_username}</Tag>
+            <Rate disabled defaultValue={designer.designer_average_stars} />
+            </div>
+            )}
         </List.Item>
       )}
     />
@@ -163,9 +188,10 @@ const ClientProfile = () => {
             >
                 <List.Item.Meta
                 title={<Link to={`/review/${item.id}`}>{item.title}</Link>}
-                description={<><Rate disabled defaultValue={item.score} /><div>Desinger: {item.desinger_name}</div></>}
+                description={<><div>Desinger {item.desinger_name}</div><Rate disabled defaultValue={item.score} /></>}
                 />
                 {item.brief_description}
+                
             </List.Item>
             )}
       />
@@ -179,11 +205,17 @@ const ClientProfile = () => {
 
         <Modal visible={modal} onCancel={onCancelEdit}>
             <h2>프로필 수정</h2>
-            <Avatar src={'https://search.pstatic.net/common/?src=http%3A%2F%2Fpost.phinf.naver.net%2FMjAyMDA3MTZfMjE3%2FMDAxNTk0ODcyNzY2NTE3.q33CvFJq2IiCh9BUVWfG4IWhEJX-giFX9Rp9_K3AJzkg.9N4e_fFoOp3vQ7c5dxqKyvFrabouzwtUKo41KqOAKbAg.JPEG%2FIELuoo7XtRxBS8TA97d-alMucVRc.jpg&type=sc960_832'}></Avatar>
+            {clientInfo?.user?.profile_image?
+            <Avartar
+            src={`http://localhost:8000${clientInfo.user.profile_image}`} />:
+            <Avartar
+            src={userImg}
+            shape="square" />
+            }
             <div style={{margin:"20px 0"}}><Input placeholder="email"></Input></div>
             <div style={{margin:"20px 0"}}><Input placeholder="phone"></Input></div>
-            <div style={{margin:"20px 0"}}><Input placeholder="skills"></Input></div>
-            <div style={{margin:"20px 0"}}><Input placeholder="description"></Input></div>
+            <div style={{margin:"20px 0"}}><Input placeholder="회사 이름"></Input></div>
+            <div style={{margin:"20px 0"}}><Input placeholder="자기 소개"></Input></div>
         </Modal>
         </>
     );

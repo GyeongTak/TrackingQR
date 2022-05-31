@@ -44,10 +44,10 @@ const loadMyInfo = async () => {
     }
 }
 
-const getClientInfo = async () => {
+const getProfileInfo = async () => {
     try {
         const token = localStorage.getItem('token');
-        const result = await instance.get('api/mypage', {
+        const result = await instance.get('/api/mypage', {
             headers: { 
                 "Content-Type": `application/json`,
                 Authorization : "Token " + token,
@@ -77,4 +77,4 @@ const loadMyInfo = async () =>{
 }
 */
 
-export {login, logout, loadMyInfo, getClientInfo};
+export {login, logout, loadMyInfo, getProfileInfo};
