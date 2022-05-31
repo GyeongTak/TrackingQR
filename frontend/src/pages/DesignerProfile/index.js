@@ -81,8 +81,8 @@ const designerInfo = {
 const columns = [
     {
       title: '취득 기간',
-      dataIndex: 'acquired_period',
-      key: 'acquired_period',
+      dataIndex: 'acquired_date',
+      key: 'acquired_date',
     },
     {
       title: '자격증',
@@ -109,8 +109,8 @@ const columns = [
     },
     {//job_position
         title: '직무',
-        dataIndex: 'job_position',
-        key: 'job_position',
+        dataIndex: 'description',
+        key: 'description',
       },
   ];
 
@@ -129,6 +129,7 @@ const DesignerProfile = () => {
             const result = await getProfileInfo();
             setUserInfo(result);
             console.log(result);
+            
         }
         loadProfileInfo();
     }, []);
@@ -168,17 +169,22 @@ const DesignerProfile = () => {
 
         <Tabs defaultActiveKey="1" onChange={onChangeTab}>
             <Tabs.TabPane tab="포트폴리오" key="portfolio">
+            <SubTitle>포트폴리오 소개</SubTitle>
+            <div style={{margin: '30px 0'}}>
+            {userInfo?.portfolio?.description}
+            </div>
+
             <SubTitle>자격증</SubTitle>
             {
             <div style={{margin: '30px 0'}}>
-            <Table  columns={columns} dataSource={userInfo?.portfolio?.certificates} pagination={false}/>
+            <Table  columns={columns} dataSource={userInfo?.certificates} pagination={false}/>
             </div>}
 
             <SubTitle>경력 사항</SubTitle>
             {
             <div style={{margin: '30px 0'}}>
             
-            <Table  columns={work_columns} dataSource={userInfo.portfolio.educationcareers} pagination={false}/>
+            <Table  columns={work_columns} dataSource={userInfo?.educationandcareers} pagination={false}/>
             </div>}
             <SubTitle>프로젝트</SubTitle>
             {
