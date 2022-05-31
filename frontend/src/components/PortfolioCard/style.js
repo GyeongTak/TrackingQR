@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 
 const PortfolioCardContainer = styled.div`
+    cursor: pointer;
     display: flex;
     border-bottom: 1px solid #e6e7eb;
     margin: 50px 0;

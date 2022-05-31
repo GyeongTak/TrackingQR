@@ -27,6 +27,9 @@ const SubTitle = styled.div`
     font-weight: 500;
     margin-bottom: 10px;
 `
-
-export { container,UserInfoForm, userInfoContent, editButtonWrapper, SubTitle};
+const ProjectWrapper = styled.div`
+    display:flex;
+    justify-content: space-between;
+`
+export { container,UserInfoForm, userInfoContent, editButtonWrapper, SubTitle, ProjectWrapper};
 
