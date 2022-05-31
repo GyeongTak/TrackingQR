@@ -42,7 +42,6 @@ class Commission(models.Model) :
     deadline = models.CharField(max_length=50) #모집 마감 기한
     
     current_status = models.IntegerField(choices=CommissionStatus.choices, default = 0,blank=True) # 현재 상태 
-    messageFlag = models.BooleanField(default=0, blank= True)    
 
     updated = models.DateTimeField(auto_now = True)
     created = models.DateTimeField(auto_now_add = True)

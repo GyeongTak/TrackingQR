@@ -1,4 +1,6 @@
 from email.policy import default
+from pyexpat import model
+from ssl import create_default_context
 from django.db import models
 
 from django.db.models.signals import post_save
@@ -38,6 +40,11 @@ class Designer(User) :
     class Meta :
         verbose_name = 'Designer'
     # def __unicode__(self):
+
+class Message(models.Model) :
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.CharField(max_length=200)
+    created = models.DateTimeField(auto_now_add = True)
 
 
 class DesignerReview(models.Model) :

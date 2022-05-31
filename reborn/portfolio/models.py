@@ -50,6 +50,7 @@ class EducationAndCareer(models.Model) :
 class Projects(models.Model) :
     
     title = models.CharField(max_length=100 , null = False)
+    small_image = models.ImageField(upload_to =path_and_rename, blank = True)
     description = RichTextField()
     participation_date = models.IntegerField()
     portfolio = models.ForeignKey(DesignerPopol,blank= True, on_delete = models.CASCADE, related_name='projects')

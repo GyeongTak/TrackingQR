@@ -17,13 +17,16 @@ from portfolio.serializers import PopolSerializer, DesignerProfileSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 
-from .serializers import  PortfolioSerializer,ProjectSerializer,MyCommissionBriefSerializer,MyCommissionSerializer,MyReviewBriefSerialzier, ClientUserSerializer,DesignerUserSerializer,PartInCommissionSerializer,EndCommissionSerializer
+from .serializers import  MessageSerializer,PortfolioSerializer,ProjectSerializer,MyCommissionBriefSerializer,MyCommissionSerializer,MyReviewBriefSerialzier, ClientUserSerializer,DesignerUserSerializer,PartInCommissionSerializer,EndCommissionSerializer
 
 import datetime
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def profile(request, format=None):
+    messages = Message.objects.filter(user = request.user)
+    messageSerializer = MessageSerializer(messages, many=True)
+
     if request.user.is_client == True :
         clientUser = Client.objects.get(id = request.user.id)
         userSerializer = ClientUserSerializer(clientUser, many=False)
@@ -34,14 +37,13 @@ def profile(request, format=None):
         my_review = customerReview.objects.filter(client= clientUser)
         my_reviewSerializer = MyReviewBriefSerialzier(my_review, many = True)
         
-        # if my_commission.messageflag == True :
-        #     alarm = True;
-        #     message = ''
+        
 
         return Response({
             'user' : userSerializer.data,
             'commissions' : my_commissionSerializer.data,
-            'reviews' :  my_reviewSerializer.data
+            'reviews' :  my_reviewSerializer.data,
+            'messages' : messageSerializer.data,
         })
 
     else :
@@ -78,7 +80,9 @@ def profile(request, format=None):
                 'educationandcareers' : eduAndCareerSerializer.data,
                 'part_in_commission':partincommissionSerializer.data,
                 'projects' :projectSerializer.data,
-                'end_commission' : endcommissionSerializer.data
+                'end_commission' : endcommissionSerializer.data,
+                'messages' : messageSerializer.data,
+
             }
         )
         return Response(
@@ -90,7 +94,8 @@ def profile(request, format=None):
                 'educationandcareers' : eduAndCareerSerializer.data,
                 'part_in_commission':partincommissionSerializer.data,
                 'projects' :projectSerializer.data,
-                'end_commission' : endcommissionSerializer.data
+                'end_commission' : endcommissionSerializer.data,
+                'messages' : messageSerializer.data,
             }
         )
 

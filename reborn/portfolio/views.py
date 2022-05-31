@@ -118,6 +118,11 @@ class ProjectViewSet(viewsets.GenericViewSet) :
         
         return Response({'message': 'success'}, status=status.HTTP_200_OK)
 
+    def image_handler(self,request) :
+        print( request.FILE  )
+
+    
+
         
 
 

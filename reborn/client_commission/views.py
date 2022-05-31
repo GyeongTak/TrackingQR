@@ -93,14 +93,18 @@ class CommissionViewSet(viewsets.GenericViewSet):
     def commission_view(self, request):
         ListCommision = Commission.objects.filter(current_status = 0) #아직 의뢰가 수락되지 않은 상태의 모든 의뢰 조회
         serializer = CommissionViewSerializer(ListCommision, many=True)
-
+        for i in range(0,len(serializer.data)) :
+            serializer.data[i]['request_count'] = RequestedDesigner.objects.filter(commission = ListCommision[i]).count()
+            print(serializer.data[i]['request_count']) 
+            #= RequestedDesigner.objects.filter(commission = ListCommision[i])
+        print(serializer.data)
         return Response(serializer.data, status = status.HTTP_200_OK)
 
 
     @action(methods=['GET'],permission_classes=[AllowAny, ],detail=False)
     def commission_view_detail(self,request) :
         commission = Commission.objects.get(id = request.pk)
-        serializer = self.get_serializer(commission)
+        serializer = self.get_serializer_class(commission)
         request_count = RequestedDesigner.objects.filter(commission=commission).count()
         return Response(serializer.data ,{'request_count':request_count}, status= status.HTTP_200_OK)
 
