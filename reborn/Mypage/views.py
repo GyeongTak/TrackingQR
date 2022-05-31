@@ -21,6 +21,9 @@ import datetime
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def profile(request, format=None):
+    if request.user == None:
+        print('nothing')
+        return Response({'message':'nothing'})
     if request.user.is_client == True :
         clientUser = Client.objects.get(id = request.user.id)
         userSerializer = ClientUserSerializer(clientUser, many=False)

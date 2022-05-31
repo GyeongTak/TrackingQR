@@ -123,7 +123,7 @@ const ClientProfile = () => {
             <div><PhoneOutlined style={{marginRight:'5px'}}/>{clientInfo?.user?.phone}</div>
             <div><HomeOutlined style={{marginRight:'5px'}}/>{clientInfo?.user?.company_name}</div>
             <div style={{marginTop: '20px', width:'50%'}}>{clientInfo?.user?.description}
-            {'Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....'}</div>
+            </div>
             </div>
             <Button onClick={onClickEditButton} css={editButtonWrapper}>프로필 수정</Button>
             

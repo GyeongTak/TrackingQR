@@ -39,7 +39,7 @@ class  MyCommissionBriefSerializer(serializers.ModelSerializer) :
     request_designer = RequestedDesignerSerializer(many=True, read_only=True)
     class Meta :
         model = Commission
-        fields = ('title', 'created','brief_description','budget','finish_date','small_image','request_designer','deadline')
+        fields = ('id','title', 'created','brief_description','budget','finish_date','small_image','request_designer','deadline')
     def get_brief_description(self, obj) :
         return obj.description[:50] 
         # description 을 50 글자만 표시할 수 있도록 바꾼다.
