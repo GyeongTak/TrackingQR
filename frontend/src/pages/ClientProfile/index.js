@@ -78,16 +78,16 @@ const ClientProfile = () => {
     
 
     useEffect(()=>{
-        console.log(clientDummy.user.username);
-        setClientInfo(clientDummy);
-        /*
+        //console.log(clientDummy.user.username);
+        //setClientInfo(clientDummy);
+        
         const loadClientInfo = async () => {
             const result = await getProfileInfo();
             setClientInfo(result);
             console.log(result);
         }
         loadClientInfo();
-        */
+        
        
     },[]);
 
@@ -122,8 +122,7 @@ const ClientProfile = () => {
             <div><MailOutlined style={{marginRight:'5px'}}/>{clientInfo?.user?.email}</div>
             <div><PhoneOutlined style={{marginRight:'5px'}}/>{clientInfo?.user?.phone}</div>
             <div><HomeOutlined style={{marginRight:'5px'}}/>{clientInfo?.user?.company_name}</div>
-            <div style={{marginTop: '20px', width:'50%'}}>{clientInfo?.user?.description}
-            {'Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....'}</div>
+            <div style={{marginTop: '20px', width:'50%'}}>{clientInfo?.user?.description}</div>
             </div>
             <Button onClick={onClickEditButton} css={editButtonWrapper}>프로필 수정</Button>
             

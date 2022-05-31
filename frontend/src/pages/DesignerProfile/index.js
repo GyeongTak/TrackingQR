@@ -116,16 +116,12 @@ const DesignerProfile = () => {
     const navigate = useNavigate();
 
     useEffect(()=> {
-        /*
         const loadProfileInfo = async () => {
             const result = await getProfileInfo();
             //setUserInfo(result);
             console.log(result);
         }
         loadProfileInfo();
-        */
-        setUserInfo(designerInfo);
-        setTableLoading(false);
     }, []);
     const onClickEditButton = () => {
         navigate('#editprofile');
@@ -136,7 +132,6 @@ const DesignerProfile = () => {
     }
     
     return (
-    
         <>
         <MainMenu />
         <div css={container}>
@@ -157,8 +152,7 @@ const DesignerProfile = () => {
             <div><PhoneOutlined style={{marginRight:'5px'}}/>{userInfo?.user?.phone}</div>
             <div>{userInfo?.user?.skills} 전문</div>
             <div><Rate disabled defaultValue={userInfo?.user?.average_stars} /></div>
-            <div style={{width:'50%'}}>{userInfo?.user?.description}
-            {'Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....Test Description....'}</div>
+            <div style={{width:'50%'}}>{userInfo?.user?.description}</div>
             </div>
             <Button onClick={onClickEditButton} css={editButtonWrapper}>프로필 수정</Button>
         </UserInfoForm> 
