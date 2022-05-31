@@ -3,8 +3,9 @@ import styled from "@emotion/styled";
 const PortfolioCardContainer = styled.div`
     cursor: pointer;
     display: flex;
-    border-bottom: 1px solid #e6e7eb;
+    border-bottom: 2px solid #e6e7eb;
     margin: 50px 0;
+    padding : 10px;
 `
 
 const NameWrapper = styled.div`

@@ -22,15 +22,17 @@ const PortfolioCard = ({portfolio}) => {
             <div style={{marginLeft: '100px'}}>
                 <DescriptionWrapper>{portfolio?.description}</DescriptionWrapper>
                 <div style={{marginTop: '20px'}}>
+                <fieldset style={{border:'2px solid #f0f0f1', padding: '10px', width:'900px'}}>
                 <NameWrapper>진행한 프로젝트</NameWrapper>
                 {portfolio?.projects?.map((project) => {
                     return (
-                        <ProjectWrapper>
-                            {project?.title}
+                        <h6><ProjectWrapper style={{fontSize: '12px', marginLeft:'30px'}}>
+                            - {project?.title}
                             <Rate defaultValue={project?.average_stars} disabled/>
-                        </ProjectWrapper>
+                        </ProjectWrapper></h6>
                     );
                 })}
+                </fieldset>
                 </div>
             </div>
         </PortfolioCardContainer>
