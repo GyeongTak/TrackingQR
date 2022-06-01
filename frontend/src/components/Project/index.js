@@ -1,10 +1,17 @@
 import React from 'react';
 import { ProjectWrapper } from './style';
+import { useNavigate } from 'react-router-dom';
 
 const Project = ({ project }) => {
 
+    const navigate = useNavigate();
+
+    const onClickProject = () => {
+        navigate(`/project/${project.id}`);
+    }
+
     return (
-    <ProjectWrapper>
+    <ProjectWrapper onClick={onClickProject}>
 
     </ProjectWrapper>
     );

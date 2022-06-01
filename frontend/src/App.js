@@ -20,6 +20,7 @@ import CreateProjectPage from 'pages/CreateProject'
 import CreateProjectPage2 from 'pages/CreateProject2'
 import WriteReviewPage from 'pages/WriteReview'
 import { RequireAuth } from 'router/RequireAuth';
+import ProjectDetailPage from 'pages/ProjectDetail';
 
 const App = () => {
   return (
@@ -48,6 +49,7 @@ const App = () => {
           <Route path = "/WriteReview" element={<WriteReviewPage />} />
           <Route path = "/CreateProject" element={<CreateProjectPage />} />
           <Route path = "/CreateProject2" element={<CreateProjectPage2 />} />
+          <Route path = "/project/:id" element={<ProjectDetailPage/>} />
         </Routes>
       </BrowserRouter>
     </RecoilRoot>

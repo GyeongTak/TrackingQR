@@ -104,23 +104,20 @@ def create_portfolio(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, ])
 def create_project(request):
-    print(request.data)
-    print(request.FILE)
-    # tmpdesigner= Designer.objects.get(id = request.user.id)
-    # tmpportfolio = DesignerPopol.objects.get(designer= tmpdesigner)
-    # serializer = ProjectSerializer(request.data)
-    # serializer.is_valid(raise_exception=True)
+    tmpdesigner= Designer.objects.get(id = request.user.id)
+    tmpportfolio = DesignerPopol.objects.get(designer= tmpdesigner)
 
-    # if request.user.is_client == False :
-    #     newProject = Projects(
-    #         title = request.data['title'],
-    #         description = request.data['description'],
-    #         participation_date = request.data['participation_date'],
-    #         portfolio = tmpportfolio,
-    
-    #     )
-    #     newProject.save()
-    
+    if request.user.is_client == False :
+        newProject = Projects(
+            title = request.data['title'],
+            small_image = request.data['title_image'],
+            description = request.data['description'],
+            participation_date = request.data['start_date'],
+            portfolio = tmpportfolio,
+        )
+        newProject.save()
+    else :
+        return Response({"message" : 'failed to make projects'},status= status.HTTP_204_NO_CONTENT)
     return Response({'message': 'success'}, status=status.HTTP_200_OK)
 
 @api_view(['POST'])

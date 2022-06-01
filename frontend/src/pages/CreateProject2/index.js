@@ -26,7 +26,6 @@ const CreateProjectPage2 = ({ }) => {
     const [ start_date, setStartDate ] = useState('');
     const [ end_date, setEndDate ] = useState('');
 
-
     //미리보기를 위해 파일 저장
     const saveFileImage = (e) => {
       setFileImage(URL.createObjectURL(e.target.files[0]));
@@ -109,17 +108,20 @@ const CreateProjectPage2 = ({ }) => {
        
         const formData = new FormData();
 
-        formData.append('start_date', start_date);
-        formData.append('start_date', end_date);
+        formData.append('start_date', start_date + ' ~ ' + end_date);
+        //formData.append('end_date', end_date);
+        //formData.append('participate_date', start_date + " ~ " + end_date);
         formData.append('title', title);
         formData.append('title_image', fileImage);
         formData.append('description', value);
         
-        console.log('시작일: ',start_date);
-        console.log('마감일: ',end_date);
+        console.log('참여기간: ',start_date + ' ~ ' + end_date);
+        //console.log('마감일: ',end_date);
+        //console.log('참여기간', start_date + " ~ " + end_date);
         console.log('제목: ',title);
         console.log('썸네일사진: ',fileImage);
         console.log('본문: ',value);
+        
         
 
         const result = await postAllProject(formData);
@@ -134,11 +136,9 @@ const CreateProjectPage2 = ({ }) => {
       };
 
     const onChange = (date, dateString) => {
-      console.log(date, dateString);
       setStartDate(dateString);
     };
     const onChange2 = (date, dateString) => {
-      console.log(date, dateString);
       setEndDate(dateString);
     };
 
