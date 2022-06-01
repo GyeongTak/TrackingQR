@@ -1,5 +1,6 @@
 from email.policy import HTTP
 import certifi
+from django.http import QueryDict
 from django.shortcuts import render
 from pyrsistent import v
 from portfolio.models import DesignerPopol, Projects
@@ -19,6 +20,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 
 from .serializers import MyCommissionAlreadyStartedBriefSerializer, MessageSerializer,PortfolioSerializer,ProjectSerializer,MyCommissionBriefSerializer,MyCommissionSerializer,MyReviewBriefSerialzier, ClientUserSerializer,DesignerUserSerializer,PartInCommissionSerializer,EndCommissionSerializer
+from django.db.models import Q
 
 import datetime
 
@@ -32,21 +34,35 @@ def profile(request, format=None):
         clientUser = Client.objects.get(id = request.user.id)
         userSerializer = ClientUserSerializer(clientUser, many=False)
 
-        my_commission_not_started  = Commission.objects.filter(client = clientUser,  current_status= 1 | 0)
+        my_commission_not_started  = Commission.objects.filter(Q(client = clientUser) & (Q(current_status= 0)|Q(current_status=1)))
         my_commission_not_startedSerializer =  MyCommissionBriefSerializer(my_commission_not_started, many= True)
-
-        my_commission_started = Commission.objects.filter(client=clientUser, current_status = 2|3)
-        my_commission_startedSerializer = MyCommissionAlreadyStartedBriefSerializer(my_commission_started, many= True)
-                
-
+        
         my_review = customerReview.objects.filter(client= clientUser)
         my_reviewSerializer = MyReviewBriefSerialzier(my_review, many = True)
+
+        my_commission_started = Commission.objects.filter(Q(client = clientUser) & (Q(current_status= 2)|Q(current_status=3)))
+        if my_commission_started.count()== 0 :
+            return Response({
+            'user' : userSerializer.data,
+            'commissions_not_started' : my_commission_not_startedSerializer.data,
+            'commissions_started' : None ,
+            'reviews' :  my_reviewSerializer.data,
+            'messages' : messageSerializer.data,
+        })
+
+        my_commission_startedSerializer = MyCommissionAlreadyStartedBriefSerializer(my_commission_started, many= True)
+                
+        print({
+            'user' : userSerializer.data,
+            'commissions_notstarted' : my_commission_not_startedSerializer.data,
+            'commissions_started' :  my_commission_startedSerializer.data,
+            'reviews' :  my_reviewSerializer.data,
+            'messages' : messageSerializer.data,
+        })
         return Response({
             'user' : userSerializer.data,
-            'commissions' : {
-                my_commission_not_startedSerializer.data,
-                my_commission_startedSerializer.data
-            },
+            'commissions_notstarted' : my_commission_not_startedSerializer.data,
+            'commissions_started' :  my_commission_startedSerializer.data,
             'reviews' :  my_reviewSerializer.data,
             'messages' : messageSerializer.data,
         })
