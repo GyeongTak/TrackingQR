@@ -29,12 +29,7 @@ User = get_user_model()
 class CommissionViewSet(viewsets.GenericViewSet):
     permission_classes = [IsAuthenticated, ]
     serializer_class = EmptySerializer
-    serializer_classes = {
-        'create_commission': CommissionSerializer,
-        'commission_view' : CommissionViewSerializer,
-        'commission_view_detail' : CommissionViewDetailSerializer
-        
-    }   
+
 
     @action(methods=['POST'], detail=False)
     def create_commission(self, request):
@@ -100,7 +95,7 @@ class CommissionViewSet(viewsets.GenericViewSet):
             #= RequestedDesigner.objects.filter(commission = ListCommision[i])
         return Response(serializer.data, status = status.HTTP_200_OK)
 
-    @action(methods=['POST'],permission_classes=[IsAuthenticated, ],detail=False)
+    @action(methods=['POST'],permission_classes=[IsAuthenticated, ],detail=True)
     def commission_select_for_designer(self,request,pk) :
         if request.user.is_client == False :
             commission = Commission.objects.get(id = pk)
@@ -111,15 +106,18 @@ class CommissionViewSet(viewsets.GenericViewSet):
                 message = request.data['message']
             )
 
-        
 
 
-    @action(methods=['GET'],permission_classes=[AllowAny, ],detail=False)
+
+    @action(methods=['GET'],permission_classes=[AllowAny, ],detail=True)
     def commission_view_detail(self,request,pk) :
         commission = Commission.objects.get(id = pk)
-        serializer = self.get_serializer_class(commission)
+        serializer = CommissionViewDetailSerializer(commission, many=False)
         request_count = RequestedDesigner.objects.filter(commission=commission).count()
-        return Response(serializer.data ,{'request_count':request_count}, status= status.HTTP_200_OK)
+        return Response({
+            'commission' : serializer.data ,
+            'request_count':request_count
+            }, status= status.HTTP_200_OK)
 
 
 
@@ -140,12 +138,3 @@ class CommissionViewSet(viewsets.GenericViewSet):
             commission.save()
             return Response(status=status.HTTP_200_OK)
 
-
-
-    def get_serializer_class(self):
-        if not isinstance(self.serializer_classes, dict):
-            raise ImproperlyConfigured("serializer_classes should be a dict mapping.")
-
-        if self.action in self.serializer_classes.keys():
-            return self.serializer_classes[self.action]
-        return super().get_serializer_class()

@@ -37,7 +37,7 @@ class PortfolioViewSet(viewsets.GenericViewSet):
         
         return Response(briefportfolio.data, status = status.HTTP_200_OK)
 
-    @action(methods=['GET'], permission_classes=[AllowAny, ], detail=False)
+    @action(methods=['GET'], permission_classes=[AllowAny, ], detail=True)
     def portfolio_view_detail(self, request, pk):
     
         Popol = DesignerPopol.objects.get(id = pk)
@@ -54,7 +54,8 @@ class PortfolioViewSet(viewsets.GenericViewSet):
 
         
         return Response(
-            serializer_popol.data , {
+            {
+                'portfolio' : serializer_popol.data , 
                 'certificates ' : serializer_certificate.data,
                 'educationandcareer' : serializer_educareer.data ,
                 'projects' : serializer_projects.data ,

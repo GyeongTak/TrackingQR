@@ -17,7 +17,8 @@ const postRequest = async (data) => {
 
 const getRequest = async (id) => {
     try {
-        const res = await instance.get(`/api/client_commission/commission_view_detail/${id}` );
+        const res = await instance.get(`/api/client_commission/${id}/commission_view_detail` );
+        console.log(`/api/client_commission/${id}/commission_view_detail`)
         return res.data;
 
     } catch (error) {
