@@ -15,10 +15,10 @@ const postRequest = async (data) => {
     }
 }
 
-const getRequest = async (id) => {
+const getRequest = async (data) => {
     try {
-        const res = await instance.get(`/api/client_commission/${id}/commission_view_detail` );
-        console.log(`/api/client_commission/${id}/commission_view_detail`)
+        const res = await instance.get(`/api/client_commission/${data}/commission_view_detail` );
+        console.log(`/api/client_commission/${data}/commission_view_detail`)
         return res.data;
 
     } catch (error) {

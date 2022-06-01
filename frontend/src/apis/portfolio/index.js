@@ -4,11 +4,11 @@ import {instance} from '../utils'
 const getPortfolios = async () => {
 
     try {
-        const result = await instance.get('/api/portfolio/portfolio_view');
+        const result = await instance.get('/api/portfolio/portfolio_view');//
         return result.data;
     } catch (error) {
         console.error(error);
-        alert(error.response.data);
+        window.alert(error.response.data);
     }
 }
 
@@ -20,7 +20,7 @@ const getPortfolio = async (data) => {
         return result.data;
     } catch (error) {
         console.error(error);
-        alert(error.response.data);
+        window.alert(error.response.data);
     }
 }
 

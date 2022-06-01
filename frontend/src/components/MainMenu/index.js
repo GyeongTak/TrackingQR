@@ -28,8 +28,9 @@ const MainMenu = () => {
         
         await logout();
         localStorage.removeItem('token');
-
-        console.log(localStorage.getItem('token'));
+        localStorage.removeItem('isClient');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('userName');
         
         setUser({
             userId : '',
@@ -63,17 +64,19 @@ const MainMenu = () => {
             <Input.Search placeholder="디자이너, 커미션 검색" onSearch={onSearch} style={{width:'30%'}}/>
             <div style={{display: 'flex', alignItems: 'center'}}>
                 {
-                    user.userId ?  <div style={{padding: '0 10px'}}>
-                    <Button onClick={onClicklogout}> 로그아웃 </Button>
-            </div>:<div style={{padding: '0 10px'}}>
+                    localStorage.getItem('userId') ? 
+                    <div style={{padding: '0 10px'}}>
+                        <Button onClick={onClicklogout}> 로그아웃 </Button>
+                    </div> :
+                    <div style={{padding: '0 10px'}}>
                     <Link to="/login"> 
                         <Button> 로그인 </Button>
                     </Link>
-                </div>
+                    </div> 
                 }
                 {
-                    user.userId ? 
-                    user.isClient?
+                    localStorage.getItem('userId') ? 
+                    localStorage.getItem('isClient') === 'true' ?
                     <div style={{padding: '0 10px'}}>
                     <Link to={`/client/${user.userId}`}> 
                         <Button> 마이페이지 </Button>
@@ -91,7 +94,7 @@ const MainMenu = () => {
                 </div>
                 }
                 
-                {user.userId ? user.isClient === true? 
+                {localStorage.getItem('userId') ? localStorage.getItem('isClient') === 'true'? 
                 <Link to ="/request/new">
                 <Button type="primary" shape="round" size='large'>의뢰하기</Button> 
             </Link>

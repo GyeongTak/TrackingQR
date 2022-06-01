@@ -19,7 +19,7 @@ const RequestContainer = styled.div`
     width: 50%;   
 `
 const Content = styled.div`
-    margin-bottom: 80px;
+    margin-bottom: 60px;
 `
 
 const LeftContent = styled.div`

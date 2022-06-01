@@ -7,36 +7,7 @@ import { StepForwardOutlined } from '@ant-design/icons';
 import { List, Table, Rate } from 'antd';
 import { Link } from 'react-router-dom';
 import PortfolioCard from 'components/PortfolioCard';
-
-const dummy =
-{
-    'designer_id' : 5,
-    'designer_name' :'Designer Lee',//
-    'description' : "자기소개란...자기소개란...자기소개란...자기소개란...자기소개란...자기소개란...자기소개란...자기소개란...",
-    'certificates' :
-    [{
-    'acquired_date' : '2022-05-03',
-    'certificate_name' : '정처기',
-    'time' : '5'
-    }],
-    'educationandcareer' :[
-    {
-    'working_period' : '2022-05-03',
-    'company_name' : 'soongsil' ,
-    'description' : 'desc',
-    }],
-    'projects' :[
-    {
-    'id': 5,
-    'title' : '프로젝트 제목',//
-    'description' : '프로젝트 소개....프로젝트 소개....프로젝트 소개....프로젝트 소개....',//
-    'participation_date' : '2022-05-03',//
-    'client' : 'client',//
-    'image': '' ,//
-    'score': 3,
-    },]
-};
-
+import { useParams } from 'react-router-dom';
 
 const columns = [
     {
@@ -76,18 +47,19 @@ const columns = [
 
 
 const PortfolioDetail = () => {
+    const { id } = useParams();
     const [portfolio, setPortfolio] = useState({});
     
     useEffect(()=>{
-        /*
+        
         const loadPortfolio = async () => {
-            const data = await getPortfolio();
+            const data = await getPortfolio(id);
             setPortfolio(data);
         }
 
         loadPortfolio();
-        */
-        setPortfolio(dummy);
+        
+        //setPortfolio(dummy);
     }, []);
 
     return (

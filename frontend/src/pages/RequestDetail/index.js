@@ -25,22 +25,24 @@ const dummy = {
 
 
 const RequestDetail = () => {
-    const { id } =  useParams();
-    const [request, setRequest] = useState({});
+    const { id } = useParams();
+    const [request, setRequest] = useState(false);
+    const [isClient, setIsClient] = useState({});
 
-    
+    useEffect(()=>{
+        const isClient = localStorage.getItem('isClient');
+        setIsClient(isClient);
+    }, []);
+
     useEffect(()=> {
         
         const loadRequest = async () => {
-            const data = await getRequest(id);
-            console.log(data);
+            const data = await getRequest(id); //
             setRequest(data);
         };
 
         loadRequest();
-    
-
-    // setRequest(dummy);
+       //setRequest(dummy);
     }, []);
 
     return (
@@ -116,6 +118,8 @@ const RequestDetail = () => {
                     <h3>작업 기한</h3>
                     <div>{request?.finish_date} 일</div>
                 </Content>
+                {isClient ==='false' && 
+                <Button>지원하기</Button>}
             </DescriptionContainer>
             
             </LeftContent>

@@ -53,8 +53,9 @@ const DesignerPage = () => {
         
         const getPortfoliosList = async () => {
             const result = await getPortfolios();
+            console.log('portfolio list');
             console.log(result);
-            setPortfolios([...result]);
+            setPortfolios(result);
         }
         
         getPortfoliosList();
