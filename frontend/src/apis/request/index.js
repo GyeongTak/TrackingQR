@@ -1,7 +1,7 @@
 
 import {instance} from '../utils' 
 
-export const postRequest = async (data) => {
+const postRequest = async (data) => {
 
     const token = localStorage.getItem('token');
     try {
@@ -16,7 +16,7 @@ export const postRequest = async (data) => {
 }
 
 
-export const getRequests = async () =>{
+const getRequests = async () =>{
     try {
         const res = await instance.get('/api/client_commission/commission_view', );
         return res.data;
@@ -28,7 +28,7 @@ export const getRequests = async () =>{
 }
 
 
-export const getRequestsMain = async () =>{
+const getRequestsMain = async () =>{
     try {
         const res = await instance.get('');
         return res.data;
@@ -38,3 +38,17 @@ export const getRequestsMain = async () =>{
         alert(error.response.data);
     }
 }
+
+const patchSelectDesigner = async (data) => {
+    const token = localStorage.getItem('token');
+    try {
+        const res = await instance.post('/api/mypage/designer_selected_for_commission', data,
+        {headers: { Authorization : "Token " + token}});
+        return res.data;
+    } catch (error) {
+        console.log(error);
+        alert(error.response.data);
+    }
+}
+
+export { postRequest,getRequests,getRequestsMain,patchSelectDesigner };

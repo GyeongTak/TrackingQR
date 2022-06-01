@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import MainMenu from '../../components/MainMenu';
 import Banner from '../../components/Banner';
 import Footer from '../../components/Footer';
-import { Card, Avatar, Rate } from 'antd';
+import { Card, Avatar, Rate, List } from 'antd';
 import 'antd/dist/antd.min.css';
 import { Link } from 'react-router-dom';
 import { getRequestsMain} from '../../apis/request';
@@ -64,17 +64,20 @@ const HomePage = () => {
 
             <div className={'client-container'} style={{width:'100%', marginTop:'50px', fontSize:'20px', fontWeight:'500',fontFamily: 'Noto Sans KR, sans-serif'}}> 
                 <div style={{display: 'flex', justifyContent: "space-between"}}>
-                    <div>후기를 둘러보세요</div>
+                    <div>고객 후기를 둘러보세요</div>
                     <button onClick={()=>navigate('/review')}style={{cursor: 'pointer',border: 0, outline:0,width:'70px',fontSize:'12px', backgroundColor:'#F5D5CB',appearance: "none", borderRadius:'5px', }}>더보기+</button> 
                 </div>
                 <div className='portfolio-container' style={{width: '100%', display: 'inline-grid', gridTemplateColumns: 'repeat(auto-fill, minmax(20%, auto))', gap: '5%'}}>
+                    
+                    
+                    
                     {requests.map((request)=>
                         <Card
                         hoverable
-                        cover={<img alt="example" src={`http://localhost:8000${request.image}`} />}
+                        cover={<img alt="example" src={`http://localhost:8000${request.small_image}`} />}
                     >
                         <Card.Meta 
-                        avatar={<Avatar src={request.userProfilePhoto} />} 
+                        avatar={<Avatar src={request.profile_image} />} 
                         title={<div style={{position: 'relative', top:'2px'}}>{request.title}</div>}
                         description={<>{request.description}</>} /> 
                     </Card>)}
@@ -87,3 +90,13 @@ const HomePage = () => {
 }
 
 export default HomePage;
+/*
+”small_image” : ,//
+”profile_image”: ,//
+”title” : ,//
+”company_name” : ,
+”username” : ,//
+”avarage_score” : 
+*/
+
+                

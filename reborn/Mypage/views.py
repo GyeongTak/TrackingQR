@@ -123,7 +123,7 @@ def getMyInfo(request, format=None):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def designer_selected_for_commission(self,request) :
+def designer_selected_for_commission(request) :
     if request.user.is_client == True :
         commission = Commission.objects.get(id = request.data['commission_id'])
         commission.designer_id = request.data['designer_id']
