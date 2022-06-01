@@ -13,10 +13,10 @@ class designerSerializer(serializers.ModelSerializer):
     profile_image = serializers.ImageField(source='designer.profile_image')
     username = serializers.CharField(source='designer.username')
     average_stars = serializers.IntegerField(source='designer.average_stars')
+    
     class Meta : 
         model = DesignerPopol
-        fields = ['profile_image','designer','username', 'average_stars']
-
+        fields = ['id','profile_image','designer','username', 'average_stars']
 
 
 

@@ -33,11 +33,13 @@ export const postAllProject = async (data) => {
 //서버에 있는 정보를 프론트로 가져오기 위한 코드
 export const getProject = async () => {
 
-    try {
-        const result = await instance.get('/api/portfolio/projects/create_project');//
+    try { //둘 중에 뭐 사용해야 하는지
+        const result = await instance.get('/api/portfolio/projects/create_project');
+        //const result = await instance.get(`/api/portfolio/${data}/portfolio_view_detail`);
         return result.data;
     } catch (error) {
         console.error(error);
         window.alert(error.response.data);
     }
 }
+

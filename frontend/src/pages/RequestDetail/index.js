@@ -90,13 +90,17 @@ const RequestDetail = () => {
             
             <RequestContainer>
             <Content>
-            <PanoramaWrapper>
+                {
+                    request?.commission?.commission_image && 
+                    <PanoramaWrapper>
                 <a-scene class="aframebox" embedded>
                 <a-sky src={`http://localhost:8000${request?.commission?.commission_image}`}
                 rotation="0 -130 0" >
                 </a-sky>
                 </a-scene>
             </PanoramaWrapper>
+                }
+            
             </Content>
             
             <Content>
@@ -117,8 +121,8 @@ const RequestDetail = () => {
                 </div>
 
                 <div style={{display:'flex', alignItems:'center'}}>
-                    <div style={{fontSize: '15px'}}>예산</div>
-                    <BudgetWrapper>{request?.commission?.budget}원</BudgetWrapper>
+                    <div style={{fontSize: '15px'}}>최대 예산</div>
+                    <BudgetWrapper>{request?.commission?.budget}만원</BudgetWrapper>
                 </div>
             </UserInfo>
             <DescriptionContainer>
@@ -128,9 +132,11 @@ const RequestDetail = () => {
                 </Content>
                 <Content>
                     <h3>작업 기한</h3>
-                    <div>{request?.commission?.finish_date} 월</div>
+                    <div>마감일로 부터 {request?.commission?.finish_date} 개월</div>
                     {isClient ==='false' && 
                 <Button onclick={()=>onClickButton(localStorage.getItem('userId'))} style={{marginTop:'10px', marginBottom:'10px'}}>지원하기</Button>}
+                {/* {isClient ==='true' && 
+                <Button onclick={()=>onClickButton(localStorage.getItem('userId'))} style={{marginTop:'10px', marginBottom:'10px'}}>삭제하기</Button>} */}
                 </Content>
                 
             </DescriptionContainer>

@@ -35,11 +35,11 @@ class RequestedDesignerSerializer(serializers.ModelSerializer) :
     designer_username = serializers.CharField(source='designer.username')
     designer_average_stars = serializers.FloatField(source='designer.average_stars')
     designer_id = serializers.IntegerField(source = 'designer.id')
-
     designer_profile_image = serializers.ImageField(source= 'designer.profile_image')
+    designer_portfolio_id =serializers.IntegerField(source='portfolio.id')
     class Meta  :
         model = RequestedDesigner
-        fields = ('designer_username','designer_average_stars','designer_id','designer_profile_image','message')
+        fields = ('designer_portfolio_id','designer_username','designer_average_stars','designer_id','designer_profile_image','message')
 
 class MyCommissionBriefSerializer(serializers.ModelSerializer) :
     brief_description = serializers.SerializerMethodField()

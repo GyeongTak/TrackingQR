@@ -7,7 +7,7 @@ const Project = ({ project }) => {
     const navigate = useNavigate();
 
     const onClickProject = () => {
-        navigate(`/project/${project.id}`);
+        navigate(`/project/${projects.id}`);
     }
 
     return (

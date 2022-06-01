@@ -3,6 +3,7 @@ import os
 from django.db import models
 from django.forms import JSONField
 from users.models import Client,Designer
+from portfolio.models import DesignerPopol
 from uuid import uuid4
 
 datetime_format = ["%Y-%m-%d"]
@@ -56,3 +57,4 @@ class RequestedDesigner(models.Model):
     commission = models.ForeignKey(Commission,on_delete=models.CASCADE,related_name='request_designer')
     designer = models.ForeignKey(Designer, on_delete=models.SET_NULL, null=True)
     message = models.TextField(max_length=300, blank= True)
+    portfolio = models.ForeignKey(DesignerPopol,on_delete=models.SET_NULL,null=True)

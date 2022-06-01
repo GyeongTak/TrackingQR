@@ -2,7 +2,6 @@ from jupyter_client import protocol_version_info
 from rest_framework.authtoken.models import Token
 
 from rest_framework import viewsets,status
-from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
@@ -40,7 +39,6 @@ def portfolio_view(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def portfolio_view_detail(request, pk):
-
     Popol = DesignerPopol.objects.get(id = pk)
     serializer_popol = PopolSerializer(Popol, many = False)
 
@@ -104,6 +102,8 @@ def create_portfolio(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, ])
 def create_project(request):
+    #print(request.data)
+    #print(request.FILES)
     tmpdesigner= Designer.objects.get(id = request.user.id)
     tmpportfolio = DesignerPopol.objects.get(designer= tmpdesigner)
 

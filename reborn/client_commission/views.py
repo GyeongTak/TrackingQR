@@ -8,12 +8,14 @@ from django.core.exceptions import ImproperlyConfigured
 
 from client_commission.models import Commission
 from client_commission.models import RequestedDesigner
+from portfolio.models import DesignerPopol
 from users.models import Designer,Client
 from .serializers import EmptySerializer,CommissionSerializer,CommissionViewDetailSerializer,CommissionViewSerializer
 
 from datetime import datetime
 from rest_framework.decorators import api_view, permission_classes
-
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 
 from PIL import Image
 import numpy as np
@@ -23,9 +25,34 @@ from imutils import paths
 import cv2
 import math
 import os
+import shutil
+from reborn import settings
+
+MEDIA_ROOT = settings.MEDIA_ROOT
 
 datetime_format = "%Y-%m-%d"
 User = get_user_model()
+
+def resize(filename) :
+    img =cv2.imread(filename)
+    width, height = img.shape[:2]
+    if height * width *3 <=2**25:
+        return img
+    i =2
+    t_height,t_width = height, width
+
+    while t_height * t_width * 3 >2**25 :
+        t_height = int(t_height / math.sqrt(i))
+        t_width = int(t_width / math.sqrt(i))  
+        i += 1
+    
+    height,width = t_height, t_width
+    image = Image.open(filename)
+    resize_image = image.resize((height,width))
+    filename = filename[:-1 * (len(filename.split(".")[-1])+1)] + "_resized." + filename.split(".")[-1]
+    resize_image.save(filename)
+    img = cv2.imread(filename)
+    os.system("del " + filename.replace("/","\\"))
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, ])
@@ -38,12 +65,26 @@ def create_commission(request):
             # print(image)
         else :
             images = []
-            images = request.data.getlist('images') 
-        
+            images = request.data.getlist('images')
+            os.mkdir(MEDIA_ROOT +'/temp'+str(request.user.id))
+            for i in images :
+                filename_and_path= MEDIA_ROOT +'/temp'+str(request.user.id)+'/'+ str(i)
+                path = default_storage.save(filename_and_path, ContentFile(i.read()))   
+
+            
+            print("[INFO] loading images...")
+            imagePaths = sorted(list(paths.list_images(MEDIA_ROOT +'/temp'+str(request.user.id))))
+            raw_images = []
+
+            for imagePath in imagePaths :
+                img = resize(imagePath)
+
+                raw_images.append(img)
+                
             print("[INFO] switching images...")
             stitcher = cv2.createStitcher() if imutils.is_cv3() else cv2.Stitcher_create()
-            (tmpstatus, image) = stitcher.stitch(images)
-
+            (tmpstatus, image) = stitcher.stitch(raw_images)
+            shutil.rmtree(MEDIA_ROOT +'/temp'+str(request.user.id))
             if tmpstatus == 0:
                 # write the output stitched image to disk
 
@@ -86,7 +127,7 @@ def create_commission(request):
 @api_view(['GET'])
 @permission_classes([AllowAny, ])
 def commission_view(request):
-    ListCommision = Commission.objects.filter(current_status = 0) #아직 의뢰가 수락되지 않은 상태의 모든 의뢰 조회
+    ListCommision = Commission.objects.filter(current_status = 0).order_by('-created') #아직 의뢰가 수락되지 않은 상태의 모든 의뢰 조회
     serializer = CommissionViewSerializer(ListCommision, many=True)
     for i in range(0,len(serializer.data)) :
         serializer.data[i]['request_count'] = RequestedDesigner.objects.filter(commission = ListCommision[i]).count()
@@ -99,12 +140,14 @@ def commission_select_for_designer(request,pk) :
     if request.user.is_client == False :
         commission = Commission.objects.get(id = pk)
         designer = Designer.objects.get(id = request.user.id)
+        portfolio = DesignerPopol.objects.get(designer = designer)
         newRequestedDesigner = RequestedDesigner(
             commission = commission,
             designer = designer,
-            message = request.data['message']
+            message = request.data['message'],
+            portfolio= portfolio
         )
-
+        newRequestedDesigner.save()
 
 
 @api_view(['GET'])
@@ -117,7 +160,6 @@ def commission_view_detail(request,pk) :
         'commission' : serializer.data ,
         'request_count':request_count
         }, status= status.HTTP_200_OK)
-
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, ])
