@@ -16,7 +16,7 @@ const getPortfolios = async () => {
 const getPortfolio = async (data) => {
 
     try {
-        const result = await instance.get(`/api/portfolio/portfolio_view_detail/${data}`);
+        const result = await instance.get(`/api/portfolio/${data}/portfolio_view_detail`);
         return result.data;
     } catch (error) {
         console.error(error);
