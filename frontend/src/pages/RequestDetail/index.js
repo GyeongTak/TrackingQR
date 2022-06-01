@@ -7,6 +7,7 @@ import MainMenu from 'components/MainMenu';
 import {Button, Badge} from 'antd';
 import { HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { getRequest } from '../../apis/request';
+import { useParams } from 'react-router-dom';
 
 const dummy = {
     'id' : 2,
@@ -24,20 +25,22 @@ const dummy = {
 
 
 const RequestDetail = () => {
+    const { id } =  useParams();
     const [request, setRequest] = useState({});
 
     
     useEffect(()=> {
-        /*
+        
         const loadRequest = async () => {
-            const data = await getRequest();
+            const data = await getRequest(id);
+            console.log(data);
             setRequest(data);
         };
 
         loadRequest();
-    */
+    
 
-    setRequest(dummy);
+    // setRequest(dummy);
     }, []);
 
     return (
@@ -84,7 +87,7 @@ const RequestDetail = () => {
             
             <Content>
                 {
-                    request.description
+                    request?.description
                 }
             </Content>
             </RequestContainer>
