@@ -52,13 +52,6 @@ def profile(request, format=None):
 
         my_commission_startedSerializer = MyCommissionAlreadyStartedBriefSerializer(my_commission_started, many= True)
                 
-        print({
-            'user' : userSerializer.data,
-            'commissions_notstarted' : my_commission_not_startedSerializer.data,
-            'commissions_started' :  my_commission_startedSerializer.data,
-            'reviews' :  my_reviewSerializer.data,
-            'messages' : messageSerializer.data,
-        })
         return Response({
             'user' : userSerializer.data,
             'commissions_notstarted' : my_commission_not_startedSerializer.data,
@@ -68,7 +61,6 @@ def profile(request, format=None):
         })
 
     else :
-        print('hello')
         designerUser = Designer.objects.get(id = request.user.id)
         userserializer = DesignerUserSerializer(designerUser,many= False)
         
