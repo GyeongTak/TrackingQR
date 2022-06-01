@@ -11,16 +11,21 @@ from . models import Certificate, DesignerPopol, EducationAndCareer,Projects
 from users.models import User,Designer,Client
 
 class PopolSerializer(serializers.ModelSerializer):
-    designer_name = serializers.CharField(source= 'designer.username')
+    designer_username = serializers.CharField(source= 'designer.username')
     designer_id = serializers.IntegerField(source='designer.id')
+    designer_email =serializers.EmailField(source='designer.email')
+    designer_phone = serializers.IntegerField(source='designer.phone')
+    designer_profile_image = serializers.ImageField(source='designer.profile_image')
+    designer_average_stars = serializers.IntegerField(source='designer.average_stars')
     class Meta :
         model = DesignerPopol
-        fields = ('designer_name','designer_id','description')
+        fields = ('designer_username','designer_id','designer_email','description','designer_phone','designer_profile_image','designer_average_stars')
 
     def validate_title(self, value):
         if value=='':
             raise ValidationError('제목은 필수 항목입니다.')
         return value
+
 class  CertificateSerializer(serializers.ModelSerializer) :
     class Meta :
         model = Certificate
