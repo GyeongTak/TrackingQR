@@ -17,9 +17,10 @@ class PopolSerializer(serializers.ModelSerializer):
     designer_phone = serializers.IntegerField(source='designer.phone')
     designer_profile_image = serializers.ImageField(source='designer.profile_image')
     designer_average_stars = serializers.IntegerField(source='designer.average_stars')
+    desinger_skills = serializers.CharField(source='designer.skills')
     class Meta :
         model = DesignerPopol
-        fields = ('designer_username','designer_id','designer_email','description','designer_phone','designer_profile_image','designer_average_stars')
+        fields = ('designer_username','desinger_skills','designer_id','designer_email','description','designer_phone','designer_profile_image','designer_average_stars')
 
     def validate_title(self, value):
         if value=='':
