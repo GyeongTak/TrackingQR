@@ -106,20 +106,22 @@ class PortfolioViewSet(viewsets.GenericViewSet):
 class ProjectViewSet(viewsets.GenericViewSet) :
     @action(methods=['POST'],permission_classes=[IsAuthenticated, ], detail=False)
     def create_project(self, request):
-        tmpdesigner= Designer.objects.get(id = request.user.id)
-        tmpportfolio = DesignerPopol.objects.get(designer= tmpdesigner)
-        serializer = ProjectSerializer(request.data)
-        serializer.is_valid(raise_exception=True)
+        print(request.data)
+        print(request.FILE)
+        # tmpdesigner= Designer.objects.get(id = request.user.id)
+        # tmpportfolio = DesignerPopol.objects.get(designer= tmpdesigner)
+        # serializer = ProjectSerializer(request.data)
+        # serializer.is_valid(raise_exception=True)
 
-        if request.user.is_client == False :
-            newProject = Projects(
-                title = request.data['title'],
-                description = request.data['description'],
-                participation_date = request.data['participation_date'],
-                portfolio = tmpportfolio,
+        # if request.user.is_client == False :
+        #     newProject = Projects(
+        #         title = request.data['title'],
+        #         description = request.data['description'],
+        #         participation_date = request.data['participation_date'],
+        #         portfolio = tmpportfolio,
        
-            )
-            newProject.save()
+        #     )
+        #     newProject.save()
         
         return Response({'message': 'success'}, status=status.HTTP_200_OK)
 

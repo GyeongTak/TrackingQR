@@ -24,6 +24,9 @@ class Client(User) :
 
     def __str__(self):
         return self.username 
+        
+    class Meta :
+            verbose_name = 'Client'
 
 class Designer(User) :
     phone = models.CharField(max_length=100, blank=True)
