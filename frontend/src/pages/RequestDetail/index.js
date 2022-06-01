@@ -129,9 +129,10 @@ const RequestDetail = () => {
                 <Content>
                     <h3>작업 기한</h3>
                     <div>{request?.commission?.finish_date} 월</div>
+                    {isClient ==='false' && 
+                <Button onclick={()=>onClickButton(localStorage.getItem('userId'))} style={{marginTop:'10px', marginBottom:'10px'}}>지원하기</Button>}
                 </Content>
-                {isClient ==='false' && 
-                <Button onclick={()=>onClickButton(localStorage.getItem('userId'))}>지원하기</Button>}
+                
             </DescriptionContainer>
             
             </LeftContent>
