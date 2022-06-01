@@ -82,3 +82,12 @@ class PasswordChangeSerializer(serializers.Serializer):
     def validate_new_password(self, value):
         password_validation.validate_password(value)
         return value
+
+
+class ClientProfileImageUpdateSerializer(serializers.ModelSerializer):
+    """
+    A user serializer for registering the Client
+    """
+    class Meta:
+        model = Client
+        fields = ('profile_image')

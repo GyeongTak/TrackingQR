@@ -6,7 +6,7 @@ import { UserInfoForm, container, memberInfoContainer, userInfoContent, editButt
 import Avatar from '../../components/Avatar';
 import { useRecoilState } from 'recoil';
 import userState from '../../store/user';
-import { List, Button, Modal, Input, Rate, Space, Tabs } from 'antd';
+import { List, Button, Modal, Input, Rate, Space, Tabs, Tag } from 'antd';
 import { MailOutlined, PhoneOutlined, HomeOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.min.css';
 import { useNavigate, useLocation, useParams} from 'react-router-dom';
@@ -49,7 +49,7 @@ const ClientProfile = () => {
        
     },[]);
 
-    
+    console.log(clientInfo?.commissions?.request_designer?.length);
     const onClickTab = (key) => {
         setActiveTab(key);
     }
@@ -61,10 +61,14 @@ const ClientProfile = () => {
         setModal(false);
     }
 
-    const onClickDesigner = async (designerId, commissionId) => {
-        await patchSelectDesigner({designer_id: designerId, commission_id:commissionId});
-        console.log(designerId, commissionId);
+    const onClickDesigner = (designerId, itemId) => {
+
+        const patchSelect = async() =>  {
+            await patchSelectDesigner({designer_id :designerId, item_id : itemId});
+        }  
+        patchSelect();
     }
+    
     return (
         <>
         <MainMenu />
@@ -236,7 +240,7 @@ const ClientProfile = () => {
             src={`http://localhost:8000${clientInfo.user.profile_image}`} />:
             <Avatar
             src={userImg}
-            shape="circle" />
+            shape="square" />
             }
             <div style={{margin:"20px 0"}}><Input placeholder="email"></Input></div>
             <div style={{margin:"20px 0"}}><Input placeholder="phone"></Input></div>

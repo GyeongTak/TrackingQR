@@ -35,10 +35,11 @@ class RequestedDesignerSerializer(serializers.ModelSerializer) :
     designer_username = serializers.CharField(source='designer.username')
     designer_average_stars = serializers.FloatField(source='designer.average_stars')
     designer_id = serializers.IntegerField(source = 'designer.id')
+
     designer_profile_image = serializers.ImageField(source= 'designer.profile_image')
     class Meta  :
         model = RequestedDesigner
-        fields = ('designer_username','designer_average_stars','designer_id','designer_profile_image')
+        fields = ('designer_username','designer_average_stars','designer_id','designer_profile_image','message')
 
 class MyCommissionBriefSerializer(serializers.ModelSerializer) :
     brief_description = serializers.SerializerMethodField()
@@ -47,7 +48,7 @@ class MyCommissionBriefSerializer(serializers.ModelSerializer) :
         model = Commission
         fields = ('id','title', 'created','brief_description','budget','finish_date','small_image','request_designer','deadline','current_status')
     def get_brief_description(self, obj) :
-        return obj.description[:200] 
+        return obj.description[:200] +'...'
         # description 을 200 글자만 표시할 수 있도록 바꾼다.
 
 
