@@ -126,7 +126,7 @@ const ClientProfile = () => {
                 }
             >
              <List.Item.Meta
-                title={<Link to={`/portfolio/${item.id}`}>{item.title}</Link>}
+                title={<Link to={`/request/${item.id}`}>{item.title}</Link>}
                 description={<div>작업기한  {item.deadline} </div>}
             />
             {item.brief_description}
@@ -142,14 +142,18 @@ const ClientProfile = () => {
                     item?.request_designer?.map(designer => 
                       <div style={{display: 'flex', alignItems: 'center'}}>
                            <div key={designer.designer_id} 
-                          onClick={()=>navigate(`/portfolio/${parseInt(designer.designer_id, 10)}`)} 
+                          onClick={()=>navigate(`/portfolio/${parseInt(designer.designer_portfolio_id, 10)}`)} 
                           style={{display: 'flex',  alignItems: 'center', margin:'0', padding:'0', cursor:"pointer"}}>
                           <Avatar style={{width:'50px', height:'50px', marginRight:'10px'}} src={`http://localhost:8000${designer.designer_profile_image}`}/>
-                          {designer.designer_username}
-                          <Rate style={{marginLeft:'10px'}} disabled defaultValue={designer.designer_average_stars} />
+                          {designer.designer_username} 
+                          <Rate style={{marginLeft:'10px', width :'150px'}} disabled defaultValue={designer.designer_average_stars} />   
+                          {designer.message}
                           <Button style={{marginLeft:'10px'}} onClick={()=>onClickDesigner(designer.designer_id, item.id)}>선택</Button>
                           </div>
-                          </div>)
+
+                          </div>
+                          
+                          )
                 }
                 </fieldset>
             }

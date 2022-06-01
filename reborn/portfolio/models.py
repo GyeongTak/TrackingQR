@@ -51,7 +51,7 @@ class Projects(models.Model) :
     title = models.CharField(max_length=100 , null = False)
     small_image = models.ImageField(upload_to =path_and_rename, blank = True)
     description = models.TextField()
-    participation_date = models.IntegerField()
+    participation_date = models.CharField(max_length=100)
     portfolio = models.ForeignKey(DesignerPopol,blank= True, on_delete = models.CASCADE, related_name='projects')
     client =models.CharField(max_length=100, null = True,blank=True)
     score = models.IntegerField(default = 0,validators=[MinValueValidator(0), MaxValueValidator(5)],blank=True)

@@ -39,7 +39,6 @@ def portfolio_view(request):
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def portfolio_view_detail(request, pk):
-
     Popol = DesignerPopol.objects.get(id = pk)
     serializer_popol = PopolSerializer(Popol, many = False)
 
@@ -113,9 +112,8 @@ def create_project(request):
             title = request.data['title'],
             small_image = request.data['title_image'],
             description = request.data['description'],
-            participation_date = request.data['participation_date'],
+            participation_date = request.data['start_date'],
             portfolio = tmpportfolio,
-            client = request.data['client']    
         )
         newProject.save()
     else :

@@ -40,17 +40,17 @@ const HomePage = () => {
                 <div>디자이너의 포트폴리오를 둘러보세요</div>
                 <button onClick={()=>navigate('/sda')}style={{cursor: 'pointer',border: 0, outline:0,width:'70px',fontSize:'12px', backgroundColor:'#F5D5CB',appearance: "none", borderRadius:'5px', }}>더보기+</button>    
                 </div>
-                <div className='portfolio-container' style={{width: '100%', display: 'inline-grid', gridTemplateColumns: 'repeat(auto-fill, minmax(20%, auto))', gap: '3%'}}>
+                <div className='portfolio-container' style={{width: '100%', display: 'inline-grid', gridTemplateColumns: 'repeat(auto-fill, minmax(40%, auto))', gap: '3%'}}>
                 <ul style={{display:'flex', listStyle:"none", paddingLeft: '0px'}}>
                 {portfolios.map((portfolio, index)=>{
                     return (
                         <li style={{margin: '20px'}}>
-                        <div key={index} popol-id={portfolio.id} onClick={()=>onClickPortfolio(portfolio.designer)}>
+                        <div key={index} popol-id={portfolio.id} onClick={()=>onClickPortfolio(portfolio.id)}>
                             <Card
                             hoverable
                             cover={<img alt="example" src={`http://localhost:8000${portfolio.profile_image}`} />}>
                             <Card.Meta 
-                            title={<div style={{position: 'relative', top:'2px'}}>{portfolio.username}</div>}
+                            title={<div style={{position: 'relative', top:'2px'}}>{portfolio.username} 님</div>}
                             description={<Rate defaultValue={portfolio.average_stars} disabled/>}
                             />
                             </Card>
