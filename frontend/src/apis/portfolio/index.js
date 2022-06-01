@@ -29,7 +29,7 @@ const postPortfolio = async () => {
 
     const token = localStorage.getItem('token');
     try {
-        const result = await instance.get('/api/portfolio/new', {
+        const result = await instance.get('/api/portfolio/create_portfolio', {
             headers: { 
                 "Content-Type": `application/json`,
                 Authorization : "Token" + token,
