@@ -131,22 +131,29 @@ const ClientProfile = () => {
             />
             {item.brief_description}
 
-          <fieldset style={{border:'1px solid #f0f0f1', marginTop: '15px', padding: '10px'}}>
-          <legend style={{fontSize: '16px', margin:'0', padding:'1px'}}>지원한 전문가 목록</legend>
-          {
-              item?.request_designer?.map(designer => 
-                <div style={{display: 'flex', alignItems: 'center'}}>
-                     <div key={designer.designer_id} 
-                    onClick={()=>navigate(`/portfolio/${parseInt(designer.designer_id, 10)}`)} 
-                    style={{display: 'flex',  alignItems: 'center', margin:'0', padding:'0', cursor:"pointer"}}>
-                    <Avatar style={{width:'50px', height:'50px', marginRight:'10px'}} src={`http://localhost:8000${designer.designer_profile_image}`}/>
-                    {designer.designer_username}
-                    <Rate style={{marginLeft:'10px'}} disabled defaultValue={designer.designer_average_stars} />
-                    <Button style={{marginLeft:'10px'}} onClick={()=>onClickDesigner(designer.designer_id, item.id)}>선택</Button>
-                    </div>
-                    </div>)
-          }
-          </fieldset>
+            {
+                item?.request_designer?.length === 0 && <div style={{fontWeight:'500',  padding:'10px',marginTop:'20px', border:'1px solid #f0f0f1'}}>아직 지원한 디자이너가 없어요!</div>
+            }
+            {
+                item?.request_designer?.length > 0 && 
+                <fieldset style={{border:'1px solid #f0f0f1', marginTop: '15px', padding: '10px'}}>
+                <legend style={{fontSize: '16px', margin:'0', padding:'1px'}}>지원한 전문가 목록</legend>      
+                {
+                    item?.request_designer?.map(designer => 
+                      <div style={{display: 'flex', alignItems: 'center'}}>
+                           <div key={designer.designer_id} 
+                          onClick={()=>navigate(`/portfolio/${parseInt(designer.designer_id, 10)}`)} 
+                          style={{display: 'flex',  alignItems: 'center', margin:'0', padding:'0', cursor:"pointer"}}>
+                          <Avatar style={{width:'50px', height:'50px', marginRight:'10px'}} src={`http://localhost:8000${designer.designer_profile_image}`}/>
+                          {designer.designer_username}
+                          <Rate style={{marginLeft:'10px'}} disabled defaultValue={designer.designer_average_stars} />
+                          <Button style={{marginLeft:'10px'}} onClick={()=>onClickDesigner(designer.designer_id, item.id)}>선택</Button>
+                          </div>
+                          </div>)
+                }
+                </fieldset>
+            }
+          
         </List.Item>
       )}
     />
@@ -178,20 +185,27 @@ const ClientProfile = () => {
                 />
                 {item.brief_description}
 
-            <fieldset style={{border:'1px solid #f0f0f1', marginTop: '15px', padding: '10px'}}>
-            <legend style={{fontSize: '16px', margin:'0', padding:'1px'}}>거래중인 디자이너</legend>
-            <div style={{display: 'flex', alignItems: 'center'}}>
-                <div key={item.designer_id} 
-                onClick={()=>navigate(`/portfolio/${parseInt(item.designer_id, 10)}`)} 
-                style={{display: 'flex',  alignItems: 'center', margin:'0', padding:'0', cursor:"pointer"}}>
-                <Avatar style={{width:'50px', height:'50px', marginRight:'10px'}}
-                onClick={()=>onClickDesigner(item.designer_id, item.id)}
-                src={`http://localhost:8000${item.designer_profile_image}`}/>
-                {item.designer_username}
-                <Rate style={{marginLeft:'10px'}} disabled defaultValue={item.designer_average_stars} />
+            {
+                item?.request_designer?.length === 0 && <div style={{fontWeight:'500',padding:'10px', marginTop:'20px', border:'1px solid #f0f0f1'}}>아직 지원한 디자이너가 없어요!</div>
+            }
+            {
+                item?.request_designer?.length > 0 && 
+                <fieldset style={{border:'1px solid #f0f0f1', marginTop: '15px', padding: '10px'}}>
+                <legend style={{fontSize: '16px', margin:'0', padding:'1px'}}>거래중인 디자이너</legend>
+                <div style={{display: 'flex', alignItems: 'center'}}>
+                    <div key={item.designer_id} 
+                    onClick={()=>navigate(`/portfolio/${parseInt(item.designer_id, 10)}`)} 
+                    style={{display: 'flex',  alignItems: 'center', margin:'0', padding:'0', cursor:"pointer"}}>
+                    <Avatar style={{width:'50px', height:'50px', marginRight:'10px'}}
+                    onClick={()=>onClickDesigner(item.designer_id, item.id)}
+                    src={`http://localhost:8000${item.designer_profile_image}`}/>
+                    {item.designer_username}
+                    <Rate style={{marginLeft:'10px'}} disabled defaultValue={item.designer_average_stars} />
+                    </div>
                 </div>
-            </div>
-            </fieldset>
+                </fieldset>
+            }
+            
             </List.Item>
         )}
         />
