@@ -13,6 +13,8 @@ import { postProject, postAllProject } from 'apis/project';
 import axios from 'axios';
 import moment from 'moment';
 import { Space } from 'antd';
+import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const CreateProjectPage2 = ({ }) => {
   
@@ -106,7 +108,7 @@ const CreateProjectPage2 = ({ }) => {
 
     const onSubmit = async (e) =>{
         e.preventDefault();
-       
+        const navigate = useNavigate();
         const formData = new FormData();
 
         formData.append('start_date', start_date);
@@ -123,7 +125,7 @@ const CreateProjectPage2 = ({ }) => {
         
 
         const result = await postAllProject(formData);
-    
+        navigate('/mypage');
     };
 
     //이미지 등록 버튼 커스텀을 위한 코드

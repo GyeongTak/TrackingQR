@@ -106,7 +106,6 @@ def commission_select_for_designer(request,pk) :
         )
 
 
-
 @api_view(['GET'])
 @permission_classes([AllowAny, ])
 def commission_view_detail(request,pk) :
@@ -117,7 +116,6 @@ def commission_view_detail(request,pk) :
         'commission' : serializer.data ,
         'request_count':request_count
         }, status= status.HTTP_200_OK)
-
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, ])
