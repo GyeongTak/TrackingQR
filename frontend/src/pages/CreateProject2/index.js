@@ -1,38 +1,30 @@
-import React, {useEffect, useState, useRef} from 'react'; //필요한 라이브러리 첨부
+import React, {useEffect, useState, useRef, useMemo} from 'react'; //필요한 라이브러리 첨부
 import MainMenu from '../../components/MainMenu';
 import Footer from '../../components/Footer';
 import 'antd/dist/antd.min.css';
 import { useInput } from 'utils/useInput';
-import { postRequest } from 'apis/request';
 import { Form, DatePicker } from 'antd';
 import './index.css';
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import Editor from 'components/Editor';
 import QuillEditor from 'components/TestEditor';
+import { postProject, postAllProject } from 'apis/project';
+import axios from 'axios';
+import moment from 'moment';
+import { Space } from 'antd';
 
-const CreateProjectPage2 = ({ placeholder, value, ...rest }) => {
+const CreateProjectPage2 = ({ }) => {
   
     useEffect(() => {
     }); 
+    //title, date, title_image, description
 
-    const [images, setImages] = useState([]); 
-    const [fileImage, setFileImage] = useState("");
-    const [ imagePrevious, setImagePrevious ] = useState([]); 
-    const [ description, onChangeContent ] = useInput('');
-
-    const onChangeFile = (e) => {
-        if (e.target.files[0]) {
-        setImages([...images, e.target.files[0]]);
-        const reader = new FileReader();
-        
-        reader.readAsDataURL(e.target.files[0]);
-        reader.onload = (e) => {
-            setImagePrevious([...imagePrevious, e.target.result]);
-        };
-        
-        }
-    }
+    const [ fileImage, setFileImage] = useState("");
+    const [ title, onChangeContent ] = useInput('');
+    const [value, setValue] = useState('');
+    const [ start_date, setStartDate ] = useState('');
+    const [ end_date, setEndDate ] = useState('');
 
 
     //미리보기를 위해 파일 저장
@@ -47,16 +39,90 @@ const CreateProjectPage2 = ({ placeholder, value, ...rest }) => {
       setFileImage("");
     };   
     
+    //여기서부터 quill
+    function imageUrlHandler() {
+      const range = this.quill.getSelection();
+      const url = prompt('please copy paste the image url here.');
+
+      if (url) {
+          //커서위치에 imageUrl 삽입
+          this.quill.insertEmbed(range.index, 'image', url);
+      }
+  }
+
+  //이미지 제어
+  function imageHandler() {
+      const input = document.createElement('input');
+      input.setAttribute('type', 'file');
+      input.setAttribute('accept', '.png, .jpg, .jpeg');
+      input.click();
+
+      input.onchange  = async(e) => {
+
+          
+          const files = e.target.files;
+          const formData = new FormData();
+          formData.append('files', files[0]);
+
+          //file 등록
+          const tempFile = await postProject(formData);
+          console.log('check');
+      
+          const token = localStorage.getItem('token');
+          axios.defaults.headers.common['Authorization'] = "Token "+token;
+          axios.post('http://localhost:8000/api/portfolio/projects/image_handler', 
+          formData)
+          .then((res) => {
+              console.log(res.data)
+              const range = this.quill.getSelection();
+              this.quill.insertEmbed(range.index, 'image', 'http://localhost:8000/'+ res.data['file_path']);
+          })
+          .catch((error) => {
+              console.error(error);
+          });
+          
+      }
+  }
+
+  //Quill Editor 모듈 구성
+  const modules = useMemo(() => ({
+      toolbar: {
+          container: [
+              [{header: [1,2,false]}],
+              ['bold', 'italic', 'underline'],
+              [{list:'ordered'}, {list:'bullet'}],
+              ['imageUrl', 'image', 'code-block']
+          ],
+          handlers: {
+              imageUrl: imageUrlHandler,
+              image: imageHandler
+          }
+      }
+  }), [])
+
+//여기까지 value
+ // console.log(value);
+  
 
     const onSubmit = async (e) =>{
         e.preventDefault();
        
         const formData = new FormData();
-        formData.append('images', images);
-        formData.append('small_image', fileImage);
-        formData.append('description', description);
 
-        const result = await postRequest(formData);
+        formData.append('start_date', start_date);
+        formData.append('start_date', end_date);
+        formData.append('title', title);
+        formData.append('title_image', fileImage);
+        formData.append('description', value);
+        
+        console.log('시작일: ',start_date);
+        console.log('마감일: ',end_date);
+        console.log('제목: ',title);
+        console.log('썸네일사진: ',fileImage);
+        console.log('본문: ',value);
+        
+
+        const result = await postAllProject(formData);
     
     };
 
@@ -67,6 +133,15 @@ const CreateProjectPage2 = ({ placeholder, value, ...rest }) => {
         imageInput.current.click();
       };
 
+    const onChange = (date, dateString) => {
+      console.log(date, dateString);
+      setStartDate(dateString);
+    };
+    const onChange2 = (date, dateString) => {
+      console.log(date, dateString);
+      setEndDate(dateString);
+    };
+
     return (
         <>
         <MainMenu />
@@ -76,10 +151,11 @@ const CreateProjectPage2 = ({ placeholder, value, ...rest }) => {
 
         <Form name="time_related_controls" >
                 <div style={{display:'flex', alignItems:'start', marginLeft:'300px', marginTop:'30px'}}>
-                    <div style={{fontSize:'16px'}}>[ 프로젝트 참여기간 ]</div>
-                    <Form.Item name="range-picker" style={{marginRight:'5px', marginLeft:'-140px', marginTop:'50px'}} >
-                        <DatePicker.RangePicker />
-                    </Form.Item>
+                    <div style={{fontSize:'16px'}}>[ 프로젝트 참여기간 ] : 시작일과 마감일을 설정해주세요</div>
+                    <Space direction="horizental" style={{marginTop:'45px', marginLeft:'-370px'}}>
+                      <DatePicker onChange={onChange} placeholder="Select start_date"/>
+                      <DatePicker onChange={onChange2} placeholder="Select finish_date"/>
+                    </Space>
                 </div>
         </Form>
 
@@ -134,10 +210,7 @@ const CreateProjectPage2 = ({ placeholder, value, ...rest }) => {
 
         <div style={{fontSize:'16px', textAlign:'left', marginLeft:'300px', height:'10px', marginTop:'40px'}}>[ 프로젝트 상세설명 ]</div>
         <div style={{marginTop:'40px', textAlign:'center', width:'940px', marginLeft:'290px'}}>
-            <Editor></Editor>
-        </div>
-        <div style={{marginTop:'40px', textAlign:'center', width:'940px', marginLeft:'290px'}}>
-            <QuillEditor></QuillEditor>
+          <ReactQuill theme='snow' value={value} modules={modules} onChange={setValue} />
         </div>
       
         <button className='submit' type='submit' onClick={onSubmit}>등록</button><br/><br/><br/><br/>

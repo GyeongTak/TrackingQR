@@ -1,4 +1,5 @@
 from email.policy import HTTP
+import imp
 import certifi
 from django.http import QueryDict
 from django.shortcuts import render
@@ -21,6 +22,8 @@ from rest_framework.decorators import api_view, permission_classes
 
 from .serializers import MyCommissionAlreadyStartedBriefSerializer, MessageSerializer,PortfolioSerializer,ProjectSerializer,MyCommissionBriefSerializer,MyCommissionSerializer,MyReviewBriefSerialzier, ClientUserSerializer,DesignerUserSerializer,PartInCommissionSerializer,EndCommissionSerializer
 from django.db.models import Q
+
+#from users.serializers import ClientProfileImageUpdateSerializer
 
 import datetime
 
@@ -121,6 +124,19 @@ def getMyInfo(request, format=None):
            userserializer.data,
         )
 
+'''
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def profile_update(request, pk) :
+    if request.user.is_client == True :
+
+        modelObject = Client.objects.get(pk= pk)
+        serializer = ClientProfileImageUpdateSerializer( modelObject, data=request.data, partial=True) # set partial=True to update a data partially
+    if serializer.is_valid():
+        serializer.save()
+        return Response(status =201, data=serializer.data)
+    return Response(status=400, data="wrong parameters")
+'''
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def designer_selected_for_commission(request) :

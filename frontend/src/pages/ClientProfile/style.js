@@ -8,7 +8,8 @@ const container = css`
 
 
 const UserInfoForm = styled.div`
-    padding:50px 20px;
+    width:50%;
+    padding:50px 10px;
     display: flex;
     align-items: center;
     border-radius: 1%;

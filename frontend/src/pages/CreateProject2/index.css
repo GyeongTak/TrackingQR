@@ -15,6 +15,6 @@
     background-color: rgb(60, 28, 174);
     color: white;
 }
-.ck-editor__editable {
-    min-height: 400px;
+.ql-editor{
+    min-height:400px;
 }

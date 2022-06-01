@@ -69,7 +69,8 @@ const ClientProfile = () => {
         <>
         <MainMenu />
         <div css={container}>
-
+        
+        <div style={{display:'flex', alignItems: 'center', justifyContent: 'space-around'}}>
         <UserInfoForm>
             {clientInfo?.user?.profile_image?
             <Avatar
@@ -81,20 +82,24 @@ const ClientProfile = () => {
             }
             <div css={userInfoContent}>
             <h2>{clientInfo?.user?.username}님</h2>
-            
             <div><MailOutlined style={{marginRight:'5px'}}/>{clientInfo?.user?.email}</div>
             <div><PhoneOutlined style={{marginRight:'5px'}}/>{clientInfo?.user?.phone}</div>
             <div><HomeOutlined style={{marginRight:'5px'}}/>{clientInfo?.user?.company_name}</div>
-            <div style={{marginTop: '20px', width:'50%'}}>{clientInfo?.user?.description}
-            </div>
-            </div>
+            <div style={{marginTop: '20px', width:'50%'}}>{clientInfo?.user?.description}</div>
             <Button onClick={onClickEditButton} css={editButtonWrapper}>프로필 수정</Button>
-            
+            </div>
         </UserInfoForm>
-       
+        <div style={{marginLeft: '10px', width:'40%', height: '250px', border:'2px solid rgb(251, 240, 213)',
+        borderRadius:'10px', backgroundColor:'rgb(251, 240, 213)', textAlign:"center"}}>
+            <br></br>
+            <span style={{fontSize:'17px', fontWeight:'500', color:'orange'}}>도착한 알림</span>
+        </div>
+        </div>
+        
+
         <Tabs defaultActiveKey="1" onChange={onClickTab}>
         <Tabs.TabPane tab="의뢰서" key="request">
-            {
+        {
                 clientInfo?.commissions_not_started &&
                 <List
                 itemLayout="vertical"
@@ -116,7 +121,7 @@ const ClientProfile = () => {
                         />
                 }
             >
-            <List.Item.Meta
+             <List.Item.Meta
                 title={<Link to={`/portfolio/${item.id}`}>{item.title}</Link>}
                 description={<div>작업기한  {item.deadline} </div>}
             />
@@ -127,7 +132,7 @@ const ClientProfile = () => {
           {
               item?.request_designer?.map(designer => 
                 <div style={{display: 'flex', alignItems: 'center'}}>
-                    <div key={designer.designer_id} 
+                     <div key={designer.designer_id} 
                     onClick={()=>navigate(`/portfolio/${parseInt(designer.designer_id, 10)}`)} 
                     style={{display: 'flex',  alignItems: 'center', margin:'0', padding:'0', cursor:"pointer"}}>
                     <Avatar style={{width:'50px', height:'50px', marginRight:'10px'}} src={`http://localhost:8000${designer.designer_profile_image}`}/>
@@ -187,7 +192,8 @@ const ClientProfile = () => {
         )}
         />
             }
-        
+
+
             
             </Tabs.TabPane>
             <Tabs.TabPane tab="리뷰" key="review">
@@ -226,11 +232,11 @@ const ClientProfile = () => {
         <Modal visible={modal} onCancel={onCancelEdit}>
             <h2>프로필 수정</h2>
             {clientInfo?.user?.profile_image?
-            <Avatar
+            <Avatar 
             src={`http://localhost:8000${clientInfo.user.profile_image}`} />:
             <Avatar
             src={userImg}
-            shape="square" />
+            shape="circle" />
             }
             <div style={{margin:"20px 0"}}><Input placeholder="email"></Input></div>
             <div style={{margin:"20px 0"}}><Input placeholder="phone"></Input></div>
@@ -242,42 +248,3 @@ const ClientProfile = () => {
 };
 
 export default ClientProfile;
-/*
-{
-    clientInfo.commissions_not_started ? 
-    
-    item.request_designer?.map((designer)=>
-        <div style={{display: 'flex', alignItems: 'center'}}>
-        <div key={designer.designer_id} 
-        onClick={()=>navigate(`/portfolio/${parseInt(designer.designer_id, 10)}`)} 
-        style={{display: 'flex',  alignItems: 'center', margin:'0', padding:'0', cursor:"pointer"}}>
-        <Avatar style={{width:'50px', height:'50px', marginRight:'10px'}} src={`http://localhost:8000${designer.designer_profile_image}`}/>
-        {designer.designer_username}
-        <Rate style={{marginLeft:'10px'}} disabled defaultValue={designer.designer_average_stars} />
-        
-        </div>
-        {(item.current_status === 1 || item.current_status === 0) && 
-        <Button style={{marginLeft:'10px'}} onClick={()=>onClickDesigner(designer.designer_id, item.id)}>선택</Button>}                
-        </div>
-    ) : 
-    
-
-}
-*/
-/**
- *clientInfo.commissions_started
-                item.request_designer?.map((designer)=>
-                    <div style={{display: 'flex', alignItems: 'center'}}>
-                    <div key={designer.designer_id} 
-                    onClick={()=>navigate(`/portfolio/${parseInt(designer.designer_id, 10)}`)} 
-                    style={{display: 'flex',  alignItems: 'center', margin:'0', padding:'0', cursor:"pointer"}}>
-                    <Avatar style={{width:'50px', height:'50px', marginRight:'10px'}} src={`http://localhost:8000${designer.designer_profile_image}`}/>
-                    {designer.designer_username}
-                    <Rate style={{marginLeft:'10px'}} disabled defaultValue={designer.designer_average_stars} />
-                    
-                    </div>
-                    {(item.current_status === 1 || item.current_status === 0) && 
-                    <Button style={{marginLeft:'10px'}} onClick={()=>onClickDesigner(designer.designer_id, item.id)}>선택</Button>}                
-                    </div>
-                )
- */

@@ -6,6 +6,7 @@ const container = css`
     padding: 0 10%;
 `
 const UserInfoForm = styled.div`
+    width:750px;
     padding:50px 20px;
     display: flex;
     align-items: center;
@@ -15,11 +16,13 @@ const UserInfoForm = styled.div`
     margin: 78px 0;    
 `
 const userInfoContent = css`
-    margin-Left: 20px;
+    margin-Left: 50px;
 `
 const editButtonWrapper = css`
+    width:200px;
     position: absolute;
-    right: 30px;
+    right: 280px;
+    bottom : 30px;
 `
 
 const SubTitle = styled.div`
