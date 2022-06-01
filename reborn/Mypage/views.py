@@ -23,7 +23,7 @@ from rest_framework.decorators import api_view, permission_classes
 from .serializers import MyCommissionAlreadyStartedBriefSerializer, MessageSerializer,PortfolioSerializer,ProjectSerializer,MyCommissionBriefSerializer,MyCommissionSerializer,MyReviewBriefSerialzier, ClientUserSerializer,DesignerUserSerializer,PartInCommissionSerializer,EndCommissionSerializer
 from django.db.models import Q
 
-from users.serializers import ClientProfileImageUpdateSerializer
+#from users.serializers import ClientProfileImageUpdateSerializer
 
 import datetime
 
@@ -124,7 +124,7 @@ def getMyInfo(request, format=None):
            userserializer.data,
         )
 
-
+'''
 @api_view(['PATCH'])
 @permission_classes([IsAuthenticated])
 def profile_update(request, pk) :
@@ -136,7 +136,7 @@ def profile_update(request, pk) :
         serializer.save()
         return Response(status =201, data=serializer.data)
     return Response(status=400, data="wrong parameters")
-
+'''
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def designer_selected_for_commission(request) :

@@ -15,7 +15,16 @@ const postRequest = async (data) => {
     }
 }
 
+const getRequest = async (id) => {
+    try {
+        const res = await instance.get(`/api/client_commission/commission_view_detail/${id}` );
+        return res.data;
 
+    } catch (error) {
+        console.log(error);
+        alert(error.response.data);
+    }
+}
 const getRequests = async () =>{
     try {
         const res = await instance.get('/api/client_commission/commission_view', );
@@ -51,4 +60,4 @@ const patchSelectDesigner = async (data) => {
     }
 }
 
-export { postRequest,getRequests,getRequestsMain,patchSelectDesigner };
+export { postRequest,getRequest, getRequests,getRequestsMain,patchSelectDesigner };
