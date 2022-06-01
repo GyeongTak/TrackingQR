@@ -33,27 +33,6 @@ MEDIA_ROOT = settings.MEDIA_ROOT
 datetime_format = "%Y-%m-%d"
 User = get_user_model()
 
-def resize(filename) :
-    img =cv2.imread(filename)
-    width, height = img.shape[:2]
-    if height * width *3 <=2**25:
-        return img
-    i =2
-    t_height,t_width = height, width
-
-    while t_height * t_width * 3 >2**25 :
-        t_height = int(t_height / math.sqrt(i))
-        t_width = int(t_width / math.sqrt(i))  
-        i += 1
-    
-    height,width = t_height, t_width
-    image = Image.open(filename)
-    resize_image = image.resize((height,width))
-    filename = filename[:-1 * (len(filename.split(".")[-1])+1)] + "_resized." + filename.split(".")[-1]
-    resize_image.save(filename)
-    img = cv2.imread(filename)
-    os.system("del " + filename.replace("/","\\"))
-
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, ])
 def create_commission(request):
@@ -77,8 +56,8 @@ def create_commission(request):
             raw_images = []
 
             for imagePath in imagePaths :
-                img = resize(imagePath)
-
+                img= cv2.imread(imagePath)
+                img = cv2.resize(img, dsize=(1000, 1000))
                 raw_images.append(img)
                 
             print("[INFO] switching images...")
@@ -108,17 +87,17 @@ def create_commission(request):
         
         tmpClient = Client.objects.get(id = request.user.id)
 
-        newCommission = Commission(
-            client = tmpClient,
-            title=serializer.validated_data['title'],
-            small_image = request.data['small_image'],
-            budget = request.data['budget'],
-            commission_image = image,
-            finish_date = int(request.data['finish_date']) ,
-            deadline = request.data['deadline'],
-            description=request.data['description'],
-        )
-        newCommission.save()
+        # newCommission = Commission(
+        #     client = tmpClient,
+        #     title=serializer.validated_data['title'],
+        #     small_image = request.data['small_image'],
+        #     budget = request.data['budget'],
+        #     commission_image = image,
+        #     finish_date = int(request.data['finish_date']) ,
+        #     deadline = request.data['deadline'],
+        #     description=request.data['description'],
+        # )
+        # newCommission.save()
 
         return Response({'message' : "Success"}, status = status.HTTP_200_OK)
     else :

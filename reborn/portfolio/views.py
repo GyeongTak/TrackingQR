@@ -12,7 +12,7 @@ from rest_framework import generics , status
 
 from portfolio.models import DesignerPopol,Projects,Certificate, EducationAndCareer
 from Mypage import serializers
-from .serializers import BriefProjectSerializer, PopolSerializer,BriefPopolSerializer,CertificateSerializer, EduAndCareerSerializer, ProjectSerializer
+from .serializers import ProjectSerializer, PopolSerializer,BriefPopolSerializer,CertificateSerializer, EduAndCareerSerializer, ProjectSerializer
 from rest_framework import status
 
 from users.models import *
@@ -102,8 +102,6 @@ def create_portfolio(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, ])
 def create_project(request):
-    print(request.data)
-    print(request.FILES)
     tmpdesigner= Designer.objects.get(id = request.user.id)
     tmpportfolio = DesignerPopol.objects.get(designer= tmpdesigner)
 
@@ -119,6 +117,14 @@ def create_project(request):
     else :
         return Response({"message" : 'failed to make projects'},status= status.HTTP_204_NO_CONTENT)
     return Response({'message': 'success'}, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([AllowAny, ])
+def project_view_detail(request,pk):
+    project= Designer.objects.get(id = pk)
+    projectSerializer = ProjectSerializer(project, many=False)
+   
+    return Response({'project': projectSerializer.data}, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, ])
