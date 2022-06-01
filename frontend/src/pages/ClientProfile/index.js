@@ -93,19 +93,21 @@ const ClientProfile = () => {
         </UserInfoForm>
        
         <Tabs defaultActiveKey="1" onChange={onClickTab}>
-            <Tabs.TabPane tab="의뢰서" key="request">
-            <List
-            itemLayout="vertical"
-            size="large"
-            dataSource={clientInfo.commissions}
-            renderItem={item => (
-                <List.Item
-                key={item.title}
-                actions={[
-                    <div>{item.budget} 만원</div>,
-                    <div>작업기간  {item.finish_date}개월</div>,
-                    <div>받은 제안 {item.request_designer?.length}개</div>,
-                ]}
+        <Tabs.TabPane tab="의뢰서" key="request">
+            {
+                clientInfo?.commissions_not_started &&
+                <List
+                itemLayout="vertical"
+                size="large"
+                dataSource={clientInfo.commissions_not_started}
+                renderItem={item => (
+                    <List.Item
+                    key={item.title}
+                    actions={[
+                        <div>{item.budget} 만원</div>,
+                        <div>작업기간  {item.finish_date}개월</div>,
+                        <div>받은 제안 {item.request_designer?.length}개</div>,
+                    ]}
                 extra={
                     <img
                             width={272}
@@ -114,35 +116,79 @@ const ClientProfile = () => {
                         />
                 }
             >
-          <List.Item.Meta
-            title={<Link to={`/portfolio/${item.id}`}>{item.title}</Link>}
-            description={<div>작업기한  {item.deadline} </div>}
-          />
-          {item.brief_description}
+            <List.Item.Meta
+                title={<Link to={`/portfolio/${item.id}`}>{item.title}</Link>}
+                description={<div>작업기한  {item.deadline} </div>}
+            />
+            {item.brief_description}
 
           <fieldset style={{border:'1px solid #f0f0f1', marginTop: '15px', padding: '10px'}}>
-
-          <legend style={{fontSize: '16px', margin:'0', padding:'1px'}}>
-          {item.current_status === 2? '거래 중인 전문가':'지원한 전문가 목록'}</legend>
-
-          {item.request_designer.map((designer)=>
+          <legend style={{fontSize: '16px', margin:'0', padding:'1px'}}>지원한 전문가 목록</legend>
+          {
+              item?.request_designer?.map(designer => 
                 <div style={{display: 'flex', alignItems: 'center'}}>
-                <div key={designer.designer_id} 
-                onClick={()=>navigate(`/portfolio/${parseInt(designer.designer_id, 10)}`)} 
-                style={{display: 'flex',  alignItems: 'center', margin:'0', padding:'0', cursor:"pointer"}}>
-                <Avatar style={{width:'50px', height:'50px', marginRight:'10px'}} src={`http://localhost:8000${designer.designer_profile_image}`}/>
-                {designer.designer_username}
-                <Rate style={{marginLeft:'10px'}} disabled defaultValue={designer.designer_average_stars} />
-                
-                </div>
-                {(item.current_status === 1 || item.current_status === 0) && 
-                <Button style={{marginLeft:'10px'}} onClick={()=>onClickDesigner(designer.designer_id, item.id)}>선택</Button>}                
-                </div>
-            )}
+                    <div key={designer.designer_id} 
+                    onClick={()=>navigate(`/portfolio/${parseInt(designer.designer_id, 10)}`)} 
+                    style={{display: 'flex',  alignItems: 'center', margin:'0', padding:'0', cursor:"pointer"}}>
+                    <Avatar style={{width:'50px', height:'50px', marginRight:'10px'}} src={`http://localhost:8000${designer.designer_profile_image}`}/>
+                    {designer.designer_username}
+                    <Rate style={{marginLeft:'10px'}} disabled defaultValue={designer.designer_average_stars} />
+                    <Button style={{marginLeft:'10px'}} onClick={()=>onClickDesigner(designer.designer_id, item.id)}>선택</Button>
+                    </div>
+                    </div>)
+          }
           </fieldset>
         </List.Item>
       )}
     />
+            }
+            {
+                clientInfo?.commissions_started && 
+                    <List
+                    itemLayout="vertical"
+                    size="large"
+                    dataSource={clientInfo?.commissions_started}
+                    renderItem={item => (
+                        <List.Item
+                        key={item.title}
+                        actions={[
+                            <div>{item.budget} 만원</div>,
+                            <div>작업기간  {item.finish_date}개월</div>,
+                        ]}
+                    extra={
+                        <img
+                                width={272}
+                                alt="logo"
+                                src={`http://localhost:8000${item.small_image}`}
+                            />
+                    }
+                >
+                <List.Item.Meta
+                    title={<Link to={`/portfolio/${item.id}`}>{item.title}</Link>}
+                    description={<div>작업기한  {item.deadline} </div>}
+                />
+                {item.brief_description}
+
+            <fieldset style={{border:'1px solid #f0f0f1', marginTop: '15px', padding: '10px'}}>
+            <legend style={{fontSize: '16px', margin:'0', padding:'1px'}}>거래중인 디자이너</legend>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+                <div key={item.designer_id} 
+                onClick={()=>navigate(`/portfolio/${parseInt(item.designer_id, 10)}`)} 
+                style={{display: 'flex',  alignItems: 'center', margin:'0', padding:'0', cursor:"pointer"}}>
+                <Avatar style={{width:'50px', height:'50px', marginRight:'10px'}}
+                onClick={()=>onClickDesigner(item.designer_id, item.id)}
+                src={`http://localhost:8000${item.designer_profile_image}`}/>
+                {item.designer_username}
+                <Rate style={{marginLeft:'10px'}} disabled defaultValue={item.designer_average_stars} />
+                </div>
+            </div>
+            </fieldset>
+            </List.Item>
+        )}
+        />
+            }
+        
+            
             </Tabs.TabPane>
             <Tabs.TabPane tab="리뷰" key="review">
             <List
@@ -196,49 +242,42 @@ const ClientProfile = () => {
 };
 
 export default ClientProfile;
-
-
-
-/**
- * const clientDummy = {
-        'user': {
-        "profile_image": '',
-        "username" : "tticjswo2",
-        "email" : "tticjswo2@naver.com",
-        "phone" : "01023872521",
-        "company_name" : "Samsung",
-        "description" : "Company Samsung is upcoming"
-        },
-        'commissions':
-        [{
-        'id':4,
-        'small_image':'', 
-        'request_count':5,
-        'title':'제목',
-        'deadline': '2022-05-03', 
-        'brief_description': 'brief_description', 
-        'budget': 1000,
-        'finish_date':5,
-        'client_company_name':'soongsil',
-        'request_designer':[{
-            'designer_username':'디자이너Lee',
-            'designer_average_stars':5,
-            'designer_id' : 3
-        },
-        {
-            'designer_username':'디자이너Lee',
-            'designer_average_stars':5,
-            'designer_id' : 3
-        }]
-        }],
-        'reviews' : [{
-        'id': 4,
-        'score': 3,
-        'small_image': '',
-        'desinger_name':'디자이너 Lee',
-        'brief_description':'description',
-        'title': 'review - title'
-        }]
+/*
+{
+    clientInfo.commissions_not_started ? 
+    
+    item.request_designer?.map((designer)=>
+        <div style={{display: 'flex', alignItems: 'center'}}>
+        <div key={designer.designer_id} 
+        onClick={()=>navigate(`/portfolio/${parseInt(designer.designer_id, 10)}`)} 
+        style={{display: 'flex',  alignItems: 'center', margin:'0', padding:'0', cursor:"pointer"}}>
+        <Avatar style={{width:'50px', height:'50px', marginRight:'10px'}} src={`http://localhost:8000${designer.designer_profile_image}`}/>
+        {designer.designer_username}
+        <Rate style={{marginLeft:'10px'}} disabled defaultValue={designer.designer_average_stars} />
         
-};
+        </div>
+        {(item.current_status === 1 || item.current_status === 0) && 
+        <Button style={{marginLeft:'10px'}} onClick={()=>onClickDesigner(designer.designer_id, item.id)}>선택</Button>}                
+        </div>
+    ) : 
+    
+
+}
+*/
+/**
+ *clientInfo.commissions_started
+                item.request_designer?.map((designer)=>
+                    <div style={{display: 'flex', alignItems: 'center'}}>
+                    <div key={designer.designer_id} 
+                    onClick={()=>navigate(`/portfolio/${parseInt(designer.designer_id, 10)}`)} 
+                    style={{display: 'flex',  alignItems: 'center', margin:'0', padding:'0', cursor:"pointer"}}>
+                    <Avatar style={{width:'50px', height:'50px', marginRight:'10px'}} src={`http://localhost:8000${designer.designer_profile_image}`}/>
+                    {designer.designer_username}
+                    <Rate style={{marginLeft:'10px'}} disabled defaultValue={designer.designer_average_stars} />
+                    
+                    </div>
+                    {(item.current_status === 1 || item.current_status === 0) && 
+                    <Button style={{marginLeft:'10px'}} onClick={()=>onClickDesigner(designer.designer_id, item.id)}>선택</Button>}                
+                    </div>
+                )
  */
