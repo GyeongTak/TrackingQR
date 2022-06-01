@@ -27,7 +27,7 @@ const getRequest = async (data) => {
 }
 const getRequests = async () =>{
     try {
-        const res = await instance.get('/api/client_commission/commission_view', );
+        const res = await instance.get('/api/client_commission/commission_view');
         return res.data;
 
     } catch (error) {

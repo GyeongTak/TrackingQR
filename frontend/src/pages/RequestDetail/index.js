@@ -37,13 +37,11 @@ const RequestDetail = () => {
     useEffect(()=> {
         
         const loadRequest = async () => {
-            const data = await getRequest(1); //
+            const data = await getRequest(id); //
             setRequest(data);
         };
 
         loadRequest();
-
-        
        //setRequest(dummy);
     }, []);
 

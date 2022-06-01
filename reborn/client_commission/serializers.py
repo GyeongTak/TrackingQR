@@ -33,7 +33,7 @@ class CommissionViewDetailSerializer(serializers.ModelSerializer):
     client_profile_image = serializers.ImageField(source='client.profile_image')
     class Meta:
          model = Commission
-         fields = ('id','title','finish_date','budget','description','commission_image','client_username','client_company_name','client_profile_image')
+         fields = ('id','title','finish_date','budget','description','current_status','deadline','commission_image','client_username','client_company_name','client_profile_image')
         #  read_only_fields = ('id', 'is_client')
     
 
@@ -43,7 +43,7 @@ class CommissionViewSerializer(serializers.ModelSerializer):
     client_profile_image = serializers.ImageField(source = 'client.profile_image')
     class Meta :
         model = Commission
-        fields = ('title', 'client_profile_image','deadline','budget','finish_date','small_image','client_company_name','client_name')
+        fields = ('id','title', 'client_profile_image','deadline','budget','finish_date','small_image','client_company_name','client_name')
 
     
 
