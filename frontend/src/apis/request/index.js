@@ -15,9 +15,9 @@ const postRequest = async (data) => {
     }
 }
 
-const getRequest = async (id) => {
+const getRequest = async (data) => {
     try {
-        const res = await instance.get(`/api/client_commission/commission_view_detail/${id}` );
+        const res = await instance.get(`/api/client_commission/commission_view_detail/${parseInt(data, 10)}`);
         return res.data;
 
     } catch (error) {

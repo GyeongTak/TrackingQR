@@ -35,6 +35,9 @@ function LoginPage() {
         e.preventDefault();
         const { id, username, is_client, auth_token } = await login({"username":userId, "password": password});
         localStorage.setItem('token', auth_token);
+        localStorage.setItem('userId', id);
+        localStorage.setItem('userName', username);
+        localStorage.setItem('isClient', is_client);
         axios.defaults.headers.common['Authorization'] = auth_token;
         console.log(id, username, is_client, auth_token);
         setUser({

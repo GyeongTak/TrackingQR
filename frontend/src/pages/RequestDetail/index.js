@@ -7,6 +7,7 @@ import MainMenu from 'components/MainMenu';
 import {Button, Badge} from 'antd';
 import { HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { getRequest } from '../../apis/request';
+import { useParams } from 'react-router-dom';
 
 const dummy = {
     'id' : 2,
@@ -24,20 +25,26 @@ const dummy = {
 
 
 const RequestDetail = () => {
-    const [request, setRequest] = useState({});
+    const { id } = useParams();
+    const [request, setRequest] = useState(false);
+    const [isClient, setIsClient] = useState({});
 
-    
+    useEffect(()=>{
+        const isClient = localStorage.getItem('isClient');
+        setIsClient(isClient);
+    }, []);
+
     useEffect(()=> {
-        /*
+        
         const loadRequest = async () => {
-            const data = await getRequest();
+            const data = await getRequest(1); //
             setRequest(data);
         };
 
         loadRequest();
-    */
 
-    setRequest(dummy);
+        
+       //setRequest(dummy);
     }, []);
 
     return (
@@ -84,7 +91,7 @@ const RequestDetail = () => {
             
             <Content>
                 {
-                    request.description
+                    request?.description
                 }
             </Content>
             </RequestContainer>
@@ -113,6 +120,8 @@ const RequestDetail = () => {
                     <h3>작업 기한</h3>
                     <div>{request?.finish_date} 일</div>
                 </Content>
+                {isClient ==='false' && 
+                <Button>지원하기</Button>}
             </DescriptionContainer>
             
             </LeftContent>

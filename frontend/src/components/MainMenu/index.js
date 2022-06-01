@@ -28,8 +28,9 @@ const MainMenu = () => {
         
         await logout();
         localStorage.removeItem('token');
-
-        console.log(localStorage.getItem('token'));
+        localStorage.removeItem('isClient');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('userName');
         
         setUser({
             userId : '',

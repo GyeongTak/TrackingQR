@@ -4,11 +4,11 @@ import {instance} from '../utils'
 const getPortfolios = async () => {
 
     try {
-        const result = await instance.get('/api/portfolio/portfolio_view');
+        const result = await instance.get('/api/portfolio');
         return result.data;
     } catch (error) {
         console.error(error);
-        alert(error.response.data);
+        window.alert(error.response.data);
     }
 }
 
@@ -20,7 +20,7 @@ const getPortfolio = async (data) => {
         return result.data;
     } catch (error) {
         console.error(error);
-        alert(error.response.data);
+        window.alert(error.response.data);
     }
 }
 
@@ -29,7 +29,7 @@ const postPortfolio = async () => {
 
     const token = localStorage.getItem('token');
     try {
-        const result = await instance.get('/api/portfolio/create_portfolio', {
+        const result = await instance.get('/api/portfolio/new', {
             headers: { 
                 "Content-Type": `application/json`,
                 Authorization : "Token" + token,

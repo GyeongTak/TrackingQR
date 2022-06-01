@@ -79,15 +79,15 @@ const PortfolioDetail = () => {
     const [portfolio, setPortfolio] = useState({});
     
     useEffect(()=>{
-        /*
+        
         const loadPortfolio = async () => {
             const data = await getPortfolio();
             setPortfolio(data);
         }
 
         loadPortfolio();
-        */
-        setPortfolio(dummy);
+        
+        //setPortfolio(dummy);
     }, []);
 
     return (
