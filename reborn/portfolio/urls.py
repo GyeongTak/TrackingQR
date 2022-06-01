@@ -1,10 +1,13 @@
-from rest_framework import routers
+from . import views
 
+from django.urls import URLPattern, path
+# from django.views.generic import TemplateView
 
-from .views import PortfolioViewSet, ProjectViewSet
+urlpatterns = [
+    path('portfolio_view/', views.portfolio_view),
+    path('create_portfolio/', views.create_portfolio),
+    path('<int:pk>/portfolio_view_detail/',views.portfolio_view_detail),
+    path('create_project/',views.create_project)
 
-router = routers.DefaultRouter()
-router.register('',PortfolioViewSet, basename='portfolio')
-router.register('projects',ProjectViewSet, basename='projects')
+]
 
-urlpatterns = router.urls

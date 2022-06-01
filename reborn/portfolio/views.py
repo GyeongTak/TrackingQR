@@ -6,7 +6,7 @@ from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 
 from rest_framework import generics , status
 
@@ -24,118 +24,116 @@ from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 
 
-class PortfolioViewSet(viewsets.GenericViewSet):
-    @action(methods=['GET'],permission_classes=[AllowAny, ], detail=False)
-    def portfolio_view(self, request):
-        ListPopol = DesignerPopol.objects.all()
-           
-        briefportfolio = BriefPopolSerializer(ListPopol, many = True)
-
-        for i in range(0,len(briefportfolio.data)) :
-            if len(briefportfolio.data[i]['projects']) > 3 :
-                briefportfolio.data[i]['projects'] = briefportfolio.data[i]['projects'][:3]
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def portfolio_view(request):
+    ListPopol = DesignerPopol.objects.all()
         
-        return Response(briefportfolio.data, status = status.HTTP_200_OK)
+    briefportfolio = BriefPopolSerializer(ListPopol, many = True)
 
-    @action(methods=['GET'], permission_classes=[AllowAny, ], detail=True)
-    def portfolio_view_detail(self, request, pk):
+    for i in range(0,len(briefportfolio.data)) :
+        if len(briefportfolio.data[i]['projects']) > 3 :
+            briefportfolio.data[i]['projects'] = briefportfolio.data[i]['projects'][:3]
     
-        Popol = DesignerPopol.objects.get(id = pk)
-        serializer_popol = PopolSerializer(Popol, many = False)
+    return Response(briefportfolio.data, status = status.HTTP_200_OK)
 
-        certifits = Certificate.objects.filter(portfolio= Popol)
-        serializer_certificate = CertificateSerializer(certifits, many= True)
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def portfolio_view_detail(request, pk):
 
-        eduandcareers = EducationAndCareer.objects.filter(portfolio= Popol)
-        serializer_educareer = EduAndCareerSerializer(eduandcareers, many=True)
+    Popol = DesignerPopol.objects.get(id = pk)
+    serializer_popol = PopolSerializer(Popol, many = False)
 
-        projects = Projects.objects.filter(portfolio= Popol)
-        serializer_projects = ProjectSerializer(projects, many=True)
+    certifits = Certificate.objects.filter(portfolio= Popol)
+    serializer_certificate = CertificateSerializer(certifits, many= True)
 
-        
-        return Response(
-            {
-                'portfolio' : serializer_popol.data , 
-                'certificates ' : serializer_certificate.data,
-                'educationandcareer' : serializer_educareer.data ,
-                'projects' : serializer_projects.data ,
-            }
-            , status = status.HTTP_200_OK
-        )
+    eduandcareers = EducationAndCareer.objects.filter(portfolio= Popol)
+    serializer_educareer = EduAndCareerSerializer(eduandcareers, many=True)
+
+    projects = Projects.objects.filter(portfolio= Popol)
+    serializer_projects = ProjectSerializer(projects, many=True)
+
+    
+    return Response(
+        {
+            'portfolio' : serializer_popol.data , 
+            'certificates' : serializer_certificate.data,
+            'educationandcareer' : serializer_educareer.data ,
+            'projects' : serializer_projects.data ,
+        }
+        , status = status.HTTP_200_OK
+    )
 
 
-    # Parsers in Django REST are used to parse the content of incoming HTTP request.
-    # 보낼때는 serializer
-    @action(methods=['POST'], permission_classes = [IsAuthenticated, ], detail=False)
-    def create_portfolio(self, request):
-        designer = Designer.objects.get(id = request.user.id)
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, ])
+def create_portfolio(request):
+    designer = Designer.objects.get(id = request.user.id)
 
-        if request.user.is_client == False :
+    if request.user.is_client == False :
 
-                newPortfolio = DesignerPopol(
-                    designer = designer,
-                    description = request.data['content']
+            newPortfolio = DesignerPopol(
+                designer = designer,
+                description = request.data['content']
+            )
+            newPortfolio.save()
+
+            for i in request.data['certificates'] :
+                newCertificate = Certificate(
+                    portfolio = newPortfolio,
+                    acquired_date = i['acquired_period'],
+                    certificate_name = i['certificate_name'],
+                    time = i['time']
                 )
-                newPortfolio.save()
+                newCertificate.save()
 
-                for i in request.data['certificates'] :
-                    newCertificate = Certificate(
-                        portfolio = newPortfolio,
-                        acquired_date = i['acquired_period'],
-                        certificate_name = i['certificate_name'],
-                        time = i['time']
-                    )
-                    newCertificate.save()
-
-                for j in request.data['educationcareers'] :
-                    newEducationAndCareer = EducationAndCareer(
-                        portfolio = newPortfolio,
-                        working_period = j['working_period'],
-                        company_name = j['company_name'],
-                        description = j['job_position']
-                    )
-                    newEducationAndCareer.save()
-            
-                return Response({'result':'success', 'message': '성공적으로 등록되었습니다.'}, status=status.HTTP_201_CREATED) #json?
-            
-
-            # # except:
-            #     
-        else :
-            return Response({'result':'fail', 'message': '디자이너가 아니십니다'}, status=status.HTTP_404_NOT_FOUND)
-
-class ProjectViewSet(viewsets.GenericViewSet) :
-    @action(methods=['POST'],permission_classes=[IsAuthenticated, ], detail=False)
-    def create_project(self, request):
-        print(request.data)
-        print(request.FILE)
-        # tmpdesigner= Designer.objects.get(id = request.user.id)
-        # tmpportfolio = DesignerPopol.objects.get(designer= tmpdesigner)
-        # serializer = ProjectSerializer(request.data)
-        # serializer.is_valid(raise_exception=True)
-
-        # if request.user.is_client == False :
-        #     newProject = Projects(
-        #         title = request.data['title'],
-        #         description = request.data['description'],
-        #         participation_date = request.data['participation_date'],
-        #         portfolio = tmpportfolio,
-       
-        #     )
-        #     newProject.save()
+            for j in request.data['educationcareers'] :
+                newEducationAndCareer = EducationAndCareer(
+                    portfolio = newPortfolio,
+                    working_period = j['working_period'],
+                    company_name = j['company_name'],
+                    description = j['job_position']
+                )
+                newEducationAndCareer.save()
         
-        return Response({'message': 'success'}, status=status.HTTP_200_OK)
+            return Response({'result':'success', 'message': '성공적으로 등록되었습니다.'}, status=status.HTTP_201_CREATED) #json?
 
-    @action(methods=['POST'],permission_classes=[IsAuthenticated, ], detail=False)
-    def image_handler(self, request):
-        #print(request.data['files'])
-        image = request.FILES['files'] # or self.files['image'] in your form
-        filename = request.FILES['files']
-        user = User.objects.get(id = request.user.id)  
-        filename_and_path= 'project_image/'+str(user.username)+'/'+ str(filename)
-        path = default_storage.save(filename_and_path, ContentFile(image.read()))
-        path = 'media/'+ path
-        return Response({'file_path' : path})
+    else :
+        return Response({'result':'fail', 'message': '디자이너가 아니십니다'}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, ])
+def create_project(request):
+    print(request.data)
+    print(request.FILE)
+    # tmpdesigner= Designer.objects.get(id = request.user.id)
+    # tmpportfolio = DesignerPopol.objects.get(designer= tmpdesigner)
+    # serializer = ProjectSerializer(request.data)
+    # serializer.is_valid(raise_exception=True)
+
+    # if request.user.is_client == False :
+    #     newProject = Projects(
+    #         title = request.data['title'],
+    #         description = request.data['description'],
+    #         participation_date = request.data['participation_date'],
+    #         portfolio = tmpportfolio,
+    
+    #     )
+    #     newProject.save()
+    
+    return Response({'message': 'success'}, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, ])
+def image_handler(request):
+    #print(request.data['files'])
+    image = request.FILES['files'] # or self.files['image'] in your form
+    filename = request.FILES['files']
+    user = User.objects.get(id = request.user.id)  
+    filename_and_path= 'project_image/'+str(user.username)+'/'+ str(filename)
+    path = default_storage.save(filename_and_path, ContentFile(image.read()))
+    path = 'media/'+ path
+    return Response({'file_path' : path})
 
 
         
