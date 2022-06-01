@@ -123,7 +123,7 @@ const ClientProfile = () => {
             onClick={()=>navigate(`/portfolio/${parseInt(designer.designer_id, 10)}`)} 
             style={{display: 'flex',  alignItems: 'center', margin:'0', padding:'0', cursor:"pointer"}}>
             <Avatar style={{width:'50px', height:'50px'}}src={`http://localhost:8000${designer.designer_profile_image}`}/>
-              {designer.designer_username} 님 
+             {designer.designer_username} 님 
             <Rate style={{marginLeft:'10px'}}disabled defaultValue={designer.designer_average_stars} />
             </div>
             )}
@@ -168,11 +168,11 @@ const ClientProfile = () => {
         <Modal visible={modal} onCancel={onCancelEdit}>
             <h2>프로필 수정</h2>
             {clientInfo?.user?.profile_image?
-            <Avatar
+            <Avatar 
             src={`http://localhost:8000${clientInfo.user.profile_image}`} />:
             <Avatar
             src={userImg}
-            shape="square" />
+            shape="circle" />
             }
             <div style={{margin:"20px 0"}}><Input placeholder="email"></Input></div>
             <div style={{margin:"20px 0"}}><Input placeholder="phone"></Input></div>

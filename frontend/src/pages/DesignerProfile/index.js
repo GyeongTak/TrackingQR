@@ -12,6 +12,7 @@ import { useNavigate, useLocation, useParams} from 'react-router-dom';
 import userImg from '../../assets/user.png';
 import { MailOutlined, PhoneOutlined, HomeOutlined } from '@ant-design/icons';
 import { getProfileInfo } from '../../apis/user';
+import { Link } from 'react-router-dom';
 
 const designerInfo = {
     'user':{
@@ -166,6 +167,12 @@ const DesignerProfile = () => {
             </div>
             <Button onClick={onClickEditButton} css={editButtonWrapper}>프로필 수정</Button>
         </UserInfoForm> 
+        
+        <div style={{position:'absolute', marginTop:'-375px', marginLeft:'780px', width:'500px', height:'295px', border:'2px solid rgb(251, 240, 213)',
+        borderRadius:'10px', backgroundColor:'rgb(251, 240, 213)', textAlign:"center"}}>
+            <br></br>
+            <span style={{fontSize:'17px', fontWeight:'500', color:'orange'}}>도착한 알림</span>
+        </div>
 
         <Tabs defaultActiveKey="1" onChange={onChangeTab}>
             <Tabs.TabPane tab="포트폴리오" key="portfolio">
@@ -180,7 +187,11 @@ const DesignerProfile = () => {
             <div style={{margin: '30px 0'}}>
             <Table  columns={work_columns} dataSource={userInfo?.educationandcareers} pagination={false}/>
             </div>}
+
             <SubTitle>프로젝트</SubTitle>
+            <Link to="/CreateProject2">
+                <Button style={{position:'absolute', marginLeft:'960px', marginTop:'-40px'}}>외부 프로젝트 추가</Button>
+            </Link>
             <ul style={{display:'flex', listStyle:"none", paddingLeft: '0px'}}>
             {
                 userInfo?.projects&& 
