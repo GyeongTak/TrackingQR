@@ -54,6 +54,7 @@ const PortfolioDetail = () => {
         
         const loadPortfolio = async () => {
             const data = await getPortfolio(id);
+            console.log(data);
             setPortfolio(data);
         }
 

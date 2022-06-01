@@ -6,7 +6,7 @@ import Avatar from 'components/Avatar';
 import MainMenu from 'components/MainMenu';
 import {Button, Badge} from 'antd';
 import { HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
-import { getRequest } from '../../apis/request';
+import { getRequest, patchApplyDesigner } from '../../apis/request';
 import { useParams } from 'react-router-dom';
 
 const dummy = {
@@ -44,6 +44,16 @@ const RequestDetail = () => {
         loadRequest();
        //setRequest(dummy);
     }, []);
+
+    const onClickButton = (designerId, id) => {
+
+        const patchDesigner = async () => {
+            await patchApplyDesigner({designer_id: designerId, request_id: id});
+        }
+        // 
+        patchDesigner();
+        alert('정상적으로 지원되었습니다!');
+    }
 
     return (
         <>
@@ -119,7 +129,7 @@ const RequestDetail = () => {
                     <div>{request?.finish_date} 일</div>
                 </Content>
                 {isClient ==='false' && 
-                <Button>지원하기</Button>}
+                <Button onclick={()=>onClickButton(localStorage.getItem('userId'))}>지원하기</Button>}
             </DescriptionContainer>
             
             </LeftContent>

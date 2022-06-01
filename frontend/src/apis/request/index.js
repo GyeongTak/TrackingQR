@@ -61,4 +61,17 @@ const patchSelectDesigner = async (data) => {
     }
 }
 
-export { postRequest,getRequest, getRequests,getRequestsMain,patchSelectDesigner };
+const patchApplyDesigner = async (data) => { //디자이너가 의뢰서를 지원할때
+    const token = localStorage.getItem('token');
+    try {
+        const res = await instance.post('**', data, //{designer_id: designerId, request_id: id}
+        {headers: { Authorization : "Token " + token}});
+        return res.data;
+        
+    } catch (error) {
+        console.log(error);
+        alert(error.response.data);
+    }
+}
+
+export { postRequest, getRequest, getRequests, getRequestsMain, patchSelectDesigner, patchApplyDesigner };
