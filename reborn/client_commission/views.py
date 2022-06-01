@@ -1,3 +1,4 @@
+from tkinter import EW
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets,status
 from rest_framework.decorators import action
@@ -8,7 +9,7 @@ from django.core.exceptions import ImproperlyConfigured
 from client_commission.models import Commission
 from client_commission.models import RequestedDesigner
 from users.models import Designer,Client
-from .serializers import EmptySerializer,CommissionSerializer,CommissionSerializer,CommissionViewSerializer
+from .serializers import EmptySerializer,CommissionSerializer,CommissionViewDetailSerializer,CommissionViewSerializer
 
 from datetime import datetime
 
@@ -31,7 +32,7 @@ class CommissionViewSet(viewsets.GenericViewSet):
     serializer_classes = {
         'create_commission': CommissionSerializer,
         'commission_view' : CommissionViewSerializer,
-        'commission_view_detail' : CommissionSerializer
+        'commission_view_detail' : CommissionViewDetailSerializer
         
     }   
 
@@ -67,8 +68,9 @@ class CommissionViewSet(viewsets.GenericViewSet):
                     else:
                         print("[INFO] image stitching failed (3: STITCHER_ERR_CAMERA_PARAMETERS_ADJUSTMENT_FAIL)")
                         raise Exception("[INFO] image stitching failed (3: STITCHER_ERR_CAMERA_PARAMETERS_ADJUSTMENT_FAIL)")
-
-            serializer = self.get_serializer_class(data=request.data)
+            obj =request.data
+            print(obj)
+            serializer = CommissionSerializer(data=request.data, many=False)
             serializer.is_valid(raise_exception=True)
             
             tmpClient = Client.objects.get(id = request.user.id)
@@ -96,13 +98,25 @@ class CommissionViewSet(viewsets.GenericViewSet):
         for i in range(0,len(serializer.data)) :
             serializer.data[i]['request_count'] = RequestedDesigner.objects.filter(commission = ListCommision[i]).count()
             #= RequestedDesigner.objects.filter(commission = ListCommision[i])
-        print(serializer.data)
         return Response(serializer.data, status = status.HTTP_200_OK)
+
+    @action(methods=['POST'],permission_classes=[IsAuthenticated, ],detail=False)
+    def commission_select_for_designer(self,request,pk) :
+        if request.user.is_client == False :
+            commission = Commission.objects.get(id = pk)
+            designer = Designer.objects.get(id = request.user.id)
+            newRequestedDesigner = RequestedDesigner(
+                commission = commission,
+                designer = designer,
+                message = request.data['message']
+            )
+
+        
 
 
     @action(methods=['GET'],permission_classes=[AllowAny, ],detail=False)
-    def commission_view_detail(self,request) :
-        commission = Commission.objects.get(id = request.pk)
+    def commission_view_detail(self,request,pk) :
+        commission = Commission.objects.get(id = pk)
         serializer = self.get_serializer_class(commission)
         request_count = RequestedDesigner.objects.filter(commission=commission).count()
         return Response(serializer.data ,{'request_count':request_count}, status= status.HTTP_200_OK)

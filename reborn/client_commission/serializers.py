@@ -22,13 +22,20 @@ class CommissionSerializer(serializers.ModelSerializer):
     
     # def get_panorama_image(self,obj):
     def validate_title(self, value):
-        if value=='' or len(value)> 30 :
+        if value=='' or len(value)> 100 :
             raise ValidationError('Not Validate title')
         return value        
-    def validate_images(self,value):
-        if len(value) == 0 or len(value) > 30 :
-            raise ValidationError('Not Validate images')
-        return value
+
+
+class CommissionViewDetailSerializer(serializers.ModelSerializer):
+    client_username = serializers.CharField(source='client.username')
+    client_company_name = serializers.CharField(source='client.company_name')
+    client_profile_image = serializers.ImageField(source='client.profile_image')
+    class Meta:
+         model = Commission
+         fields = ('id','title','finish_date','budget','description','commission_image','client_username','client_company_name','client_profile_image')
+        #  read_only_fields = ('id', 'is_client')
+    
 
 class CommissionViewSerializer(serializers.ModelSerializer):
     client_name = serializers.CharField(source='client.username')
