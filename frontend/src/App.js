@@ -19,6 +19,7 @@ import GlobalStyle from '../src/styles/global';
 import CreateProjectPage from 'pages/CreateProject'
 import CreateProjectPage2 from 'pages/CreateProject2'
 import WriteReviewPage from 'pages/WriteReview'
+import { RequireAuth } from 'router/RequireAuth';
 
 const App = () => {
   return (
@@ -28,12 +29,12 @@ const App = () => {
         <Routes>
           <Route path = "/" element={<HomePage/>} />
           <Route path = "/sda" element={<DesignerPage/>} />
-          <Route path = "/portfolio/new" element={<CreatePortfolioPage/>} />
-          <Route path = "/request/new" element={<CreateRequest/>} />
+          <Route path = "/portfolio/new" element={<RequireAuth><CreatePortfolioPage/></RequireAuth>} />
+          <Route path = "/request/new" element={<RequireAuth><CreateRequest/></RequireAuth>} />
           <Route path = "/portfolio/:id" element={<PortfolioDetail/>} />
           <Route path = "/request/:id" element={<RequestDetail/>} />
-          <Route path="/designer/:id" element={<DesignerProfile />} />
-          <Route path="/client/:id" element={<ClientProfile />} />
+          <Route path="/designer/:id" element={<RequireAuth><DesignerProfile /></RequireAuth>} />
+          <Route path="/client/:id" element={<RequireAuth><ClientProfile /></RequireAuth>} />
           <Route path = "/login" element={<LoginPage/>} />
           <Route path = "/Join" element={<JoinPage/>} />
           <Route path = "/Join/Client" element={<JoinClientPage/>} />

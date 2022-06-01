@@ -6,7 +6,7 @@ import Avatar from 'components/Avatar';
 import MainMenu from 'components/MainMenu';
 import {Button, Badge} from 'antd';
 import { HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
-import { getRequest } from '../../apis/request';
+import { getRequest, patchApplyDesigner } from '../../apis/request';
 import { useParams } from 'react-router-dom';
 
 const dummy = {
@@ -38,12 +38,24 @@ const RequestDetail = () => {
         
         const loadRequest = async () => {
             const data = await getRequest(id); //
+            console.log('request data');
+            console.log(data);
             setRequest(data);
         };
 
         loadRequest();
        //setRequest(dummy);
     }, []);
+
+    const onClickButton = (designerId, id) => {
+
+        const patchDesigner = async () => {
+            await patchApplyDesigner({designer_id: designerId, request_id: id});
+        }
+        // 
+        patchDesigner();
+        alert('정상적으로 지원되었습니다!');
+    }
 
     return (
         <>
@@ -52,27 +64,27 @@ const RequestDetail = () => {
         
         <Title>
         {
-            (request?.current_status === 0 || request?.current_status === 1 ) && 
+            (request?.commission?.current_status === 0 || request?.commission?.current_status === 1 ) && 
             <Badge
             status="success"
             text={'모집중'}
             />
         }
         {
-            request?.current_status === 2 && 
+            request?.commission?.current_status === 2 && 
             <Badge
             status="processing"
             text={'진행중'}
             />
         }
         {
-            request?.current_status === 3 && 
+            request?.commission?.current_status === 3 && 
             <Badge
             status="default"
             text={'프로젝트 완료'}
             />
         }
-        <h1>{request?.title}</h1>
+        <h1>{request?.commission?.title}</h1>
         </Title>
         <ContentContainer>
             
@@ -80,7 +92,7 @@ const RequestDetail = () => {
             <Content>
             <PanoramaWrapper>
                 <a-scene class="aframebox" embedded>
-                <a-sky src={`http://localhost:8000${request?.commission_image}`}
+                <a-sky src={`http://localhost:8000${request?.commission?.commission_image}`}
                 rotation="0 -130 0" >
                 </a-sky>
                 </a-scene>
@@ -89,7 +101,7 @@ const RequestDetail = () => {
             
             <Content>
                 {
-                    request?.description
+                    request?.commission?.description
                 }
             </Content>
             </RequestContainer>
@@ -99,27 +111,28 @@ const RequestDetail = () => {
                 
                 <div style={{margin: "10px auto", fontSize: '15px', display:'flex', flexDirection: 'column',
                 justifyContent:'center', alignItems:'center'}}>
-                <Avatar src={`http://localhost:8000${request?.client_profile_image}`}></Avatar>
-                <div>{request?.client_username}</div>
-                <div>{request?.client_company_name}</div>
+                <Avatar src={`http://localhost:8000${request?.commission?.client_profile_image}`}></Avatar>
+                <div>{request?.commission?.client_username}</div>
+                <div>{request?.commission?.client_company_name}</div>
                 </div>
 
                 <div style={{display:'flex', alignItems:'center'}}>
                     <div style={{fontSize: '15px'}}>예산</div>
-                    <BudgetWrapper>{request?.budget}원</BudgetWrapper>
+                    <BudgetWrapper>{request?.commission?.budget}원</BudgetWrapper>
                 </div>
             </UserInfo>
             <DescriptionContainer>
                 <Content>
                     <h3>프로젝트 작업 마감 일자</h3>
-                    <div>{request?.deadline}</div>
+                    <div>{request?.commission?.deadline}</div>
                 </Content>
                 <Content>
                     <h3>작업 기한</h3>
-                    <div>{request?.finish_date} 일</div>
+                    <div>{request?.commission?.finish_date} 월</div>
+                    {isClient ==='false' && 
+                <Button onclick={()=>onClickButton(localStorage.getItem('userId'))} style={{marginTop:'10px', marginBottom:'10px'}}>지원하기</Button>}
                 </Content>
-                {isClient ==='false' && 
-                <Button>지원하기</Button>}
+                
             </DescriptionContainer>
             
             </LeftContent>

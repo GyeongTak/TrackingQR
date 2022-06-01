@@ -24,7 +24,6 @@ const Content = styled.div`
 
 const LeftContent = styled.div`
     width: 45%;
-    height: 100%;
     padding: 20px 0;
     border: 1px solid #dcdcde;
     display: flex;
