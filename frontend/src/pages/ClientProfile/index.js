@@ -34,7 +34,7 @@ const ClientProfile = () => {
     const [user, setUser]  = useRecoilState(userState);
     const navigate = useNavigate();
 
-    console.log(messages);
+    //console.log(messages);
 
     useEffect(()=>{
         
@@ -43,7 +43,7 @@ const ClientProfile = () => {
             setClientInfo(result);
 
             const request_designer = result.commissions_not_started.map((commission)=>{return commission.request_designer});
-            console.log(request_designer);//array
+            console.log(result);//array
             request_designer.map((designerList)=>{
                 
                 if (designerList.length) {

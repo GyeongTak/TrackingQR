@@ -9,22 +9,7 @@ import { Link } from 'react-router-dom';
 import PortfolioCard from 'components/PortfolioCard';
 import { useParams } from 'react-router-dom';
 import Avatar from 'components/Avatar';
-/**
- * {"portfolio":{"designer_username":"designer",
- * 
- * "designer_id":3,
- * 
- * "designer_email":"designer@connectbill.com",
- * "description":"ㅇㄹㄴㄹㄴㅇㄹㄴㅇㄹ",
- * "designer_phone":1000000000,
- * "designer_average_stars":0},
- * 
- *      "designer_profile_image":"/media/profile_image/user_default_image.png",
- * 
- * "certificates":[],
- * "educationandcareer":[],
- * "projects":[]}
- */
+
 const columns = [
     {
       title: '취득 기간',
