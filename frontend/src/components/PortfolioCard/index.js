@@ -19,7 +19,7 @@ const PortfolioCard = ({portfolio}) => {
             <NameWrapper>{portfolio?.skills}</NameWrapper>
             </div>
 
-            <div style={{marginLeft: '100px'}}>
+            <div>
                 <DescriptionWrapper>{portfolio?.description}</DescriptionWrapper>
                 <div style={{marginTop: '20px'}}>
                 <fieldset style={{border:'2px solid #f0f0f1', padding: '10px', width:'900px'}}>
