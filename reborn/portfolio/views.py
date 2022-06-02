@@ -16,7 +16,7 @@ from .serializers import ProjectSerializer, PopolSerializer,BriefPopolSerializer
 from rest_framework import status
 
 from users.models import *
-
+import cv2
 import os
 from django.conf import settings
 from django.core.files.storage import default_storage
@@ -121,7 +121,7 @@ def create_project(request):
 @api_view(['GET'])
 @permission_classes([AllowAny, ])
 def project_view_detail(request,pk):
-    project= Project.objects.get(id = pk)
+    project= Projects.objects.get(id = pk)
     projectSerializer = ProjectSerializer(project, many=False)
    
     return Response({'project': projectSerializer.data}, status=status.HTTP_200_OK)
@@ -133,10 +133,15 @@ def image_handler(request):
     image = request.FILES['files'] # or self.files['image'] in your form
     filename = request.FILES['files']
     user = User.objects.get(id = request.user.id)  
-    filename_and_path= 'project_image/'+str(user.username)+'/'+ str(filename)
-    path = default_storage.save(filename_and_path, ContentFile(image.read()))
+    img = (ContentFile(image.read()))
+    path = default_storage.save('project_image/'+str(user.username)+'/'+ str(filename), img)
+    
     path = 'media/'+ path
-    return Response({'file_path' : path})
+    # print(path)
+    img = cv2.imread(path)
+    img = cv2.resize(img, (500, 500), fx=0.3, fy=0.7, interpolation=cv2.INTER_AREA)
+    cv2.imwrite(path,img)
+    return Response({'file_path' :path})
 
 
         

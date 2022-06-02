@@ -38,7 +38,7 @@ MEDIA_ROOT = settings.MEDIA_ROOT
     
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, ])
-def create_review(self, request):
+def create_review(request):
     tmpcommission = Commission.objects.get(id = request.data['commission_id'])
     tmpdesigner = Designer.objects.get(id = tmpcommission.designer.id)
     user = Designer.objects.get(id = tmpcommission.designer.id)
@@ -115,5 +115,18 @@ def create_review(self, request):
         newMessage.save()
         return Response(status=status.HTTP_200_OK)
             
+# @api_view(['GET'])
+# @permission_classes([AllowAny, ])
+# def review_view(request) :
+#     listreview = customerReview.objects.all()
         
+#     briefportfolio = BriefPopolSerializer(ListPopol, many = True)
+
+#     for i in range(0,len(briefportfolio.data)) :
+#         if len(briefportfolio.data[i]['projects']) > 3 :
+#             briefportfolio.data[i]['projects'] = briefportfolio.data[i]['projects'][:3]
+    
+#     return Response(briefportfolio.data, status = status.HTTP_200_OK)
+
+    
         
