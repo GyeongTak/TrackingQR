@@ -38,7 +38,7 @@ MEDIA_ROOT = settings.MEDIA_ROOT
     
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, ])
-def create_review(self, request):
+def create_review(request):
     tmpcommission = Commission.objects.get(id = request.data['commission_id'])
     tmpdesigner = Designer.objects.get(id = tmpcommission.designer.id)
     user = Designer.objects.get(id = tmpcommission.designer.id)
