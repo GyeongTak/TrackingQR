@@ -64,8 +64,8 @@ const CreateProjectPage2 = ({ }) => {
           formData.append('files', files[0]);
 
           //file 등록
-          const tempFile = await postProject(formData);
-          console.log('check');
+          // const tempFile = await postProject(formData);
+          // console.log('check');
       
           const token = localStorage.getItem('token');
           axios.defaults.headers.common['Authorization'] = "Token "+token;
