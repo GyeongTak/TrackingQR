@@ -3,16 +3,15 @@ import styled from "@emotion/styled";
 const PortfolioCardContainer = styled.div`
     cursor: pointer;
     display: flex;
+    justify-content: space-between;
     border-bottom: 2px solid #e6e7eb;
     margin: 50px 0;
-    padding : 10px;
 `
 
 const NameWrapper = styled.div`
     margin: 5px;
     font-size: 18px;
     font-weight: 500;
-    white-space: nowrap;
 `
 const DescriptionWrapper = styled.div`
     width: 80%;

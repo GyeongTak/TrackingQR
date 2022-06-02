@@ -30,5 +30,14 @@ const SubTitle = styled.div`
     font-weight: 500;
     margin-bottom: 10px;
 `
+const MessageWrapper = styled.div`
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 10px;
 
-export { container,UserInfoForm, userInfoContent, editButtonWrapper, SubTitle};
+    &:hover {
+        background-color: orange;
+    }
+`
+export { container,UserInfoForm, userInfoContent, editButtonWrapper, SubTitle, MessageWrapper };
