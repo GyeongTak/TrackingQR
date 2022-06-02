@@ -5,11 +5,11 @@ import 'antd/dist/antd.min.css';
 import { FaStar } from 'react-icons/fa';
 import styled from 'styled-components';
 import { useInput } from 'utils/useInput';
-import { postRequest } from 'apis/request';
 import './index.css';
-import { Radio } from 'antd';
+import { Radio, Button } from 'antd';
 import { useParams } from 'react-router-dom';
 import { postReview } from '../../apis/review';
+import { CloseOutlined } from '@ant-design/icons';
 const ARRAY = [0, 1, 2, 3, 4]; //별의 개수가 5개이니 인덱스 0~4
 
 function WriteReviewPage() {
@@ -85,6 +85,11 @@ function WriteReviewPage() {
       setIsPanorama(e.target.value);
     }
 
+    const onClickPrevious = (i) => {
+      setImagePrevious((prev)=>(
+        prev.filter((img, index) => index !== i)
+    ));
+    }
     const onSubmit = async (e) =>{
         e.preventDefault();
         
@@ -196,7 +201,10 @@ function WriteReviewPage() {
         border:'2px solid skyblue'}}>
             <input type="file" multiple onChange={onChangeFile} style={{marginTop:'20px'}}/>
             <div style={{display: 'flex'}}>
-                {imagePrevious.map((p, index)=> <div><img key={index} alt="미리보기" src={p} height={'100px'} width={'100px'}></img></div>)}
+                {imagePrevious.map((p, index)=> 
+                <div>
+                  <Button type="primary" shape="circle" style={{position:"absolute"}} icon={<CloseOutlined />} size={'small'} onClick={()=>onClickPrevious(index)}/>
+                  <img  key={index} alt="미리보기" src={p} height={'100px'} width={'100px'}></img></div>)}
             </div>
         </div>
 
