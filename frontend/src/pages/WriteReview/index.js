@@ -5,13 +5,16 @@ import 'antd/dist/antd.min.css';
 import { FaStar } from 'react-icons/fa';
 import styled from 'styled-components';
 import { useInput } from 'utils/useInput';
-import { postRequest } from 'apis/request';
 import './index.css';
-
+import { Radio, Button } from 'antd';
+import { useParams } from 'react-router-dom';
+import { postReview } from '../../apis/review';
+import { CloseOutlined } from '@ant-design/icons';
 const ARRAY = [0, 1, 2, 3, 4]; //별의 개수가 5개이니 인덱스 0~4
 
 function WriteReviewPage() {
-
+  const { id } = useParams();
+    const [ isPanorama, setIsPanorama ] = useState(true);
     //의뢰 자체 별점
     const [clicked, setClicked] = useState([false, false, false, false, false]); //하나를 클릭하면 true, flase, ... 이런식으로 바뀌게
   
@@ -49,16 +52,16 @@ function WriteReviewPage() {
     const [ designer_review, onChangeContent2 ] = useInput('');
 
     const onChangeFile = (e) => {
-        if (e.target.files[0]) {
-        setImages([...images, e.target.files[0]]);
+
+      Array.from(e.target.files).forEach(file => {
+
         const reader = new FileReader();
-        
-        reader.readAsDataURL(e.target.files[0]);
         reader.onload = (e) => {
-            setImagePrevious([...imagePrevious, e.target.result]);
+            setImagePrevious(prev=> [...prev, e.target.result]);
         };
-        
-        }
+        setImages(prev=>[...prev, file]);
+        reader.readAsDataURL(file);
+    });
     }
 
     //미리보기를 위해 파일 저장
@@ -78,7 +81,15 @@ function WriteReviewPage() {
       setFileImage("");
     };   
     
+    const onChangeIsPanorama = (e) => {
+      setIsPanorama(e.target.value);
+    }
 
+    const onClickPrevious = (i) => {
+      setImagePrevious((prev)=>(
+        prev.filter((img, index) => index !== i)
+    ));
+    }
     const onSubmit = async (e) =>{
         e.preventDefault();
         
@@ -86,21 +97,26 @@ function WriteReviewPage() {
         let designer_score = clicked2.filter(Boolean).length;
 
         const formData = new FormData();
-        formData.append('images', images);
+        for (let i =0;i<images.length; i++) {
+          formData.append("images", images[i]);
+        }
+        formData.append('commission_id', parseInt(id, 10));
         formData.append('small_image', fileImage);
         formData.append('description', description);
         formData.append('score', score);
         formData.append('designer_review', designer_review);
         formData.append('designer_score', designer_score);
+        formData.append('is_panorama', isPanorama);
 
+        console.log(id);
         console.log(images);
         console.log(fileImage);
         console.log(description);
         console.log(score);
         console.log(designer_review);
         console.log(designer_score);
-
-        const result = await postRequest(formData);
+        console.log(isPanorama);
+        await postReview(formData);
     
     };
 
@@ -172,13 +188,23 @@ function WriteReviewPage() {
         </div>
 
         <div style={{marginTop:'50px', fontWeight:'bold'}}>
-          <span style={{marginLeft:'290px'}}>[ 파노라마용 이미지를 첨부해주세요 ]</span>
+          <span style={{marginLeft:'290px'}}>[ 리뷰 이미지를 첨부해주세요 ]</span>
+          <div style={{marginLeft:'290px'}}>
+          <Radio.Group onChange={onChangeIsPanorama} value={isPanorama}>
+            <Radio value={true}>파노라마 사진으로 등록하기</Radio>
+            <Radio value={false}>이미지 스티칭 하기</Radio>
+          </Radio.Group>
+          </div>
         </div>
+        
         <div style={{textAlign:'center', marginTop:'10px', marginLeft:'290px', width:'940px', height:'200px', borderRadius: 10,
         border:'2px solid skyblue'}}>
-            <input type="file" multiple onClick={onChangeFile} style={{marginTop:'20px'}}/>
+            <input type="file" multiple onChange={onChangeFile} style={{marginTop:'20px'}}/>
             <div style={{display: 'flex'}}>
-                {imagePrevious.map((p, index)=> <div><img key={index} alt="미리보기" src={p} height={'100px'} width={'100px'}></img></div>)}
+                {imagePrevious.map((p, index)=> 
+                <div>
+                  <Button type="primary" shape="circle" style={{position:"absolute"}} icon={<CloseOutlined />} size={'small'} onClick={()=>onClickPrevious(index)}/>
+                  <img  key={index} alt="미리보기" src={p} height={'100px'} width={'100px'}></img></div>)}
             </div>
         </div>
 
