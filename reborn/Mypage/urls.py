@@ -5,5 +5,6 @@ from . import views
 urlpatterns = [
     path('', views.profile, name = 'Profile'),
     path('getMyInfo', views.getMyInfo),
+    path('designer_selected_for_commission', views.designer_selected_for_commission)
 
 ]

@@ -28,7 +28,7 @@ class customerReview(models.Model) :
     client = models.ForeignKey(Client,on_delete=models.CASCADE)
     designer = models.ForeignKey(Designer, on_delete= models.SET_NULL, null=True)
     description = models.TextField(null =True)
-    Commission = models.ForeignKey(Commission, null = True,on_delete= models.SET_NULL)
+    commission = models.ForeignKey(Commission, null = True,on_delete= models.SET_NULL)
     title = models.CharField(max_length = 50 , default=None,blank=True)
     created = models.DateTimeField(auto_now_add = True)
     updated = models.DateTimeField(auto_now = True)

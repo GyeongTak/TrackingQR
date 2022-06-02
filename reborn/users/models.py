@@ -43,9 +43,9 @@ class Designer(User) :
         verbose_name = 'Designer'
     # def __unicode__(self):
 
-class ProcessingCommission(models.Model) :
-    designer = models.ForeignKey(Designer, on_delete=models.CASCADE)
-    commission = models.ForeignKey('client_commission.Commission', on_delete=models.CASCADE)
+# class ProcessingCommission(models.Model) :
+#     designer = models.ForeignKey(Designer, on_delete=models.CASCADE)
+#     commission = models.ForeignKey('client_commission.Commission', on_delete=models.CASCADE)
 
 class Message(models.Model) :
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -57,7 +57,7 @@ class DesignerReview(models.Model) :
     review_text = models.TextField(max_length=200)
     designer = models.ForeignKey(Designer,on_delete=models.CASCADE)
     score = models.IntegerField(default = 0,validators=[MinValueValidator(0), MaxValueValidator(5)],blank=True)
-
+    commission = models.ForeignKey('client_commission.Commission', on_delete=models.SET_NULL, null =True)
 
 
     # def __unicode__(self):

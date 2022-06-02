@@ -17,6 +17,7 @@ from datetime import datetime
 from rest_framework.decorators import api_view, permission_classes
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
+from django.core.files.images import ImageFile
 
 from PIL import Image
 from PIL import Image
@@ -66,11 +67,14 @@ def create_commission(request):
             stitcher = cv2.createStitcher() if imutils.is_cv3() else cv2.Stitcher_create()
             (tmpstatus, image) = stitcher.stitch(raw_images)
             if tmpstatus == 0:
+                path = '/client_committion/committion_image/image.jpg'
+                cv2.imwrite(MEDIA_ROOT + path,image)
+                cv2.waitKey(0)
                 # write the output stitched image to disk
 
                 # display the output stitched image to our screen
-                cv2.imshow("Stitched", image)
-                cv2.waitKey(0)
+                # cv2.imshow("Stitched", image)
+                # cv2.waitKey(0)
             else:
                 if tmpstatus == cv2.STITCHER_ERR_NEED_MORE_IMGS:
                     print("[INFO] image stitching failed (1: STITCHER_ERR_NEED_MORE_IMGS)")
@@ -85,7 +89,7 @@ def create_commission(request):
         serializer = CommissionSerializer(data=request.data, many=False)
         serializer.is_valid(raise_exception=True)
         
-        file = ContentFile(image)
+        # file = ContentFile(image)
 
         tmpClient = Client.objects.get(id = request.user.id)
         newCommission = Commission(
@@ -94,11 +98,12 @@ def create_commission(request):
             small_image = request.data['small_image'],
             budget = request.data['budget'],
             finish_date = int(request.data['finish_date']) ,
+            commission_image = path,
             deadline = request.data['deadline'],
             description=request.data['description'],
         )
         newCommission.save()
-        newCommission.commission_image.save('filename.jpg',file,save=True)
+        # newCommission.commission_image.save('filename.jpg',file,save=True)
         shutil.rmtree(MEDIA_ROOT +'/temp'+str(request.user.id))
 
         return Response({'message' : "Success"}, status = status.HTTP_200_OK)
@@ -129,6 +134,9 @@ def commission_select_for_designer(request,pk) :
             portfolio= portfolio
         )
         newRequestedDesigner.save()
+        return Response(status=status.HTTP_200_OK)
+    return Response(status=status.HTTP_400_BAD_REQUEST)
+
 
 
 @api_view(['GET'])
@@ -137,6 +145,7 @@ def commission_view_detail(request,pk) :
     commission = Commission.objects.get(id = pk)
     serializer = CommissionViewDetailSerializer(commission, many=False)
     request_count = RequestedDesigner.objects.filter(commission=commission).count()
+    print(serializer.data)
     return Response({
         'commission' : serializer.data ,
         'request_count':request_count

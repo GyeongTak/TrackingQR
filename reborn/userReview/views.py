@@ -1,3 +1,4 @@
+from ssl import create_default_context
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -12,7 +13,7 @@ from django.core.exceptions import ImproperlyConfigured
 
 from users.models import DesignerReview, Designer, Message
 
-from .serializers import ReviewSerializer
+from .serializers import DesignerReviewSerializer, ReviewSerializer,BriefReviewSerializer,ReviewDetailSerializer
 
 from .models import customerReview
 from django.core.files.storage import default_storage
@@ -115,18 +116,30 @@ def create_review(request):
         newMessage.save()
         return Response(status=status.HTTP_200_OK)
             
-# @api_view(['GET'])
-# @permission_classes([AllowAny, ])
-# def review_view(request) :
-#     listreview = customerReview.objects.all()
-        
-#     briefportfolio = BriefPopolSerializer(ListPopol, many = True)
-
-#     for i in range(0,len(briefportfolio.data)) :
-#         if len(briefportfolio.data[i]['projects']) > 3 :
-#             briefportfolio.data[i]['projects'] = briefportfolio.data[i]['projects'][:3]
+@api_view(['GET'])
+@permission_classes([AllowAny, ])
+def review_view(request) :
+    listreview = customerReview.objects.all().order_by('created')
+    reviewsSerializer = BriefReviewSerializer(listreview, many= True)
     
-#     return Response(briefportfolio.data, status = status.HTTP_200_OK)
+    return Response(reviewsSerializer.data, status = status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny, ])
+def review_view_detail(request,pk):
+    review = customerReview.objects.get(id = pk)
+    reviewSerializer = ReviewDetailSerializer(review, many=False)
+
+    designerReview = DesignerReview.objects.get(designer = review.designer, commission=review.commission)
+    designerReviewSerializer = DesignerReviewSerializer(designerReview,many=False)
+   
+    return Response({
+        'reveiw':  reviewSerializer.data,
+        'designer_review' : designerReviewSerializer.data
+        }, status=status.HTTP_200_OK)
+
+
 
     
         

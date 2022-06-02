@@ -144,7 +144,7 @@ const DesignerProfile = () => {
                     style={{
                       width: 240,
                     }}
-                    cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+                    cover={<img alt="example" src={`http://localhost:8000${project.small_image}`} />}
                     //프로젝트 관련 추가한 코드
                     onClick={()=>onClickProject(project.id)}
                   >

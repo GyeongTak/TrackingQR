@@ -13,6 +13,7 @@ import { postProject, postAllProject } from 'apis/project';
 import axios from 'axios';
 import moment from 'moment';
 import { Space } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 const CreateProjectPage2 = ({ }) => {
   
@@ -20,6 +21,7 @@ const CreateProjectPage2 = ({ }) => {
     }); 
     //title, date, title_image, description
 
+    const navigate = useNavigate();
     const [ fileImage, setFileImage] = useState("");
     const [ title, onChangeContent ] = useInput('');
     const [value, setValue] = useState('');
@@ -28,16 +30,10 @@ const CreateProjectPage2 = ({ }) => {
 
     //미리보기를 위해 파일 저장
     const saveFileImage = (e) => {
-      setFileImage(URL.createObjectURL(e.target.files[0]));
+      setFileImage((e.target.files[0]));
     };
 
 
-    //이미지 파일 삭제 버튼
-    const deleteFileImage = () => {
-      URL.revokeObjectURL(fileImage);
-      setFileImage("");
-    };   
-    
     //여기서부터 quill
     function imageUrlHandler() {
       const range = this.quill.getSelection();
@@ -121,19 +117,13 @@ const CreateProjectPage2 = ({ }) => {
         console.log('제목: ',title);
         console.log('썸네일사진: ',fileImage);
         console.log('본문: ',value);
-        
-        
 
         const result = await postAllProject(formData);
-        
+        navigate('/designer/mypage');
     };
 
     //이미지 등록 버튼 커스텀을 위한 코드
     const imageInput = useRef();
-
-    const onCickImageUpload = () => {
-        imageInput.current.click();
-      };
 
     const onChange = (date, dateString) => {
       setStartDate(dateString);
@@ -165,26 +155,7 @@ const CreateProjectPage2 = ({ }) => {
 
         <div style={{textAlign:'center', marginTop:'30px', marginLeft:'290px', width:'940px', height:'220px', borderRadius: 10,
         border:'1px solid gray'}}>
-            <input type="file" multiple onChange={saveFileImage} style={{marginTop:'20px', display:'none'}} ref={imageInput}/>
-            <button style={{width:'150px', height:'150px', marginLeft:'-50px',marginTop:'20px', backgroundColor:'rgb(231, 236, 240)', fontSize:'50px', border:'1px solid rgb(246, 249, 251)'}} 
-            onClick={onCickImageUpload}>+</button>
-
-            <button style={{borderRadius: 10, border:'1px solid rgb(246, 249, 251)', backgroundColor:'rgb(231, 236, 240)', color:'black', width: "120px", height: "30px", 
-            cursor: "pointer", position:'absolute', marginTop:'180px', marginLeft:'-135px'}}
-                    onClick={() => deleteFileImage()}
-            >
-              이미지 삭제
-            </button>
-
-            <div style={{position:'absolute', marginLeft:'370px', marginTop:'-150px'}}>
-                {fileImage && (
-                  <img
-                    alt="sample"
-                    src={fileImage}
-                    style={{height:'150px', width:'150px' }}
-                  />
-                )}
-            </div>
+            <input type="file" multiple onChange={saveFileImage} style={{marginTop:'20px'}} ref={imageInput}/>
         </div>
 
         <div style={{marginTop:'30px', textAlign:'center'}}>

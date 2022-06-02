@@ -152,17 +152,17 @@ def profile_update(request, pk) :
 def designer_selected_for_commission(request) :
     if request.user.is_client == True :
         commission = Commission.objects.get(id = request.data['commission_id'])
-        commission.designer_id = request.data['designer_id']
+        designer =Designer.objects.get(id= request.data['designer_id'])
+        commission.designer = designer
         commission.current_status = 2
-        commission.save()
+        commission.save(update_fields=['designer','current_status'])
 
-        designer = Designer.objects.get(id= request.data['designer_id'])
         selectedUser = User.objects.get(id = request.data['designer_id'])
-        newProcessingCommission = ProcessingCommission(
-            designer = designer,
-            commission = commission
-        )
-        newProcessingCommission.save()
+        # newProcessingCommission = ProcessingCommission(
+        #     designer = designer,
+        #     commission = commission
+        # )
+        # newProcessingCommission.save()
 
 
         newMessage = Message(
@@ -171,7 +171,7 @@ def designer_selected_for_commission(request) :
         )
         
         newMessage.save()
-
+        return Response(status=status.HTTP_200_OK)
     else :
         return Response({'message':'Designer can not select'},status=status.HTTP_403_FORBIDDEN)
 
