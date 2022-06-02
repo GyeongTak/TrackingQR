@@ -1,4 +1,5 @@
 from tkinter import EW
+from unittest import result
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets,status
 from rest_framework.decorators import action
@@ -17,6 +18,7 @@ from rest_framework.decorators import api_view, permission_classes
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 
+from PIL import Image
 from PIL import Image
 import numpy as np
 import argparse
@@ -63,7 +65,6 @@ def create_commission(request):
             print("[INFO] switching images...")
             stitcher = cv2.createStitcher() if imutils.is_cv3() else cv2.Stitcher_create()
             (tmpstatus, image) = stitcher.stitch(raw_images)
-            shutil.rmtree(MEDIA_ROOT +'/temp'+str(request.user.id))
             if tmpstatus == 0:
                 # write the output stitched image to disk
 
@@ -80,24 +81,25 @@ def create_commission(request):
                 else:
                     print("[INFO] image stitching failed (3: STITCHER_ERR_CAMERA_PARAMETERS_ADJUSTMENT_FAIL)")
                     raise Exception("[INFO] image stitching failed (3: STITCHER_ERR_CAMERA_PARAMETERS_ADJUSTMENT_FAIL)")
-        obj =request.data
-        print(obj)
+
         serializer = CommissionSerializer(data=request.data, many=False)
         serializer.is_valid(raise_exception=True)
         
-        tmpClient = Client.objects.get(id = request.user.id)
+        file = ContentFile(image)
 
-        # newCommission = Commission(
-        #     client = tmpClient,
-        #     title=serializer.validated_data['title'],
-        #     small_image = request.data['small_image'],
-        #     budget = request.data['budget'],
-        #     commission_image = image,
-        #     finish_date = int(request.data['finish_date']) ,
-        #     deadline = request.data['deadline'],
-        #     description=request.data['description'],
-        # )
-        # newCommission.save()
+        tmpClient = Client.objects.get(id = request.user.id)
+        newCommission = Commission(
+            client = tmpClient,
+            title=serializer.validated_data['title'],
+            small_image = request.data['small_image'],
+            budget = request.data['budget'],
+            finish_date = int(request.data['finish_date']) ,
+            deadline = request.data['deadline'],
+            description=request.data['description'],
+        )
+        newCommission.save()
+        newCommission.commission_image.save('filename.jpg',file,save=True)
+        shutil.rmtree(MEDIA_ROOT +'/temp'+str(request.user.id))
 
         return Response({'message' : "Success"}, status = status.HTTP_200_OK)
     else :
@@ -139,6 +141,8 @@ def commission_view_detail(request,pk) :
         'commission' : serializer.data ,
         'request_count':request_count
         }, status= status.HTTP_200_OK)
+
+
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, ])

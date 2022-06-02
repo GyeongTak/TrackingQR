@@ -86,6 +86,11 @@ class ClientProfileSerializer(serializers.ModelSerializer) :
         fields = ['username','email']
 
 
+class ProjectSerializer(serializers.ModelSerializer) :
+    class Meta :
+        model = Projects
+        fields = ('title','description','participation_date','score','client')
+
 # class PopolTestSerializer(serializers.ModelSerializer):
 #     class Meta :
 #         model = DesignerPopol
