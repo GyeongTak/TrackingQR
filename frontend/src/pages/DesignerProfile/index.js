@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React, { useState, useEffect } from 'react';
 import MainMenu from '../../components/MainMenu';
-import { container,UserInfoForm, SubTitle, userInfoContent, editButtonWrapper} from './style';
+import { container,UserInfoForm, SubTitle, userInfoContent, editButtonWrapper, MessageWrapper} from './style';
 import Avartar from '../../components/Avatar';
 import { useRecoilState } from 'recoil';
 import userState from '../../store/user';
@@ -53,6 +53,7 @@ const columns = [
 
 
 const DesignerProfile = () => {
+    const [ messages, setMessages ] = useState([]);
     const [ activeTab, setActiveTab ] = useState("portfolio");
     const [ tableLoading, setTableLoading ] = useState(true);
     const [ userInfo, setUserInfo ] = useState({}); 
@@ -65,6 +66,7 @@ const DesignerProfile = () => {
         const loadProfileInfo = async () => {
             const result = await getProfileInfo();
             setUserInfo(result);
+            setMessages(result.messages);
             console.log('result');
             console.log(result);
         }
@@ -114,6 +116,14 @@ const DesignerProfile = () => {
         borderRadius:'10px', backgroundColor:'rgb(251, 240, 213)', textAlign:"center"}}>
             <br></br>
             <span style={{fontSize:'17px', fontWeight:'500', color:'orange'}}>도착한 알림</span>
+            <div style={{height: '200px', overflowY:'scroll'}}>
+            {
+                messages?.map((msg)=>
+                    <MessageWrapper>
+                        {msg.message}
+                    </MessageWrapper>)
+            }
+            </div>
         </div>
 
         <Tabs defaultActiveKey="1" onChange={onChangeTab}>
