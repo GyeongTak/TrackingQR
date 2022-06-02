@@ -13,71 +13,7 @@ import userImg from '../../assets/user.png';
 import { MailOutlined, PhoneOutlined, HomeOutlined } from '@ant-design/icons';
 import { getProfileInfo } from '../../apis/user';
 import { Link } from 'react-router-dom';
-
-const designerInfo = {
-    'user':{
-        'username':'username',//
-        'email':'email',//
-        'phone':'01000000000',//
-        'skills':'실내인테리어',
-        'description':'소개...소개...소개....',//
-        'average_stars': 5, //
-    },
-    'portfolio': {
-        'certificates': [{
-            key: '1',
-            acquired_period:'2022.05.03~2022.05.20',
-            certificate_name: '정보처리기사',
-            time :5
-        }],
-        'educationcareers' :[{
-            'working_period' :'2022.05.01~2022.05.31',
-            'company_name' : 'soongsil',
-            'job_position' : 'front end 개발자'
-        }],
-        'content' :'portfolio content'
-    },
-    'projects' : [{
-        'title':"title",
-        'description' :'description',
-        'participation_date':'2022.05.10~2023.03.25',
-        'client':'client',
-        'score':5
-    }
-    ],
-
-    'part_in_commission':[
-        {
-            'client_username':'client',//
-            'client_company_name': '회사이름',
-            'client_phone':'01000000000',
-            'title':'title', //
-            'budget':1000, //
-            'small_image':'', //
-            'updated': 10,//
-        },
-        {
-            'client_username':'client',//
-            'client_company_name': '회사이름',//
-            'client_phone':'01000000000',
-            'title':'title',//
-            'budget':1000,//
-            'small_image':'',
-            'updated': 10,//
-        }
-    ],
-    'end_commission':[
-        {
-            'client_username':'client',
-            'client_company_name': '회사이름',
-            'client_phone':'01000000000',
-            'title':'title',
-            'budget':1000,
-            'small_image':'',
-            'updated': 10,
-        },
-    ]
-}
+import { getProject } from 'apis/project';
 
 const columns = [
     {
@@ -133,6 +69,7 @@ const DesignerProfile = () => {
             console.log(result);
         }
         loadProfileInfo();
+
     }, []);
     const onClickEditButton = () => {
         navigate('#editprofile');
@@ -142,6 +79,11 @@ const DesignerProfile = () => {
         setActiveTab(key);
     }
     
+    //프로젝트 클릭하면 이동하는 코드
+    const onClickProject = (id) => {
+        navigate(`/project/${id}`);
+    }
+
     return (
         <>
         <MainMenu />
@@ -203,10 +145,11 @@ const DesignerProfile = () => {
                       width: 240,
                     }}
                     cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+                    //프로젝트 관련 추가한 코드
+                    onClick={()=>onClickProject(project.id)}
                   >
                     <Card.Meta title={project.title} 
                     description={<>
-                    <div>{project.description}</div>
                     <div>{project.participation_date}</div>
                     <div>{project.client}</div>
                     <div><Rate disabled defaultValue={project.score} /></div></>} />

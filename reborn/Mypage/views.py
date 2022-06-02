@@ -88,6 +88,16 @@ def profile(request, format=None):
 
         projects = Projects.objects.filter(portfolio = portfolio)
         projectSerializer = ProjectSerializer(projects, many=True)
+        print( {
+                'user' : userserializer.data,
+                'portfolio' :portfolioSerializer.data,
+                'certificates' : certificateSerializer.data,
+                'educationandcareers' : eduAndCareerSerializer.data,
+                'part_in_commission':partincommissionSerializer.data,
+                'projects' :projectSerializer.data,
+                'end_commission' : endcommissionSerializer.data,
+                'messages' : messageSerializer.data,
+            })
         return Response(
            
             {
@@ -165,47 +175,47 @@ def designer_selected_for_commission(request) :
     else :
         return Response({'message':'Designer can not select'},status=status.HTTP_403_FORBIDDEN)
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def delete_my_commission(request,pk) :
-    if request.user.is_client == True :
-        commission = Commission.objects.get(id = pk)
-        commission.delete()
-        return Response(status=status.HTTP_200_OK)
+# @api_view(['POST'])
+# @permission_classes([IsAuthenticated])
+# def delete_my_commission(request,pk) :
+#     if request.user.is_client == True :
+#         commission = Commission.objects.get(id = pk)
+#         commission.delete()
+#         return Response(status=status.HTTP_200_OK)
     
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def detail_my_portfolio(request,pk) :
-    Popol = DesignerPopol.objects.get(id = pk)
-    serializer = PopolSerializer(Popol, many = False)
-    return Response(serializer.data)
+# @api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+# def detail_my_portfolio(request,pk) :
+#     Popol = DesignerPopol.objects.get(id = pk)
+#     serializer = PopolSerializer(Popol, many = False)
+#     return Response(serializer.data)
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def detail_my_commission(request,pk) :
-    commission = Commission.objects.get(id = pk)
-    serializer = MyCommissionSerializer(commission, many = False)
+# @api_view(['GET'])
+# @permission_classes([IsAuthenticated])
+# def detail_my_commission(request,pk) :
+#     commission = Commission.objects.get(id = pk)
+#     serializer = MyCommissionSerializer(commission, many = False)
 
-    selected_designer={}
-    for i in commission.request_designer_id :
-        tmp = Designer.objects.get(id = i)
-        selected_designer.append({'username':tmp.username,'id' :tmp.id})
+#     selected_designer={}
+#     for i in commission.request_designer_id :
+#         tmp = Designer.objects.get(id = i)
+#         selected_designer.append({'username':tmp.username,'id' :tmp.id})
 
-    return Response(
-        serializer.data,
-        {
-            'selected_designer':selected_designer
-        }
-    )
+#     return Response(
+#         serializer.data,
+#         {
+#             'selected_designer':selected_designer
+#         }
+#     )
 
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def delete_portfolio(request,pk) :
-    portforlio = DesignerPopol.objects.get(pk=pk)
-    portforlio.delete()
-    return Response(status=status.HTTP_200_OK)
+# @api_view(['POST'])
+# @permission_classes([IsAuthenticated])
+# def delete_portfolio(request,pk) :
+#     portforlio = DesignerPopol.objects.get(pk=pk)
+#     portforlio.delete()
+#     return Response(status=status.HTTP_200_OK)
 
 
 

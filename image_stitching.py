@@ -7,29 +7,31 @@ import cv2
 import math
 import os
 
+from google.colab.patches import cv2_imshow
+
 """
 파일 이미지 1MB 아래로 맞추는 resize 함수
 """
-def resize(filename) :
-    img =cv2.imread(filename)
-    width, height = img.shape[:2]
-    if height * width *3 <=2**25:
-        return img
-    i =2
-    t_height,t_width = height, width
+# def resize(filename) :
+#     img =cv2.imread(filename)
+#     width, height = img.shape[:2]
+#     if height * width *3 <=2**25:
+#         return img
+#     i =2
+#     t_height,t_width = height, width
 
-    while t_height * t_width * 3 >2**25 :
-        t_height = int(t_height / math.sqrt(i))
-        t_width = int(t_width / math.sqrt(i))  
-        i += 1
+#     while t_height * t_width * 3 >2**25 :
+#         t_height = int(t_height / math.sqrt(i))
+#         t_width = int(t_width / math.sqrt(i))  
+#         i += 1
     
-    height,width = t_height, t_width
-    image = Image.open(filename)
-    resize_image = image.resize((height,width))
-    filename = filename[:-1 * (len(filename.split(".")[-1])+1)] + "_resized." + filename.split(".")[-1]
-    resize_image.save(filename)
-    img = cv2.imread(filename)
-    os.system("del " + filename.replace("/","\\"))
+#     height,width = t_height, t_width
+#     image = Image.open(filename)
+#     resize_image = image.resize((height,width))
+#     filename = filename[:-1 * (len(filename.split(".")[-1])+1)] + "_resized." + filename.split(".")[-1]
+#     resize_image.save(filename)
+#     img = cv2.imread(filename)
+#     os.system("del " + filename.replace("/","\\"))
 
 ap = argparse.ArgumentParser()
 ap.add_argument("-i","--images", type = str, required= True, help = "path to input directory of images to switch")
@@ -43,7 +45,12 @@ imagePaths = sorted(list(paths.list_images(args["images"])))
 images = []
 
 for imagePath in imagePaths :
-    image = resize(imagePath)
+    image = cv2.imread(imagePath)
+    image = cv2.resize(image, dsize=(300, 300))
+    print(image.shape)
+    # cv2.imshow('dd',image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
     images.append(image)
 
 
@@ -53,10 +60,10 @@ stitcher = cv2.createStitcher() if imutils.is_cv3() else cv2.Stitcher_create()
 
 if status == 0:
     # write the output stitched image to disk
-    cv2.imwrite(args["output"], stitched)
+    # cv2.imwrite(args["output"], stitched)
 
     # display the output stitched image to our screen
-    cv2.imshow("Stitched", stitched)
+    cv2_imshow(stitched)
     cv2.waitKey(0)
 else:
     if status == cv2.STITCHER_ERR_NEED_MORE_IMGS:

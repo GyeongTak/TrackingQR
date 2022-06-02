@@ -125,7 +125,7 @@ class EndCommissionSerializer(serializers.ModelSerializer) :
 class  ProjectSerializer(serializers.ModelSerializer) :
     class Meta :
         model = Projects 
-        fields = ('title','description','score','participation_date','client')
+        fields = ('title','score','participation_date','client','id')
 
 #--------------------------------------------------------------------
 

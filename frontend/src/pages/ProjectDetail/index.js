@@ -7,11 +7,9 @@ import { useParams } from 'react-router-dom';
 
 
 const ProjectDetailPage = () => {
-
     const { id } = useParams();
-    const [projectInfo, setProjectInfo] = useState({});
-
-    //프로젝트 정보 받아오는 코드
+    const [ projectInfo, setProjectInfo ] = useState({});
+    
     useEffect(()=>{
         
         const loadProject = async () => {
@@ -23,17 +21,13 @@ const ProjectDetailPage = () => {
         loadProject();
         
     }, []);
-    
+
     return (
         <>
         <MainMenu />
         <span style={{position:'absolute', marginTop:'50px' ,marginLeft:'280px' , textAlign:'center', fontSize:'35px', 
         fontWeight:'bold'}}>프로젝트 소개</span>
         <hr style={{width:'900px',marginTop:'120px', marginLeft:'280px'}}></hr>
-
-
-
-  
   
         <Footer />
         </>
