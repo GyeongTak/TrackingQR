@@ -82,7 +82,7 @@ const MainMenu = () => {
                         <Button> 마이페이지 </Button>
                     </Link>
                 </div> :<div style={{padding: '0 10px'}}>
-                    <Link to={`/designer/${user.userId}`}> 
+                    <Link to={`/designer/mypage`}> 
                         <Button> 마이페이지 </Button>
                     </Link>
                 </div>

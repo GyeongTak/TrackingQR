@@ -121,7 +121,7 @@ const ClientProfile = () => {
                         {message.desingerName}
                         </div>
                         {message.designerMsg}
-                    </MessageWrapper>);
+                        </MessageWrapper>);
                 })
             }
             </div>

@@ -26,6 +26,7 @@ const memberInfoContainer = css`
 `
 
 const userInfoContent = css`
+    width:100%;
     margin-Left: 20px;
 `
 const editButtonWrapper = css`

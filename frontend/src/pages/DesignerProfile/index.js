@@ -105,7 +105,7 @@ const DesignerProfile = () => {
             <div><PhoneOutlined style={{marginRight:'5px'}}/>{userInfo?.user?.phone}</div>
             <div>{userInfo?.user?.skills} 전문</div>
             <div><Rate disabled defaultValue={userInfo?.user?.average_stars} /></div>
-            <div style={{width:'50%'}}>{userInfo?.user?.description}</div>
+            <div>{userInfo?.user?.description}</div>
             </div>
             <Button onClick={onClickEditButton} css={editButtonWrapper}>프로필 수정</Button>
         </UserInfoForm> 
