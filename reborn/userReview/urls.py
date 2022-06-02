@@ -1,8 +1,10 @@
-from rest_framework import routers
+from . import views
 
-from .views import AuthViewSet
+from django.urls import URLPattern, path
+# from django.views.generic import TemplateView
 
-router = routers.DefaultRouter(trailing_slash=False)
-router.register('', AuthViewSet, basename='auth')
+urlpatterns = [
+    path('create_review', views.create_review),
+   
+]
 
-urlpatterns = router.urls

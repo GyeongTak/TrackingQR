@@ -121,7 +121,7 @@ def create_project(request):
 @api_view(['GET'])
 @permission_classes([AllowAny, ])
 def project_view_detail(request,pk):
-    project= Designer.objects.get(id = pk)
+    project= Project.objects.get(id = pk)
     projectSerializer = ProjectSerializer(project, many=False)
    
     return Response({'project': projectSerializer.data}, status=status.HTTP_200_OK)
