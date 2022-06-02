@@ -79,6 +79,8 @@ const ClientReviewPage = () => {
         .catch((error) => {
             console.error(error.response);
         });
+
+        setReviews(listData);
     }, []);
     
     return (
@@ -108,12 +110,6 @@ const ClientReviewPage = () => {
             <List
                 itemLayout="vertical"
                 size="large"
-                pagination={{
-                onChange: page => {
-                    console.log(page);
-                },
-                pageSize: 5,
-                }}
                 dataSource={listData}
               
                 renderItem={item => (
