@@ -13,6 +13,7 @@ import userImg from '../../assets/user.png';
 import { MailOutlined, PhoneOutlined, HomeOutlined } from '@ant-design/icons';
 import { getProfileInfo } from '../../apis/user';
 import { Link } from 'react-router-dom';
+import { getProject } from 'apis/project';
 
 const columns = [
     {
@@ -68,6 +69,7 @@ const DesignerProfile = () => {
             console.log(result);
         }
         loadProfileInfo();
+
     }, []);
     const onClickEditButton = () => {
         navigate('#editprofile');
@@ -77,6 +79,11 @@ const DesignerProfile = () => {
         setActiveTab(key);
     }
     
+    //프로젝트 클릭하면 이동하는 코드
+    const onClickProject = (id) => {
+        navigate(`/project/${id}`);
+    }
+
     return (
         <>
         <MainMenu />
@@ -138,6 +145,8 @@ const DesignerProfile = () => {
                       width: 240,
                     }}
                     cover={<img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" />}
+                    //프로젝트 관련 추가한 코드
+                    onClick={()=>onClickProject(project.id)}
                   >
                     <Card.Meta title={project.title} 
                     description={<>
