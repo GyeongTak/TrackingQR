@@ -39,7 +39,8 @@ const UserInfo = styled.div`
 `
 
 const DescriptionContainer = styled.div`
-
+    display: flex;
+    flex-direction: column;
 `
 const BudgetWrapper = styled.div`
     display: inline-block;
