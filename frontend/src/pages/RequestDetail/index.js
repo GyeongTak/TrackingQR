@@ -137,7 +137,7 @@ const RequestDetail = () => {
                     
                 </Content>
                 {isClient ==='false' && (request?.commission?.current_status === 0 || request?.commission?.current_status === 1) &&
-                <Button onclick={()=>onClickButton(localStorage.getItem('userId'))} style={{marginTop:'10px', marginBottom:'10px'}}>지원하기</Button>}
+                <Button onClick={()=>onClickButton(localStorage.getItem('userId'))} style={{marginTop:'10px', marginBottom:'10px'}}>지원하기</Button>}
             </DescriptionContainer>
             
             </LeftContent>
