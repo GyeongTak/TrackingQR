@@ -13,13 +13,13 @@ const PortfolioCard = ({portfolio}) => {
     return (
         
         <PortfolioCardContainer onClick={onClickProfolio}>
-            <div>
+            <div style={{width: '200px'}}>
             <Avatar src={`http://127.0.0.1:8000${portfolio?.profile_image}`} shape="square" ></Avatar>
             <NameWrapper>{portfolio?.username}</NameWrapper>
             <NameWrapper>{portfolio?.skills}</NameWrapper>
             </div>
 
-            <div>
+            <div style={{width: '100%'}}>
                 <DescriptionWrapper>{portfolio?.description}</DescriptionWrapper>
                 <div style={{marginTop: '20px'}}>
                 <fieldset style={{border:'2px solid #f0f0f1', padding: '10px', width:'900px'}}>
