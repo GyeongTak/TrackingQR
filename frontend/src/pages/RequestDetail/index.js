@@ -85,6 +85,7 @@ const RequestDetail = () => {
             />
         }
         <h1>{request?.commission?.title}</h1>
+        <div>현재 {request.request_count}명의 디자이너 지원중!</div>
         </Title>
         <ContentContainer>
             
@@ -93,12 +94,12 @@ const RequestDetail = () => {
                 {
                     request?.commission?.commission_image && 
                     <PanoramaWrapper>
-                <a-scene class="aframebox" embedded>
-                <a-sky src={`http://localhost:8000${request?.commission?.commission_image}`}
-                rotation="0 -130 0" >
-                </a-sky>
-                </a-scene>
-            </PanoramaWrapper>
+                        <a-scene class="aframebox" embedded>
+                        <a-sky src={`http://localhost:8000${request?.commission?.commission_image}`}
+                        rotation="0 -130 0" >
+                        </a-sky>
+                        </a-scene>
+                    </PanoramaWrapper>
                 }
             
             </Content>
@@ -133,12 +134,10 @@ const RequestDetail = () => {
                 <Content>
                     <h3>작업 기한</h3>
                     <div>마감일로 부터 {request?.commission?.finish_date} 개월</div>
-                    {isClient ==='false' && 
-                <Button onclick={()=>onClickButton(localStorage.getItem('userId'))} style={{marginTop:'10px', marginBottom:'10px'}}>지원하기</Button>}
-                {/* {isClient ==='true' && 
-                <Button onclick={()=>onClickButton(localStorage.getItem('userId'))} style={{marginTop:'10px', marginBottom:'10px'}}>삭제하기</Button>} */}
+                    
                 </Content>
-                
+                {isClient ==='false' && (request?.commission?.current_status === 0 || request?.commission?.current_status === 1) &&
+                <Button onclick={()=>onClickButton(localStorage.getItem('userId'))} style={{marginTop:'10px', marginBottom:'10px'}}>지원하기</Button>}
             </DescriptionContainer>
             
             </LeftContent>
