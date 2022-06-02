@@ -78,7 +78,7 @@ const MainMenu = () => {
                     localStorage.getItem('userId') ? 
                     localStorage.getItem('isClient') === 'true' ?
                     <div style={{padding: '0 10px'}}>
-                    <Link to={`/client/${user.userId}`}> 
+                    <Link to={`/client/mypage`}> 
                         <Button> 마이페이지 </Button>
                     </Link>
                 </div> :<div style={{padding: '0 10px'}}>

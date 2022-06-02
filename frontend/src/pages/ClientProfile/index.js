@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import MainMenu from '../../components/MainMenu';
 //import Tabs from '../../components/Tabs';
-import { UserInfoForm, container, memberInfoContainer, userInfoContent, editButtonWrapper} from './style';
+import { UserInfoForm, container, MessageWrapper, userInfoContent, editButtonWrapper} from './style';
 import Avatar from '../../components/Avatar';
 import { useRecoilState } from 'recoil';
 import userState from '../../store/user';
@@ -25,6 +25,7 @@ const IconText = ({ icon, text }) => (
   
 const ClientProfile = () => {
     const [ clientInfo, setClientInfo ] = useState({});
+    const [ messages, setMessages ] = useState([]);
     const [modal, setModal] = useState(false);
     const { id } = useParams();
     const { search } = useLocation();
@@ -32,17 +33,29 @@ const ClientProfile = () => {
     const [ activeTab, setActiveTab] = useState("request");
     const [user, setUser]  = useRecoilState(userState);
     const navigate = useNavigate();
-    console.log(activeTab);
-    
+
+    console.log(messages);
 
     useEffect(()=>{
-        //console.log(clientDummy.user.username);
-        //setClientInfo(clientDummy);
         
         const loadClientInfo = async () => {
             const result = await getProfileInfo();
             setClientInfo(result);
-            console.log(result);
+
+            const request_designer = result.commissions_not_started.map((commission)=>{return commission.request_designer});
+            console.log(request_designer);//array
+            request_designer.map((designerList)=>{
+                
+                if (designerList.length) {
+                    designerList.map(designer => {
+                        //console.log(`message ${designer.message}`);
+                        setMessages(prev=>[...prev, 
+                            {designerMsg : designer.message,
+                            desingerName : designer.designer_username,
+                            designerProfileImg : designer.designer_profile_image,
+                            designerId : designer.designer_id}])});
+                }
+            });
         }
         loadClientInfo();
         
@@ -97,6 +110,21 @@ const ClientProfile = () => {
         borderRadius:'10px', backgroundColor:'rgb(251, 240, 213)', textAlign:"center"}}>
             <br></br>
             <span style={{fontSize:'17px', fontWeight:'500', color:'orange'}}>도착한 알림</span>
+            <div style={{height: '200px', overflowY:'scroll'}}>
+            {
+                messages?.map((message)=>{
+                
+                    return (
+                    <MessageWrapper onClick={()=>navigate(`/designer/${message.designerId}`)}>
+                        <div>
+                        <Avatar style={{width:'50px', height:'50px'}} src={`http://localhost:8000${message.designerProfileImg}`}></Avatar>
+                        {message.desingerName}
+                        </div>
+                        {message.designerMsg}
+                    </MessageWrapper>);
+                })
+            }
+            </div>
         </div>
         </div>
         

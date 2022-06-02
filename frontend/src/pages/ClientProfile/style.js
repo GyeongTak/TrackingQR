@@ -33,4 +33,15 @@ const editButtonWrapper = css`
     right: 30px;
 
 `
-export { UserInfoForm, container, memberInfoContainer, userInfoContent, editButtonWrapper};
+
+const MessageWrapper = styled.div`
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+
+    &:hover {
+        background-color: orange;
+    }
+`
+export { UserInfoForm, container, memberInfoContainer, userInfoContent, editButtonWrapper, MessageWrapper};

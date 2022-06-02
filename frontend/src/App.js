@@ -35,7 +35,7 @@ const App = () => {
           <Route path = "/portfolio/:id" element={<PortfolioDetail/>} />
           <Route path = "/request/:id" element={<RequestDetail/>} />
           <Route path="/designer/:id" element={<RequireAuth><DesignerProfile /></RequireAuth>} />
-          <Route path="/client/:id" element={<RequireAuth><ClientProfile /></RequireAuth>} />
+          <Route path="/client/mypage" element={<RequireAuth><ClientProfile /></RequireAuth>} />
           <Route path = "/login" element={<LoginPage/>} />
           <Route path = "/Join" element={<JoinPage/>} />
           <Route path = "/Join/Client" element={<JoinClientPage/>} />
