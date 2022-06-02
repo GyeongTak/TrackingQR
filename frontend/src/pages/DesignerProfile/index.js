@@ -134,7 +134,7 @@ const DesignerProfile = () => {
             <Link to="/CreateProject2">
                 <Button style={{position:'absolute', marginLeft:'960px', marginTop:'-40px'}}>외부 프로젝트 추가</Button>
             </Link>
-            <ul style={{display:'flex', listStyle:"none", paddingLeft: '0px'}}>
+            <ul style={{display:'flex', flexWrap: 'wrap', listStyle:"none", paddingLeft: '0px'}}>
             {
                 userInfo?.projects&& 
                 userInfo.projects.map(project=>
