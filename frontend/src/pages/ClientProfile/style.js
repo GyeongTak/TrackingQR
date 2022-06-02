@@ -26,6 +26,7 @@ const memberInfoContainer = css`
 `
 
 const userInfoContent = css`
+    width:100%;
     margin-Left: 20px;
 `
 const editButtonWrapper = css`
@@ -33,4 +34,15 @@ const editButtonWrapper = css`
     right: 30px;
 
 `
-export { UserInfoForm, container, memberInfoContainer, userInfoContent, editButtonWrapper};
+
+const MessageWrapper = styled.div`
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+
+    &:hover {
+        background-color: orange;
+    }
+`
+export { UserInfoForm, container, memberInfoContainer, userInfoContent, editButtonWrapper, MessageWrapper};
