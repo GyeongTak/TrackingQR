@@ -54,7 +54,7 @@ class Message(models.Model) :
 
 
 class DesignerReview(models.Model) :
-    review = models.TextField(max_length=200)
+    review_text = models.TextField(max_length=200)
     designer = models.ForeignKey(Designer,on_delete=models.CASCADE)
     score = models.IntegerField(default = 0,validators=[MinValueValidator(0), MaxValueValidator(5)],blank=True)
 

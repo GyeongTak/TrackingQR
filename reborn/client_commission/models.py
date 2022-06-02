@@ -32,7 +32,7 @@ class Commission(models.Model) :
     designer = models.ForeignKey(Designer, on_delete=models.CASCADE ,null = True, blank = True)
 
     small_image = models.ImageField(upload_to = path_and_rename ,null = True ) # 썸네일용 이미지
-    commission_image = models.ImageField(upload_to=path_and_rename, null = True) # 파노라마 이미지\
+    commission_image = models.FileField(upload_to=path_and_rename, null = True) # 파노라마 이미지\
 
     title = models.CharField(max_length=300)    #의뢰서 제목
     description = models.TextField(null=True)   #의뢰서 상세 내용

@@ -26,7 +26,7 @@ class customerReview(models.Model) :
     small_image = models.ImageField(upload_to=path_and_rename)
     panorama_image = models.ImageField( height_field=None, width_field=None, max_length=100, upload_to=path_and_rename)
     client = models.ForeignKey(Client,on_delete=models.CASCADE)
-    designer_id = models.IntegerField(null = True)
+    designer = models.ForeignKey(Designer, on_delete= models.SET_NULL, null=True)
     description = models.TextField(null =True)
     Commission = models.ForeignKey(Commission, null = True,on_delete= models.SET_NULL)
     title = models.CharField(max_length = 50 , default=None,blank=True)
