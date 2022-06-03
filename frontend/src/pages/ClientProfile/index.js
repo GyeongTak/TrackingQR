@@ -152,8 +152,10 @@ const ClientProfile = () => {
                     ]}
                 extra={
                     <img
-                            width={272}
+                            width={'300px'}
+                            height={'300px'}
                             alt="logo"
+                            style={{objectFit: 'cover'}}
                             src={`http://localhost:8000${item.small_image}`}
                         />
                 }
@@ -214,9 +216,11 @@ const ClientProfile = () => {
                         ]}
                     extra={
                         <img
-                                width={272}
-                                alt="logo"
-                                src={`http://localhost:8000${item.small_image}`}
+                            width={'300px'}
+                            height={'300px'}
+                            alt="logo"
+                            style={{objectFit: 'cover'}}
+                            src={`http://localhost:8000${item.small_image}`}
                             />
                     }
                 >
