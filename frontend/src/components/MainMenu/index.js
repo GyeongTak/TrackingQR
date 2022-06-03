@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil';
 import userState from '../../store/user';
 import { logout } from 'apis/user/index';
 import { useNavigate } from 'react-router-dom';
-
+import logo from '../../assets/logo.png';
 const menuStyle = {
     top: '0',
     padding: '0 10%',
@@ -48,7 +48,7 @@ const MainMenu = () => {
             <div style={{display: 'flex', alignItems: 'center'}}>
                 <div >
                     <Link to="/"> 
-                        <Button> Logo </Button>
+                        <img src={logo} height={'70px'}/>
                     </Link>
                 </div>
                 <div style={{margin: '0 15px', fontSize: '20px', fontWeight: 'bold', cursor:"pointer"}}>
