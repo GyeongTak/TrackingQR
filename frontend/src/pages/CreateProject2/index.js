@@ -181,7 +181,7 @@ const CreateProjectPage2 = ({ }) => {
 
         <div style={{fontSize:'16px', textAlign:'left', marginLeft:'300px', height:'10px', marginTop:'40px'}}>[ 프로젝트 상세설명 ]</div>
         <div style={{marginTop:'40px', textAlign:'center', width:'940px', marginLeft:'290px'}}>
-          <ReactQuill theme='snow' value={value} modules={modules} onChange={setValue} />
+          <ReactQuill theme='snow' value={value} modules={modules} onChange={setValue} textAlign ='center'/>
         </div>
       
         <button className='submit' type='submit' onClick={onSubmit}>등록</button><br/><br/><br/><br/>

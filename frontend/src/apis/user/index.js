@@ -60,12 +60,15 @@ const getProfileInfo = async () => {
     }
 }
 
-const postDeleteMessage = async (id) => { //디자이너가 메세지를 확인했을때 {commission_id: id, msg: message}
-
+export const postDeleteMessage = async (data) => { //디자이너가 메세지를 확인했을때 {commission_id: id, msg: message}
     const token = localStorage.getItem('token');
     try {
-        const res = await instance.post(`api/mypage/${id}/delete_message`, 
-        {headers: { Authorization : "Token " + token}});
+        const res = await instance.post(`api/mypage/${data.id}/delete_message`, 
+        {headers: { 
+            "Content-Type": `application/json`,
+            Authorization : "Token " + token
+        }});
+
         return res.data;
         
     } catch (error) {
@@ -73,6 +76,21 @@ const postDeleteMessage = async (id) => { //디자이너가 메세지를 확인�
         alert(error.response.data);
     }
 }
+// export const postAllProject = async (data) => {
+
+//     const token = localStorage.getItem('token');
+//     try {
+//         const res = await instance.post('/api/portfolio/projects/create_project', data, 
+//         {headers: { "Content-Type": 'multipart/form-data',
+//         Authorization : "Token " + token}}); //json???
+//         return res.data;
+
+//     } catch (error) {
+//         console.error(error);
+//         //alert(error.response.data);
+//     }
+// }
+
 
 /*
 const loadMyInfo = async () =>{
@@ -91,4 +109,4 @@ const loadMyInfo = async () =>{
 }
 */
 
-export {login, logout, loadMyInfo, getProfileInfo, postDeleteMessage};
+export {login, logout, loadMyInfo, getProfileInfo};

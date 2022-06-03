@@ -217,8 +217,8 @@ const ClientProfile = () => {
                         ]}
                     extra={
                         <img
-                            width={'300px'}
-                            height={'300px'}
+                            width={'200px'}
+                            height={'200px'}
                             alt="logo"
                             style={{objectFit: 'cover'}}
                             src={`http://localhost:8000${item.small_image}`}
@@ -256,6 +256,7 @@ const ClientProfile = () => {
                 extra={
                 <img
                     width={272}
+                    height={250}
                     alt="logo"
                     src={`http://localhost:8000${item.small_image}`}
                 />

@@ -87,9 +87,9 @@ const DesignerProfile = () => {
         navigate(`/project/${id}`);
     }
 
-    const onClickDelete= () => {
+    const onClickDelete= (msgId) => {
         const deleteMessage = async () => {
-            await postDeleteMessage({id : messages.msg.id});
+            await postDeleteMessage({id :msgId});
         }
         deleteMessage();
         alert('알림 메세지가 삭제되었습니다!');
@@ -127,7 +127,7 @@ const DesignerProfile = () => {
             <div style={{height: '200px', overflowY:'scroll'}}>
             {
                 messages?.map((msg)=>
-                    <MessageWrapper onClick={onClickDelete}>
+                    <MessageWrapper onClick={()=>onClickDelete(msg.id)}>
                         {msg.message}
                     </MessageWrapper>)
             }
@@ -168,6 +168,7 @@ const DesignerProfile = () => {
                     hoverable
                     style={{
                       width: 240,
+                      
                     }}
                     cover={<img alt="example" src={`http://localhost:8000${project.small_image}`} />}
                     //프로젝트 관련 추가한 코드

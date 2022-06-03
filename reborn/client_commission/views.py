@@ -133,6 +133,12 @@ def commission_select_for_designer(request,pk) :
             message = request.data['message'],
             portfolio= portfolio
         )
+        client = User.objects.get(id= commission.client.id)
+        newMessage = Message(
+            user = client,
+            message = designer.username + '님이 ' + commission.title +' 의뢰의 협업을 제안했습니다.'
+        )
+        newMessage.save()
         newRequestedDesigner.save()
         return Response(status=status.HTTP_200_OK)
     return Response(status=status.HTTP_400_BAD_REQUEST)
