@@ -21,7 +21,8 @@ const ReviewDetailPage = () => {
         <>
         <MainMenu />
         <div className={'main-container'} style={{padding: '0 10%', width: '100%', height: '100%'}}>
-    
+            
+        
         </div>
         </>
     );

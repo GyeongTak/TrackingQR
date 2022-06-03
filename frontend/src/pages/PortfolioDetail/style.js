@@ -28,8 +28,7 @@ const SubTitle = styled.div`
     margin-bottom: 10px;
 `
 const ProjectWrapper = styled.div`
-    display:flex;
-    justify-content: space-between;
+    font-size: 20px;
 `
 export { container,UserInfoForm, userInfoContent, editButtonWrapper, SubTitle, ProjectWrapper};
 
