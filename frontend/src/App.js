@@ -21,6 +21,7 @@ import CreateProjectPage2 from 'pages/CreateProject2'
 import WriteReviewPage from 'pages/WriteReview'
 import { RequireAuth } from 'router/RequireAuth';
 import ProjectDetailPage from 'pages/ProjectDetail';
+import ReviewDetailPage from 'pages/ReviewDetailPage';
 
 const App = () => {
   return (
@@ -40,7 +41,8 @@ const App = () => {
           <Route path = "/Join" element={<JoinPage/>} />
           <Route path = "/Join/Client" element={<JoinClientPage/>} />
           <Route path = "/Join/Designer" element={<JoinDesignerPage/>} />
-          <Route path = "/review" element={<ClientReviewPage/>} />
+          <Route path = "/reviews" element={<ClientReviewPage/>} />
+          <Route path = "/review/:id" element={<ReviewDetailPage/>} />
           <Route path = "/request" element={<RequestList />} />
           <Route path = "/CreateProject" element={<CreateProjectPage />} />
           <Route path = "/CreateProject2" element={<CreateProjectPage2 />} />
