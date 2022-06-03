@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import PortfolioCard from 'components/PortfolioCard';
 import { useParams } from 'react-router-dom';
 import Avatar from 'components/Avatar';
+import ProjectCard from 'components/ProjectCard';
 
 const columns = [
     {
@@ -63,6 +64,11 @@ const PortfolioDetail = () => {
         
     }, []);
 
+    const onClickProject = (id) => {
+        const clickedProject = document.querySelector(`#project-${id}`);
+        //console.log(clickedProject);
+        clickedProject.scrollIntoView();
+    }
     return (
         <>
         <MainMenu />
@@ -104,40 +110,20 @@ const PortfolioDetail = () => {
                 userInfo?.projects?.map((project) => {
                     return (
                         <>
-                        <ProjectWrapper>
-                        {project?.title}
-                        <Rate defaultValue={project?.score} disabled/>
+                        <ProjectWrapper style={{cursor: 'pointer'}} onClick={()=>onClickProject(project.id)}>
+                            {project?.title}
                         </ProjectWrapper>
-                        </>
+                        </> 
                     );
                 })
             }
 
             <div style={{margin: '30px 0'}}>
             <SubTitle>프로젝트 상세</SubTitle>
-            <List
-            itemLayout="vertical"
-            size="large"
-            dataSource={userInfo?.projects}
-            renderItem={item => (
-            <List.Item
-                key={item.title}
-                extra={
-                <img
-                    width={272}
-                    alt="logo"
-                    src={`http://localhost:8000${item?.small_image}`}
-                />
-                }
-            >
-                <List.Item.Meta
-                title={<Link to={`/project/${item.id}`}>{item.title}</Link>}
-                description={<><div>{item.client}님의 의뢰</div><Rate defaultValue={item.score} disabled/></>}
-                />
-                {item.description}
-            </List.Item>
-            )}
-  />
+            {
+                userInfo?.projects && 
+                userInfo?.projects?.map((project) => <ProjectCard project={project}/>)
+            }
         </div>
 
 
