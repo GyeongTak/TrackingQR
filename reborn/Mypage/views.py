@@ -32,13 +32,16 @@ from datetime import datetime
 @permission_classes([IsAuthenticated])
 def profile(request, format=None):
     messages = Message.objects.filter(user = request.user)
-    for message in messages :
-        message.count = message.count + 1
-        print('check')
-        if message.count >5 :
-            message.delete()
-            continue
-        message.save()
+    if not messages :
+        pass
+    else :
+        for message in messages :
+            message.count = message.count + 1
+            print('check')
+            if message.count >5 :
+                message.delete()
+                continue
+            message.save()
         
     messageSerializer = MessageSerializer(messages, many=True)
 
@@ -169,6 +172,7 @@ def profile_update(request, pk) :
         return Response(status =201, data=serializer.data)
     return Response(status=400, data="wrong parameters")
 '''
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def designer_selected_for_commission(request) :
@@ -202,8 +206,8 @@ def designer_selected_for_commission(request) :
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def delete_message(request,pk) :
-    message = Message.objects.get(id = pk)
+def delete_message(request) :
+    message = Message.objects.get(id = request.data['msg_id'])
     message.delete()
     return Response(status=status.HTTP_200_OK)
 
