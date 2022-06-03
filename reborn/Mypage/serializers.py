@@ -141,7 +141,7 @@ class  ProjectSerializer(serializers.ModelSerializer) :
 class MessageSerializer(serializers.ModelSerializer) :
     class Meta :
         model = Message
-        fields = ('message', 'created')
+        fields = ('message', 'created','id')
 
 class EmptySerializer(serializers.Serializer):
     pass

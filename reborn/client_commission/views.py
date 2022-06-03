@@ -10,7 +10,7 @@ from django.core.exceptions import ImproperlyConfigured
 from client_commission.models import Commission
 from client_commission.models import RequestedDesigner
 from portfolio.models import DesignerPopol
-from users.models import Designer,Client
+from users.models import Designer,Client,Message
 from .serializers import EmptySerializer,CommissionSerializer,CommissionViewDetailSerializer,CommissionViewSerializer
 
 from datetime import datetime
@@ -151,7 +151,22 @@ def commission_view_detail(request,pk) :
         'request_count':request_count
         }, status= status.HTTP_200_OK)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated, ])
+def endCommission(request,pk) :
+    commission = Commission.objects.get(id = pk)
+    commission.current_status =3
 
+    tmpdesigner = User.objects.get(id = commission.designer.id)
+    newMessage = Message(
+        user =tmpdesigner,
+        message = commission.title + '이 완료 처리 되었습니다. 고생하셨습니다.'
+    )
+    newMessage.save()
+    commission.save()
+    
+   
+    return Response( status= status.HTTP_200_OK)
 
 # @api_view(['POST'])
 # @permission_classes([IsAuthenticated, ])

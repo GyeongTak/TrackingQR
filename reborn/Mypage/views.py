@@ -32,6 +32,14 @@ from datetime import datetime
 @permission_classes([IsAuthenticated])
 def profile(request, format=None):
     messages = Message.objects.filter(user = request.user)
+    for message in messages :
+        message.count = message.count + 1
+        print('check')
+        if message.count >5 :
+            message.delete()
+            continue
+        message.save()
+        
     messageSerializer = MessageSerializer(messages, many=True)
 
     if request.user.is_client == True :
@@ -191,6 +199,15 @@ def designer_selected_for_commission(request) :
         return Response(status=status.HTTP_200_OK)
     else :
         return Response({'message':'Designer can not select'},status=status.HTTP_403_FORBIDDEN)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def delete_message(request,pk) :
+    message = Message.objects.get(id = request.data['message_id'])
+    message.delete()
+    return Response(status=status.HTTP_200_OK)
+
+
 
 # @api_view(['POST'])
 # @permission_classes([IsAuthenticated])
