@@ -214,7 +214,7 @@ const ClientProfile = () => {
                     }
                 >
                 <List.Item.Meta
-                    title={<Link to={`/portfolio/${item.id}`}>{item.title}</Link>}
+                    title={<Link to={`/request/${item.id}`}>{item.title}</Link>}
                     description={<div>작업기한  {item.deadline} </div>}
                 />
                 {item.brief_description}

@@ -130,7 +130,7 @@ const DesignerProfile = () => {
         <Tabs defaultActiveKey="1" onChange={onChangeTab}>
             <Tabs.TabPane tab="포트폴리오" key="portfolio">
             <SubTitle>Description</SubTitle>
-            <div>{userInfo?.description}</div>
+            <div>{userInfo?.portfolio?.description}</div>
 
             <SubTitle>자격증</SubTitle>
             {
