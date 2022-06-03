@@ -86,6 +86,7 @@ const ClientReviewPage = () => {
     const [reviews, setReviews] = useState([]);
 
     useEffect(()=>{
+        /*
         axios.get('http://localhost:8000/api/review/review_view/')
         .then((res) => {
             console.log(res.data);
@@ -94,8 +95,9 @@ const ClientReviewPage = () => {
         .catch((error) => {
             console.error(error.response);
         });
-
+        */
         setReviews(dummy);
+
     }, []);
     
     return (
