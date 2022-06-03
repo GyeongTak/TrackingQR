@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import MainMenu from '../../components/MainMenu';
-import { Card, Avatar, Dropdown, Button, Menu, List, Space } from 'antd';
+import { Card, Avatar, Dropdown, Button, Menu, List, Space, Rate } from 'antd';
 import {  HeartTwoTone, DownOutlined, MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.min.css';
 import axios from 'axios';
+import { Link } from "react-router-dom";
+/*
 const listData = [];
 for (let i = 1; i < 25; i++) {
   listData.push({
@@ -16,7 +18,7 @@ for (let i = 1; i < 25; i++) {
       '지인 소개로 처음으로 커넥트빌을 통해 내부 디자인 의뢰해봤는데, 요청한 대로 많은 디자이너 분들께서 작품을 올려주셔서 정말 좋아요! 제가 원하는 대로 선택하고 추가로 수정까지 요청할 수 있다보니 최고네요...! 디자이너 분들 감사합니다.',
   });
 }
-
+*/
 const IconText = ({ icon, text }) => (
     <Space>
       {React.createElement(icon)}
@@ -67,20 +69,33 @@ const menu = (
     </Menu>
   );
 
+
+const dummy=[{
+    'designer_username': 'name',
+    'designer_profile_image':'',
+    'small_image':'',
+    'client_username':'username', 
+    'client_profile_image':'',
+    'client_company_name':'soongsil',
+    'brief_title':'title',
+    'score': 3, 
+    'brief_description':'brief description',
+    'id': 5
+}];
 const ClientReviewPage = () => {
     const [reviews, setReviews] = useState([]);
 
     useEffect(()=>{
-        axios.get('http://localhost:8000/sda/', )
+        axios.get('http://localhost:8000/api/review/review_view/')
         .then((res) => {
             console.log(res.data);
-            setReviews([...res.data]);
+            setReviews(res.data);
         })
         .catch((error) => {
             console.error(error.response);
         });
 
-        setReviews(listData);
+        setReviews(dummy);
     }, []);
     
     return (
@@ -110,30 +125,28 @@ const ClientReviewPage = () => {
             <List
                 itemLayout="vertical"
                 size="large"
-                dataSource={listData}
+                dataSource={reviews}
               
                 renderItem={item => (
                 <List.Item
                     key={item.title}
                     actions={[
-                    <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
-                    <IconText icon={LikeOutlined} text="100" key="list-vertical-like-o" />,
-                    <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
                     ]}
                     extra={
                     <img
                         width={272}
                         alt="logo"
-                        src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                        src={`http://localhost:8000${item.small_image}`}
                     />
                     }
                 >
                     <List.Item.Meta
-                    avatar={<Avatar src={item.avatar} />}
-                    title={<a href={item.href}>{item.title}</a>}
-                    description={item.description}
+                    title={<Link to={`/review/${item.id}`}>{item.brief_title}</Link>}
+                    description={<><Rate disabled defaultValue={item.score} /><div style={{marginTop:'10px'}}>{item.brief_description}</div></>}
                     />
-                    {item.content}
+                    <div style={{marginBottom:'10px'}}><Avatar src={`http://localhost:8000${item.client_profile_image}`} style={{marginRight:'10px'}}/>{item.designer_username} 님의 작품</div>
+                    <div><Avatar src={`http://localhost:8000${item.designer_profile_image}`} style={{marginRight:'10px'}}/>{item.client_username}({item.client_company_name}) 님의 의뢰</div>
+                    
                 </List.Item>
                 )}
             />
