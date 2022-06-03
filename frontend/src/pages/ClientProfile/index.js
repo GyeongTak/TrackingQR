@@ -42,9 +42,9 @@ const ClientProfile = () => {
             const result = await getProfileInfo();
             setClientInfo(result);
 
-            const request_designer = result.commissions_not_started.map((commission)=>{return commission.request_designer});
+            const request_designer = result?.commissions_not_started?.map((commission)=>{return commission.request_designer});
             console.log(result);//array
-            request_designer.map((designerList)=>{
+            request_designer?.map((designerList)=>{
                 
                 if (designerList.length) {
                     designerList.map(designer => {
@@ -77,9 +77,11 @@ const ClientProfile = () => {
     const onClickDesigner = (designerId, itemId) => {
 
         const patchSelect = async() =>  {
-            await patchSelectDesigner({designer_id :designerId, item_id : itemId});
+            await patchSelectDesigner({designer_id :designerId, commission_id : itemId});
         }  
         patchSelect();
+
+        alert('디자이너를 선택하였습니다!')
     }
     
     return (

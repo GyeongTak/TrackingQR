@@ -72,7 +72,7 @@ const HomePage = () => {
                         <Card
                         hoverable
                         cover={<img alt="example" src={`http://localhost:8000${request.small_image}`} />}
-                    >
+                        >
                         <Card.Meta 
                         avatar={<Avatar src={request.profile_image} />} 
                         title={<div style={{position: 'relative', top:'2px'}}>{request.title}</div>}

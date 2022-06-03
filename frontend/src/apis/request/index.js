@@ -52,7 +52,7 @@ const getRequestsMain = async () =>{
 const patchSelectDesigner = async (data) => {
     const token = localStorage.getItem('token');
     try {
-        const res = await instance.post('/api/mypage/designer_selected_for_commission', data,
+        const res = await instance.post('/api/mypage/designer_selected_for_commission', data, //{designer_id :designerId, commission_id : itemId}
         {headers: { Authorization : "Token " + token}});
         return res.data;
     } catch (error) {
@@ -61,10 +61,10 @@ const patchSelectDesigner = async (data) => {
     }
 }
 
-const patchApplyDesigner = async (data) => { //디자이너가 의뢰서를 지원할때
+const patchApplyDesigner = async (data) => { //디자이너가 의뢰서를 지원할때 {commission_id: id, msg: message}
     const token = localStorage.getItem('token');
     try {
-        const res = await instance.post('**', data, //{designer_id: designerId, request_id: id}
+        const res = await instance.post(`/api/client_commission/${data.commission_id}/commission_select_for_designer`, {message: data.msg}, //{designer_id: designerId, request_id: id}
         {headers: { Authorization : "Token " + token}});
         return res.data;
         

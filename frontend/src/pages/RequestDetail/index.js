@@ -4,10 +4,11 @@ import { Container,Title, ContentContainer, RequestContainer, Content,LeftConten
     DescriptionContainer, UserInfo, BudgetWrapper,PanoramaWrapper } from './style';
 import Avatar from 'components/Avatar';
 import MainMenu from 'components/MainMenu';
-import {Button, Badge} from 'antd';
+import {Button, Badge, Modal, Input} from 'antd';
 import { HeartOutlined, ShareAltOutlined } from '@ant-design/icons';
 import { getRequest, patchApplyDesigner } from '../../apis/request';
 import { useParams } from 'react-router-dom';
+import { useInput } from '../../utils/useInput.js';
 
 const dummy = {
     'id' : 2,
@@ -28,6 +29,8 @@ const RequestDetail = () => {
     const { id } = useParams();
     const [request, setRequest] = useState(false);
     const [isClient, setIsClient] = useState({});
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [message, onChangeMessage] = useInput('');
 
     useEffect(()=>{
         const isClient = localStorage.getItem('isClient');
@@ -47,16 +50,15 @@ const RequestDetail = () => {
        //setRequest(dummy);
     }, []);
 
-    const onClickButton = (designerId, id) => {
-
+    const handleOk = () => {
         const patchDesigner = async () => {
-            await patchApplyDesigner({designer_id: designerId, request_id: id});
+            await patchApplyDesigner({commission_id: id, msg: message});
         }
         // 
         patchDesigner();
         alert('정상적으로 지원되었습니다!');
+        setIsModalVisible(false);
     }
-
     return (
         <>
         <MainMenu />
@@ -137,13 +139,17 @@ const RequestDetail = () => {
                     
                 </Content>
                 {isClient ==='false' && (request?.commission?.current_status === 0 || request?.commission?.current_status === 1) &&
-                <Button onClick={()=>onClickButton(localStorage.getItem('userId'))} style={{marginTop:'10px', marginBottom:'10px'}}>지원하기</Button>}
+                <Button onClick={()=>setIsModalVisible(true)} style={{marginTop:'10px', marginBottom:'10px'}}>지원하기</Button>}
             </DescriptionContainer>
             
             </LeftContent>
         </ContentContainer>
         
         </Container>
+        <Modal title="Basic Modal" visible={isModalVisible} okText={"메세지 보내기"} onOk={handleOk} 
+        onCancel={()=>setIsModalVisible(false)}>
+        <Input placeholder="메세지를 입력해주세요!" value={message} onChange={onChangeMessage}/>
+      </Modal>
         </>
     );
 }
