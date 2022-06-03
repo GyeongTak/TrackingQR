@@ -14,6 +14,7 @@ import { MailOutlined, PhoneOutlined, HomeOutlined } from '@ant-design/icons';
 import { getProfileInfo } from '../../apis/user';
 import { Link } from 'react-router-dom';
 import { getProject } from 'apis/project';
+import { postDeleteMessage } from 'apis/user';
 
 const columns = [
     {
@@ -86,6 +87,14 @@ const DesignerProfile = () => {
         navigate(`/project/${id}`);
     }
 
+    const onClickDelete= () => {
+        const deleteMessage = async () => {
+            await postDeleteMessage({id : messages.msg.id});
+        }
+        deleteMessage();
+        alert('알림 메세지가 삭제되었습니다!');
+    }
+
     return (
         <>
         <MainMenu />
@@ -118,7 +127,7 @@ const DesignerProfile = () => {
             <div style={{height: '200px', overflowY:'scroll'}}>
             {
                 messages?.map((msg)=>
-                    <MessageWrapper>
+                    <MessageWrapper onClick={onClickDelete}>
                         {msg.message}
                     </MessageWrapper>)
             }
