@@ -9,7 +9,23 @@ import { Link } from 'react-router-dom';
 import PortfolioCard from 'components/PortfolioCard';
 import { useParams } from 'react-router-dom';
 import Avatar from 'components/Avatar';
-
+import ProjectCard from 'components/ProjectCard';
+/**
+ * {"portfolio":{"designer_username":"designer",
+ * 
+ * "designer_id":3,
+ * 
+ * "designer_email":"designer@connectbill.com",
+ * "description":"ㅇㄹㄴㄹㄴㅇㄹㄴㅇㄹ",
+ * "designer_phone":1000000000,
+ * "designer_average_stars":0},
+ * 
+ *      "designer_profile_image":"/media/profile_image/user_default_image.png",
+ * 
+ * "certificates":[],
+ * "educationandcareer":[],
+ * "projects":[]}
+ */
 const columns = [
     {
       title: '취득 기간',
@@ -105,39 +121,19 @@ const PortfolioDetail = () => {
                     return (
                         <>
                         <ProjectWrapper>
-                        {project?.title}
-                        <Rate defaultValue={project?.score} disabled/>
+                            <Link to={`#${project.id}`} style={{textDecoration: 'none', color:'black'}} >{project?.title}</Link>
                         </ProjectWrapper>
-                        </>
+                        </> 
                     );
                 })
             }
 
             <div style={{margin: '30px 0'}}>
             <SubTitle>프로젝트 상세</SubTitle>
-            <List
-            itemLayout="vertical"
-            size="large"
-            dataSource={userInfo?.projects}
-            renderItem={item => (
-            <List.Item
-                key={item.title}
-                extra={
-                <img
-                    width={272}
-                    alt="logo"
-                    src={`http://localhost:8000${item.image}`}
-                />
-                }
-            >
-                <List.Item.Meta
-                title={<Link to={`/project/${item.id}`}>{item.title}</Link>}
-                description={<><div>{item.client}님의 의뢰</div><Rate defaultValue={item.score} disabled/></>}
-                />
-                {item.description}
-            </List.Item>
-            )}
-  />
+            {
+                userInfo?.projects && 
+                userInfo?.projects?.map((project) => <ProjectCard project={project}/>)
+            }
         </div>
 
 
