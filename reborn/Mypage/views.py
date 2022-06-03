@@ -66,7 +66,7 @@ def profile(request, format=None):
                 
         return Response({
             'user' : userSerializer.data,
-            'commissions_notstarted' : my_commission_not_startedSerializer.data,
+            'commissions_not_started' : my_commission_not_startedSerializer.data,
             'commissions_started' :  my_commission_startedSerializer.data,
             'reviews' :  my_reviewSerializer.data,
             'messages' : messageSerializer.data,
@@ -203,7 +203,7 @@ def designer_selected_for_commission(request) :
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def delete_message(request,pk) :
-    message = Message.objects.get(id = request.data['message_id'])
+    message = Message.objects.get(id = pk)
     message.delete()
     return Response(status=status.HTTP_200_OK)
 
