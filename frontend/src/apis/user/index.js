@@ -60,6 +60,20 @@ const getProfileInfo = async () => {
     }
 }
 
+const postDeleteMessage = async (id) => { //디자이너가 메세지를 확인했을때 {commission_id: id, msg: message}
+
+    const token = localStorage.getItem('token');
+    try {
+        const res = await instance.post(`api/mypage/${id}/delete_message`, 
+        {headers: { Authorization : "Token " + token}});
+        return res.data;
+        
+    } catch (error) {
+        console.log(error);
+        alert(error.response.data);
+    }
+}
+
 /*
 const loadMyInfo = async () =>{
     try {
@@ -77,4 +91,4 @@ const loadMyInfo = async () =>{
 }
 */
 
-export {login, logout, loadMyInfo, getProfileInfo};
+export {login, logout, loadMyInfo, getProfileInfo, postDeleteMessage};
