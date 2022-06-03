@@ -1,5 +1,6 @@
 from email.policy import HTTP
 import imp
+from this import d
 import certifi
 from django.http import QueryDict
 from django.shortcuts import render
@@ -66,51 +67,59 @@ def profile(request, format=None):
     else :
         designerUser = Designer.objects.get(id = request.user.id)
         userserializer = DesignerUserSerializer(designerUser,many= False)
-        
-        portfolio = DesignerPopol.objects.get(designer = designerUser )
-        portfolioSerializer = PortfolioSerializer(portfolio, many= False)
-        
-        certificates = Certificate.objects.filter(portfolio = portfolio)
-        certificateSerializer = CertificateSerializer(certificates, many= True)
 
-        eduandcareers = EducationAndCareer.objects.filter(portfolio= portfolio)
-        eduAndCareerSerializer = EduAndCareerSerializer(eduandcareers,many= True)
+        try:      
+            portfolio = DesignerPopol.objects.get(designer = designerUser )
+        except :
+            return Response(
+                {'user' : userserializer.data}
+            )
+            
+        else :
+            portfolioSerializer = PortfolioSerializer(portfolio, many= False)
 
-        partincommission = Commission.objects.filter(designer_id = request.user.id , current_status=2)
-        partincommissionSerializer = PartInCommissionSerializer(partincommission, many=True)
-        
-        for i in partincommissionSerializer.data :
-            tmp = datetime.datetime.now() - i['updated']
-            i['updated'] = tmp
 
-        endcommission = Commission.objects.filter(designer_id = request.user.id , current_status = 3)
-        endcommissionSerializer = EndCommissionSerializer(endcommission, many=True)
+            certificates = Certificate.objects.filter(portfolio = portfolio)
+            certificateSerializer = CertificateSerializer(certificates, many= True)
 
-        projects = Projects.objects.filter(portfolio = portfolio)
-        projectSerializer = ProjectSerializer(projects, many=True)
-        print( {
-                'user' : userserializer.data,
-                'portfolio' :portfolioSerializer.data,
-                'certificates' : certificateSerializer.data,
-                'educationandcareers' : eduAndCareerSerializer.data,
-                'part_in_commission':partincommissionSerializer.data,
-                'projects' :projectSerializer.data,
-                'end_commission' : endcommissionSerializer.data,
-                'messages' : messageSerializer.data,
-            })
-        return Response(
-           
-            {
-                'user' : userserializer.data,
-                'portfolio' :portfolioSerializer.data,
-                'certificates' : certificateSerializer.data,
-                'educationandcareers' : eduAndCareerSerializer.data,
-                'part_in_commission':partincommissionSerializer.data,
-                'projects' :projectSerializer.data,
-                'end_commission' : endcommissionSerializer.data,
-                'messages' : messageSerializer.data,
-            }
-        )
+            eduandcareers = EducationAndCareer.objects.filter(portfolio= portfolio)
+            eduAndCareerSerializer = EduAndCareerSerializer(eduandcareers,many= True)
+
+            partincommission = Commission.objects.filter(designer_id = request.user.id , current_status=2)
+            partincommissionSerializer = PartInCommissionSerializer(partincommission, many=True)
+            
+            for i in partincommissionSerializer.data :
+                tmp = datetime.datetime.now() - i['updated']
+                i['updated'] = tmp
+
+            endcommission = Commission.objects.filter(designer_id = request.user.id , current_status = 3)
+            endcommissionSerializer = EndCommissionSerializer(endcommission, many=True)
+
+            projects = Projects.objects.filter(portfolio = portfolio)
+            projectSerializer = ProjectSerializer(projects, many=True)
+            print( {
+                    'user' : userserializer.data,
+                    'portfolio' :portfolioSerializer.data,
+                    'certificates' : certificateSerializer.data,
+                    'educationandcareers' : eduAndCareerSerializer.data,
+                    'part_in_commission':partincommissionSerializer.data,
+                    'projects' :projectSerializer.data,
+                    'end_commission' : endcommissionSerializer.data,
+                    'messages' : messageSerializer.data,
+                })
+            return Response(
+            
+                {
+                    'user' : userserializer.data,
+                    'portfolio' :portfolioSerializer.data,
+                    'certificates' : certificateSerializer.data,
+                    'educationandcareers' : eduAndCareerSerializer.data,
+                    'part_in_commission':partincommissionSerializer.data,
+                    'projects' :projectSerializer.data,
+                    'end_commission' : endcommissionSerializer.data,
+                    'messages' : messageSerializer.data,
+                }
+            )
 
 
 @api_view(['GET'])

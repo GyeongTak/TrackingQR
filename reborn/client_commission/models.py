@@ -9,8 +9,20 @@ from uuid import uuid4
 datetime_format = ["%Y-%m-%d"]
 
 
-def path_and_rename(instance, filename):
-    upload_to = 'client_committion/committion_image'
+def path_and_rename_sumnail(instance, filename):
+    upload_to = 'client_committion/committion_image/sumnail/'
+    ext = filename.split('.')[-1]
+    # get filename
+    if instance.pk:
+        filename = '{}.{}'.format(instance.pk, ext)
+    else:
+        # set filename as random string
+        filename = '{}.{}'.format(uuid4().hex, ext)
+    # return the whole path to the file
+    return os.path.join(upload_to, filename)
+
+def path_and_rename_sumnail_panorama_image(instance, filename):
+    upload_to = 'client_commission/commission_image/panorama_image'
     ext = filename.split('.')[-1]
     # get filename
     if instance.pk:
@@ -31,8 +43,8 @@ class Commission(models.Model) :
     client = models.ForeignKey(Client,on_delete=models.CASCADE)
     designer = models.ForeignKey(Designer, on_delete=models.CASCADE ,null = True, blank = True)
 
-    small_image = models.ImageField(upload_to = path_and_rename ,null = True ) # 썸네일용 이미지
-    commission_image = models.FileField(upload_to=path_and_rename, null = True) # 파노라마 이미지\
+    small_image = models.ImageField(upload_to = path_and_rename_sumnail ,null = True ) # 썸네일용 이미지
+    commission_image = models.FileField(upload_to=path_and_rename_sumnail_panorama_image, null = True) # 파노라마 이미지\
 
     title = models.CharField(max_length=300)    #의뢰서 제목
     description = models.TextField(null=True)   #의뢰서 상세 내용
