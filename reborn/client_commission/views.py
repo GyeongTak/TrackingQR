@@ -43,7 +43,7 @@ def create_commission(request):
     # print(request.FILES)python
     if request.user.is_client == True:
         if request.data['is_panorama'] == 'true' :
-            image = request.data.getlist('images')[0]
+            path = request.data.getlist('images')[0]
             # print(image)
         else :
             images = []
@@ -85,6 +85,7 @@ def create_commission(request):
                 else:
                     print("[INFO] image stitching failed (3: STITCHER_ERR_CAMERA_PARAMETERS_ADJUSTMENT_FAIL)")
                     raise Exception("[INFO] image stitching failed (3: STITCHER_ERR_CAMERA_PARAMETERS_ADJUSTMENT_FAIL)")
+            shutil.rmtree(MEDIA_ROOT +'/temp'+str(request.user.id))
 
         serializer = CommissionSerializer(data=request.data, many=False)
         serializer.is_valid(raise_exception=True)
@@ -104,7 +105,6 @@ def create_commission(request):
         )
         newCommission.save()
         # newCommission.commission_image.save('filename.jpg',file,save=True)
-        shutil.rmtree(MEDIA_ROOT +'/temp'+str(request.user.id))
 
         return Response({'message' : "Success"}, status = status.HTTP_200_OK)
     else :
@@ -153,21 +153,21 @@ def commission_view_detail(request,pk) :
 
 
 
-@api_view(['POST'])
-@permission_classes([IsAuthenticated, ])
-def commission_designer_selected_by_client(request) :
-    if request.user.is_client == False :
-        pass
-    else :
-        designer = Designer.objects.get(user= request.user)
-        designer.prccessing_commission_id = request.data['commission_id']
-        designer.save()
+# @api_view(['POST'])
+# @permission_classes([IsAuthenticated, ])
+# def commission_designer_selected_by_client(request) :
+#     if request.user.is_client == False :
+#         return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        commission = Commission.objects.get(id = request.data['commission_id'])
-        commission.request_count+=1
-        tmp_string= commission.requst_designer_id 
-        tmp_string = str(request.user.id) +','+ tmp_string
-        commission.request_designer_id = tmp_string
-        commission.save()
-        return Response(status=status.HTTP_200_OK)
+#     else :
+#         designer = Designer.objects.get(id=request.data['designer_id'])
+
+#         designer.prccessing_commission_id = request.data['commission_id']
+#         designer.save()
+
+#         commission = Commission.objects.get(id = request.data['commission_id'])
+#         commission = designer
+
+#         commission.save()
+#         return Response(status=status.HTTP_200_OK)
 

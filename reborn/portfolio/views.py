@@ -138,7 +138,7 @@ def image_handler(request):
     filename = request.FILES['files']
     user = User.objects.get(id = request.user.id)  
     img = (ContentFile(image.read()))
-    path = default_storage.save('project_image/'+str(user.username)+'/'+ str(filename), img)
+    path = default_storage.save('portfolio/projects/image/'+str(user.username)+'/'+ str(filename), img)
     path1 = os.path.join(MEDIA_ROOT,path)
     
     img_array = np.fromfile(path1, np.uint8)

@@ -11,9 +11,9 @@ from torch import DictType
 from users.models import Designer
 
 
-def path_and_rename(instance, filename):
 
-    upload_to = 'SearchDesignerApi/Designer_Portfolio_Image'
+def path_and_rename_sumnail(instance, filename):
+    upload_to = 'portfolio/projects/sumnail/'
     ext = filename.split('.')[-1]
     # get filename
     if instance.pk:
@@ -24,7 +24,17 @@ def path_and_rename(instance, filename):
     # return the whole path to the file
     return os.path.join(upload_to, filename)
 
-
+# def path_and_rename_sumnail_panorama_image(instance, filename):
+#     upload_to = 'portfolio/panorama_image'
+#     ext = filename.split('.')[-1]
+#     # get filename
+#     if instance.pk:
+#         filename = '{}.{}'.format(instance.pk, ext)
+#     else:
+#         # set filename as random string
+#         filename = '{}.{}'.format(uuid4().hex, ext)
+#     # return the whole path to the file
+#     return os.path.join(upload_to, filename)
 
 class DesignerPopol(models.Model) :
     designer = models.OneToOneField(Designer, on_delete=models.CASCADE)
@@ -49,7 +59,7 @@ class EducationAndCareer(models.Model) :
 class Projects(models.Model) :
     
     title = models.CharField(max_length=100 , null = False)
-    small_image = models.ImageField(upload_to =path_and_rename, blank = True)
+    small_image = models.ImageField(upload_to =path_and_rename_sumnail, blank = True)
     description = models.TextField()
     participation_date = models.CharField(max_length=100)
     portfolio = models.ForeignKey(DesignerPopol,blank= True, on_delete = models.CASCADE, related_name='projects')
