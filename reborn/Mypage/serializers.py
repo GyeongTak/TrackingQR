@@ -44,13 +44,19 @@ class RequestedDesignerSerializer(serializers.ModelSerializer) :
 class MyCommissionBriefSerializer(serializers.ModelSerializer) :
     brief_description = serializers.SerializerMethodField()
     request_designer = RequestedDesignerSerializer(many=True, read_only=True)
-    designer_username = serializers.CharField(source='designer.username')
+    designer_username = serializers.SerializerMethodField()
+    # serializers.CharField(source='designer.username')
     class Meta :
         model = Commission
         fields = ('id','title', 'created','brief_description','budget','finish_date','small_image','request_designer','deadline','current_status','designer_username')
     def get_brief_description(self, obj) :
         return obj.description[:200] +'...'
         # description 을 200 글자만 표시할 수 있도록 바꾼다.
+    def get_designer_username(self, obj) :
+        if not obj.designer :
+            return '디자이너가 아직 배정되지 않았습니다.'
+        else :
+            return obj.designer.username
 
 
 

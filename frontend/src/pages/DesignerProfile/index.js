@@ -94,14 +94,9 @@ const DesignerProfile = () => {
         <div style={{display:'flex', justifyContent: 'space-evenly', alignItems: 'center'}}>
         <UserInfoForm>
             {userInfo?.user?.profile_image &&
-<<<<<<< HEAD
             <Avatar
             src={`http://localhost:8000${userInfo?.user?.profile_image}`} />
             }
-=======
-            <Avartar
-            src={`http://localhost:8000${userInfo?.user?.profile_image}`} />}
->>>>>>> 9fed89ce551c2b5ce99b30302ae10b1ec8677b04
             <div css={userInfoContent}>
             <h2>{userInfo?.user?.username}님</h2> 
             <Rate disabled defaultValue={userInfo?.user?.average_stars} />
