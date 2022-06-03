@@ -203,7 +203,11 @@ def designer_selected_for_commission(request) :
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def delete_message(request,pk) :
+<<<<<<< HEAD
     Message.objects.filter(id = pk).delete()
+=======
+    message = Message.objects.get(id = pk).delete()
+>>>>>>> dce92c1be81e9706bddb989bed5ea0912901ffdd
     return Response(status=status.HTTP_200_OK)
 
 
