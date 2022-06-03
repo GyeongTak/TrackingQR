@@ -13,8 +13,7 @@ import { useNavigate, useLocation, useParams} from 'react-router-dom';
 import { getProfileInfo } from '../../apis/user';
 import { Link } from 'react-router-dom';
 import userImg from '../../assets/user.png';
-import { patchSelectDesigner } from '../../apis/request';
-
+import { patchSelectDesigner, patchEndCommission } from '../../apis/request';
 const IconText = ({ icon, text }) => (
     <Space>
       {React.createElement(icon)}
@@ -83,6 +82,10 @@ const ClientProfile = () => {
 
         alert('디자이너를 선택하였습니다!')
     }
+
+    const onClickComplete = async(id) => {
+        await patchEndCommission(id);
+    };
     
     return (
         <>
@@ -204,7 +207,10 @@ const ClientProfile = () => {
                         actions={[
                             <div>{item.budget} 만원</div>,
                             <div>작업기간  {item.finish_date}개월</div>,
-                            item.current_status === 3 && <Button onClick={()=>navigate(`/WriteReview/${item.id}`)}>리뷰 작성하기</Button>,
+                            item.current_status === 3 ? 
+                            <Button onClick={()=>navigate(`/WriteReview/${item.id}`)}>리뷰 작성하기</Button>
+                            :
+                            <Button onClick={()=>onClickComplete(item.id)}>완료</Button>
                         ]}
                     extra={
                         <img
