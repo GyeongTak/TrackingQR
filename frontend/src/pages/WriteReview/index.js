@@ -10,9 +10,12 @@ import { Radio, Button } from 'antd';
 import { useParams } from 'react-router-dom';
 import { postReview } from '../../apis/review';
 import { CloseOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
+
 const ARRAY = [0, 1, 2, 3, 4]; //별의 개수가 5개이니 인덱스 0~4
 
 function WriteReviewPage() {
+  const navigate = useNavigate();
   const { id } = useParams();
     const [ isPanorama, setIsPanorama ] = useState(true);
     //의뢰 자체 별점
@@ -66,7 +69,7 @@ function WriteReviewPage() {
 
     //미리보기를 위해 파일 저장
     const saveFileImage = (e) => {
-      setFileImage(URL.createObjectURL(e.target.files[0]));
+      setFileImage(e.target.files[0]);
     };
 
     //const handleChangeFile = (e) => {
@@ -75,11 +78,6 @@ function WriteReviewPage() {
     //  }
     //}
 
-    //이미지 파일 삭제 버튼
-    const deleteFileImage = () => {
-      URL.revokeObjectURL(fileImage);
-      setFileImage("");
-    };   
     
     const onChangeIsPanorama = (e) => {
       setIsPanorama(e.target.value);
@@ -117,6 +115,7 @@ function WriteReviewPage() {
         console.log(designer_score);
         console.log(isPanorama);
         await postReview(formData);
+        navigate('/client/mypage');
     
     };
 
@@ -169,22 +168,6 @@ function WriteReviewPage() {
         <div style={{textAlign:'center', marginTop:'10px', marginLeft:'290px', width:'940px', height:'200px', borderRadius: 10,
         border:'2px solid skyblue'}}>
             <input type="file" multiple onChange={saveFileImage} style={{marginTop:'20px'}}/>
-
-            <button style={{borderRadius: 10, border:'1px solid skyblue', backgroundColor:'rgb(238, 243, 255)', color:'rgb(79, 127, 221)', width: "120px", height: "30px", cursor: "pointer"}}
-                    onClick={() => deleteFileImage()}
-            >
-              그림 삭제
-            </button>
-
-            <div style={{display: 'flex'}}>
-                {fileImage && (
-                  <img
-                    alt="sample"
-                    src={fileImage}
-                    style={{height:'120px', width:'120px' }}
-                  />
-                )}
-            </div>
         </div>
 
         <div style={{marginTop:'50px', fontWeight:'bold'}}>

@@ -71,7 +71,7 @@ const HomePage = () => {
                     {requests.map((request)=>
                         <Card
                         hoverable
-                        cover={<img alt="example" src={`http://localhost:8000${request.small_image}`} />}
+                        cover={<img width='200px' height ='300px' style={{objectFit: 'cover'}}alt="example" src={`http://localhost:8000${request.small_image}`} />}
                         >
                         <Card.Meta 
                         avatar={<Avatar src={request.profile_image} />} 

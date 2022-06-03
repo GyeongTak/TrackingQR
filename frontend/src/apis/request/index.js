@@ -80,7 +80,7 @@ const patchEndCommission = async (id) => { //디자이너가 의뢰서를 지원
     try {
         
         console.log(id)
-        const res = await instance.post(`/api/client_commission/${id}/endCommission`,{headers: { Authorization : "Token " + token}});
+        const res = await instance.post(`/api/client_commission/${id}/end_commission`);
         
         return res.data;
         

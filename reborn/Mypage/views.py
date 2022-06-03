@@ -32,16 +32,19 @@ from datetime import datetime
 @permission_classes([IsAuthenticated])
 def profile(request, format=None):
     messages = Message.objects.filter(user = request.user)
-    for message in messages :
-        message.count = message.count + 1
-        print('check')
-        if message.count >5 :
-            message.delete()
-            continue
-        message.save()
-        
+    if not messages :
+        pass
+    else :
+        for message in messages :
+            message.count = message.count + 1
+            print('check')
+            if message.count >5 :
+                message.delete()
+                continue
+            message.save()
+    
     messageSerializer = MessageSerializer(messages, many=True)
-
+   
     if request.user.is_client == True :
         clientUser = Client.objects.get(id = request.user.id)
         userSerializer = ClientUserSerializer(clientUser, many=False)
@@ -105,7 +108,7 @@ def profile(request, format=None):
                 # print(tmp)
                 i['update_time'] = str(tmp)
 
-            endcommission = Commission.objects.filter(designer_id = request.user.id , current_status = 3)
+            endcommission = Commission.objects.filter(Q(designer_id = request.user.id) & (Q(current_status = 3) | Q(current_status=4) ))
             endcommissionSerializer = EndCommissionSerializer(endcommission, many=True)
 
             projects = Projects.objects.filter(portfolio = portfolio)
@@ -169,6 +172,7 @@ def profile_update(request, pk) :
         return Response(status =201, data=serializer.data)
     return Response(status=400, data="wrong parameters")
 '''
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def designer_selected_for_commission(request) :
@@ -202,8 +206,9 @@ def designer_selected_for_commission(request) :
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def delete_message(request,pk) :
-    message = Message.objects.get(id = pk).delete()
+def delete_message(request) :
+    message = Message.objects.get(id = request.data['msg_id'])
+    message.delete()
     return Response(status=status.HTTP_200_OK)
 
 

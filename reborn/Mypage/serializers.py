@@ -19,16 +19,26 @@ class ClientUserSerializer(serializers.ModelSerializer):
         model = Client
         fields = ('username','email','phone','company_name','description','profile_image')
 
-class  MyReviewBriefSerialzier(serializers.ModelSerializer) :
+class MyReviewBriefSerialzier(serializers.ModelSerializer):
+    designer_username = serializers.CharField(source='designer.username')
+    designer_profile_image = serializers.ImageField(source='designer.profile_image')
+
     brief_description = serializers.SerializerMethodField()
-    
+    brief_title = serializers.SerializerMethodField()
     class Meta :
         model = customerReview
-        fields = ('score', 'small_image','designer_id','brief_description','title')
-    def get_brief_description(self, obj) :
-        return obj.description[:30] + '...'
-        # description 을 30 글자만 표시할 수 있도록 바꾼다.
+        fields = (
+            'id',
+            'designer_username','designer_profile_image',
+            'small_image',
+            'brief_title','score','brief_description'
+        )
 
+    def get_brief_description(self, obj) :
+        return obj.description[:100] + '...'
+    
+    def get_brief_title(self,obj) :
+        return obj.title[:50] + '...'
 
 
 class RequestedDesignerSerializer(serializers.ModelSerializer) :
@@ -139,9 +149,10 @@ class  ProjectSerializer(serializers.ModelSerializer) :
 
 
 class MessageSerializer(serializers.ModelSerializer) :
+    time = serializers.DateTimeField(source='created',format="%Y/%m/%d %H:%M")
     class Meta :
         model = Message
-        fields = ('message', 'created','id')
+        fields = ('message', 'time','id')
 
 class EmptySerializer(serializers.Serializer):
     pass
