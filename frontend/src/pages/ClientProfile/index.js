@@ -136,8 +136,8 @@ const ClientProfile = () => {
 
         <Tabs defaultActiveKey="1" onChange={onClickTab}>
         <Tabs.TabPane tab="의뢰서" key="request">
-        {
-                clientInfo?.commissions_not_started &&
+        
+                
                 <List
                 itemLayout="vertical"
                 size="large"
@@ -196,9 +196,10 @@ const ClientProfile = () => {
         </List.Item>
       )}
     />
-            }
-            {
-                clientInfo?.commissions_started && 
+        
+        </Tabs.TabPane>
+
+            <Tabs.TabPane tab="진행 중인 의뢰서" key="request-processing">
                     <List
                     itemLayout="vertical"
                     size="large"
@@ -242,11 +243,8 @@ const ClientProfile = () => {
             </List.Item>
         )}
         />
-            }
-
-
-            
             </Tabs.TabPane>
+
             <Tabs.TabPane tab="리뷰" key="review">
             <List
         itemLayout="vertical"

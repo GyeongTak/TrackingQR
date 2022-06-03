@@ -112,7 +112,9 @@ const RequestList = () => {
                     ]}
                     extra={
                     <img
-                        width={250}
+                        height={'300px'}
+                        style={{objectFit: 'cover'}}
+                        width={'300px'}
                         alt="logo"
                         src={`http://localhost:8000${item.small_image}`}
                     />
