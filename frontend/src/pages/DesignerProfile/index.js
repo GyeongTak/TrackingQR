@@ -130,7 +130,7 @@ const DesignerProfile = () => {
             {
                 messages?.map((msg)=>
                     <MessageWrapper onClick={()=>onClickDelete(msg.id)}>
-                        {msg.message}
+                        {msg.message}  {msg.time}
                     </MessageWrapper>)
             }
             </div>
@@ -172,7 +172,7 @@ const DesignerProfile = () => {
                       width: 240,
                       
                     }}
-                    cover={<img alt="example" src={`http://localhost:8000${project.small_image}`} />}
+                    cover={<img width='240px' height='240px' alt="example" src={`http://localhost:8000${project.small_image}`} />}
                     //프로젝트 관련 추가한 코드
                     onClick={()=>onClickProject(project.id)}
                   >
@@ -229,7 +229,8 @@ const DesignerProfile = () => {
                     ]}
                     extra={
                         <img
-                                width={272}
+                                width={202}
+                                height={200}
                                 alt="logo"
                                 src={`http://localhost:8000${item.small_image}`}
                             />

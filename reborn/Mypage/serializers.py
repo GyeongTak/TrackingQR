@@ -149,9 +149,10 @@ class  ProjectSerializer(serializers.ModelSerializer) :
 
 
 class MessageSerializer(serializers.ModelSerializer) :
+    time = serializers.DateTimeField(source='created',format="%Y/%m/%d %H:%M")
     class Meta :
         model = Message
-        fields = ('message', 'created','id')
+        fields = ('message', 'time','id')
 
 class EmptySerializer(serializers.Serializer):
     pass

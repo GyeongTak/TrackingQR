@@ -42,9 +42,9 @@ def profile(request, format=None):
                 message.delete()
                 continue
             message.save()
-        
+    
     messageSerializer = MessageSerializer(messages, many=True)
-
+   
     if request.user.is_client == True :
         clientUser = Client.objects.get(id = request.user.id)
         userSerializer = ClientUserSerializer(clientUser, many=False)
@@ -108,7 +108,7 @@ def profile(request, format=None):
                 # print(tmp)
                 i['update_time'] = str(tmp)
 
-            endcommission = Commission.objects.filter(designer_id = request.user.id , current_status = 3)
+            endcommission = Commission.objects.filter(Q(designer_id = request.user.id) & (Q(current_status = 3) | Q(current_status=4) ))
             endcommissionSerializer = EndCommissionSerializer(endcommission, many=True)
 
             projects = Projects.objects.filter(portfolio = portfolio)

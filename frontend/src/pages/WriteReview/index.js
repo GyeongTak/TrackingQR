@@ -10,9 +10,12 @@ import { Radio, Button } from 'antd';
 import { useParams } from 'react-router-dom';
 import { postReview } from '../../apis/review';
 import { CloseOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
+
 const ARRAY = [0, 1, 2, 3, 4]; //별의 개수가 5개이니 인덱스 0~4
 
 function WriteReviewPage() {
+  const navigate = useNavigate();
   const { id } = useParams();
     const [ isPanorama, setIsPanorama ] = useState(true);
     //의뢰 자체 별점
@@ -112,6 +115,7 @@ function WriteReviewPage() {
         console.log(designer_score);
         console.log(isPanorama);
         await postReview(formData);
+        navigate('/client/mypage');
     
     };
 
