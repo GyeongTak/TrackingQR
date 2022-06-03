@@ -92,13 +92,9 @@ const DesignerProfile = () => {
         <div css={container}>
 
         <UserInfoForm>
-            {userInfo?.profile_image?
+            {userInfo?.profile_image &&
             <Avartar
-            src={`http://localhost:8000${userInfo.profile_image}`} />:
-            <Avartar
-            style={{width:'200px', height:'200px'}}
-            src={userImg}
-            shape="square" />
+            src={`http://localhost:8000${userInfo.profile_image}`} />
             }
             <div css={userInfoContent}>
             <h2>{userInfo?.user?.username}님</h2>
