@@ -78,8 +78,10 @@ const patchEndCommission = async (id) => { //디자이너가 의뢰서를 지원
 
     const token = localStorage.getItem('token');
     try {
-        const res = await instance.post(`api/client_commission/${id}/endCommission`, //{designer_id: designerId, request_id: id}
-        {headers: { Authorization : "Token " + token}});
+        
+        console.log(id)
+        const res = await instance.post(`/api/client_commission/${id}/endCommission`,{headers: { Authorization : "Token " + token}});
+        
         return res.data;
         
     } catch (error) {
