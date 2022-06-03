@@ -35,27 +35,30 @@ const ClientProfile = () => {
 
     //console.log(messages);
 
+    const loadClientInfo = async () => {
+        const result = await getProfileInfo();
+        setClientInfo(result);
+
+        const request_designer = result?.commissions_not_started?.map((commission)=>{return commission.request_designer});
+        console.log(result);//array
+        request_designer?.map((designerList)=>{
+            
+            if (designerList.length) {
+                setMessages([]);
+                designerList.forEach(designer => {
+                    //console.log(`message ${designer.message}`);
+                    setMessages(prev=>[...prev, 
+                        {designerMsg : designer.message,
+                        desingerName : designer.designer_username,
+                        designerProfileImg : designer.designer_profile_image,
+                        designerId : designer.designer_id}])});
+            }
+        });
+    }
+
     useEffect(()=>{
         
-        const loadClientInfo = async () => {
-            const result = await getProfileInfo();
-            setClientInfo(result);
-
-            const request_designer = result?.commissions_not_started?.map((commission)=>{return commission.request_designer});
-            console.log(result);//array
-            request_designer?.map((designerList)=>{
-                
-                if (designerList.length) {
-                    designerList.map(designer => {
-                        //console.log(`message ${designer.message}`);
-                        setMessages(prev=>[...prev, 
-                            {designerMsg : designer.message,
-                            desingerName : designer.designer_username,
-                            designerProfileImg : designer.designer_profile_image,
-                            designerId : designer.designer_id}])});
-                }
-            });
-        }
+        
         loadClientInfo();
         
        
@@ -85,6 +88,7 @@ const ClientProfile = () => {
 
     const onClickComplete = async(id) => {
         await patchEndCommission(id);
+        loadClientInfo();
     };
     
     return (

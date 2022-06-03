@@ -152,7 +152,7 @@ def commission_view_detail(request,pk) :
         }, status= status.HTTP_200_OK)
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated, ])
+@permission_classes([AllowAny, ])
 def endCommission(request,pk) :
     commission = Commission.objects.get(id = pk)
     commission.current_status =3
