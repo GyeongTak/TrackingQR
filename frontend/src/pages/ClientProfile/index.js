@@ -241,7 +241,7 @@ const ClientProfile = () => {
             <List
         itemLayout="vertical"
         size="large"
-        dataSource={clientInfo.reviews}
+        dataSource={clientInfo?.reviews}
         renderItem={item => (
             <List.Item
                 key={item.title}

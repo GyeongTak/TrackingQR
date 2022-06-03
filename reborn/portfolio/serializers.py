@@ -41,7 +41,7 @@ class EduAndCareerSerializer(serializers.ModelSerializer) :
 class ProjectSerializer(serializers.ModelSerializer) :
     class Meta :
         model = Projects
-        fields = ('title','description','participation_date', 'client', 'image', 'score')
+        fields = ('id','title','description','participation_date', 'client', 'score','small_image')
     
     def validate_title(self, value):
         if value=='':
@@ -86,10 +86,6 @@ class ClientProfileSerializer(serializers.ModelSerializer) :
         fields = ['username','email']
 
 
-class ProjectSerializer(serializers.ModelSerializer) :
-    class Meta :
-        model = Projects
-        fields = ('title','description','participation_date','score','client')
 
 # class PopolTestSerializer(serializers.ModelSerializer):
 #     class Meta :

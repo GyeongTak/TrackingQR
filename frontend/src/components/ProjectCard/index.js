@@ -24,13 +24,14 @@ const ProjectCard = ({ project }) => {
         const projectContent = document.querySelector('.projectContent');
         projectContent.innerHTML = project?.description;
     }, []);
+    
     return (
-        <CardWrapper id={project.id}>
+        <CardWrapper id={`project-${project.id}`}>
             <h2>프로젝트 상세</h2>
             <div style={{display: 'flex', justifyContent: 'space-between', marginBottom:'100px'}}>
                 <div style={{fontSize: '20px'}}>
                     {project.title}
-                    <Rate disabled defaultValue={project.score} />
+                    <Rate disabled defaultValue={project.score} style={{marginLeft: '20px'}}/>
                     <div>프로젝트 기간 : {project.participation_date}</div>
                     <div>의뢰자 : {project.client}</div>
                 </div>

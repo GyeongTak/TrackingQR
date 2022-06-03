@@ -10,22 +10,7 @@ import PortfolioCard from 'components/PortfolioCard';
 import { useParams } from 'react-router-dom';
 import Avatar from 'components/Avatar';
 import ProjectCard from 'components/ProjectCard';
-/**
- * {"portfolio":{"designer_username":"designer",
- * 
- * "designer_id":3,
- * 
- * "designer_email":"designer@connectbill.com",
- * "description":"ㅇㄹㄴㄹㄴㅇㄹㄴㅇㄹ",
- * "designer_phone":1000000000,
- * "designer_average_stars":0},
- * 
- *      "designer_profile_image":"/media/profile_image/user_default_image.png",
- * 
- * "certificates":[],
- * "educationandcareer":[],
- * "projects":[]}
- */
+
 const columns = [
     {
       title: '취득 기간',
@@ -79,6 +64,11 @@ const PortfolioDetail = () => {
         
     }, []);
 
+    const onClickProject = (id) => {
+        const clickedProject = document.querySelector(`#project-${id}`);
+        //console.log(clickedProject);
+        clickedProject.scrollIntoView();
+    }
     return (
         <>
         <MainMenu />
@@ -120,8 +110,8 @@ const PortfolioDetail = () => {
                 userInfo?.projects?.map((project) => {
                     return (
                         <>
-                        <ProjectWrapper>
-                            <Link to={`#${project.id}`} style={{textDecoration: 'none', color:'black'}} >{project?.title}</Link>
+                        <ProjectWrapper style={{cursor: 'pointer'}} onClick={()=>onClickProject(project.id)}>
+                            {project?.title}
                         </ProjectWrapper>
                         </> 
                     );
