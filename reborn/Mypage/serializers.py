@@ -44,9 +44,10 @@ class RequestedDesignerSerializer(serializers.ModelSerializer) :
 class MyCommissionBriefSerializer(serializers.ModelSerializer) :
     brief_description = serializers.SerializerMethodField()
     request_designer = RequestedDesignerSerializer(many=True, read_only=True)
+    designer_username = serializers.CharField(source='designer.username')
     class Meta :
         model = Commission
-        fields = ('id','title', 'created','brief_description','budget','finish_date','small_image','request_designer','deadline','current_status')
+        fields = ('id','title', 'created','brief_description','budget','finish_date','small_image','request_designer','deadline','current_status','designer_username')
     def get_brief_description(self, obj) :
         return obj.description[:200] +'...'
         # description 을 200 글자만 표시할 수 있도록 바꾼다.
@@ -109,9 +110,10 @@ class PartInCommissionSerializer(serializers.ModelSerializer) :
     client_phone = serializers.CharField(source='client.phone')
     client_username = serializers.CharField(source='client.username')
     client_company_name = serializers.CharField(source='client.company_name')
+    update_time = serializers.DateTimeField(source='updated',format="%Y-%m-%d %H:%M")
     class Meta :
         model = Commission
-        fields = ['client_username','client_company_name','client_phone','title','budget','small_image','updated']
+        fields = ['client_username','client_company_name','client_phone','title','budget','small_image','update_time']
 
 class EndCommissionSerializer(serializers.ModelSerializer) :
     client_username = serializers.CharField(source='client.username')

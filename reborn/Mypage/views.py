@@ -26,7 +26,7 @@ from django.db.models import Q
 
 #from users.serializers import ClientProfileImageUpdateSerializer
 
-import datetime
+from datetime import datetime
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -74,7 +74,7 @@ def profile(request, format=None):
             return Response(
                 {'user' : userserializer.data}
             )
-            
+
         else :
             portfolioSerializer = PortfolioSerializer(portfolio, many= False)
 
@@ -89,8 +89,13 @@ def profile(request, format=None):
             partincommissionSerializer = PartInCommissionSerializer(partincommission, many=True)
             
             for i in partincommissionSerializer.data :
-                tmp = datetime.datetime.now() - i['updated']
-                i['updated'] = tmp
+                obj=datetime.strptime(i['update_time'],'%Y-%m-%d %H:%M')
+                print(datetime.now())
+                print(obj)
+               
+                tmp = datetime.now() - obj
+                # print(tmp)
+                i['update_time'] = str(tmp)
 
             endcommission = Commission.objects.filter(designer_id = request.user.id , current_status = 3)
             endcommissionSerializer = EndCommissionSerializer(endcommission, many=True)
@@ -180,6 +185,9 @@ def designer_selected_for_commission(request) :
         )
         
         newMessage.save()
+
+        RequestedDesigner.objects.filter(commission= commission).delete()
+
         return Response(status=status.HTTP_200_OK)
     else :
         return Response({'message':'Designer can not select'},status=status.HTTP_403_FORBIDDEN)

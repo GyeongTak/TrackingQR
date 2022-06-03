@@ -27,17 +27,21 @@ class BriefReviewSerializer(serializers.ModelSerializer):
     designer_profile_image = serializers.ImageField(source='designer.profile_image')
 
     brief_description = serializers.SerializerMethodField()
+    brief_title = serializers.SerializerMethodField()
     class Meta :
         model = customerReview
         fields = (
+            'id',
             'designer_username','designer_profile_image',
-            'small_image','client_username',
-            'client_profile_image','client_company_name',
-            'score','brief_description'
+            'small_image','client_username','client_profile_image','client_company_name',
+            'brief_title','score','brief_description'
         )
 
     def get_brief_description(self, obj) :
         return obj.description[:100] + '...'
+    
+    def get_brief_title(self,obj) :
+        return obj.title[:50] + '...'
         
     
 
@@ -47,11 +51,10 @@ class ReviewDetailSerializer(serializers.ModelSerializer):
     client_company_name = serializers.CharField(source='client.company_name')
     client_email = serializers.EmailField(source='client.email')
 
-    # designer_username = serializers.CharField(source= 'designer.username')
-    # designer_id = serializers.IntegerField(source='designer.id')
-    # designer_email =serializers.EmailField(source='designer.email')
-    # designer_profile_image = serializers.ImageField(source='designer.profile_image')
-    
+    commission_image = serializers.FileField(source='commission.commission_image')
+    commission_budget = serializers.IntegerField(source='commission.budget')
+    commission_description = serializers.CharField(max_length=500)
+
     class Meta :
         model = customerReview
         fields = (
@@ -59,7 +62,8 @@ class ReviewDetailSerializer(serializers.ModelSerializer):
             'client_company_name','client_email',
             'panorama_image','score',
             'description', 'title',
-            'created'
+            'created',
+            'commission_image','commission_budget' ,'commission_description'
         )
 
 class DesignerReviewSerializer(serializers.ModelSerializer) :
