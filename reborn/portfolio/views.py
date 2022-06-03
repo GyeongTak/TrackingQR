@@ -12,7 +12,7 @@ from rest_framework import generics , status
 
 from portfolio.models import DesignerPopol,Projects,Certificate, EducationAndCareer
 from Mypage import serializers
-from .serializers import ProjectSerializer, PopolSerializer,BriefPopolSerializer,CertificateSerializer, EduAndCareerSerializer, ProjectSerializer
+from .serializers import PopolSerializer,BriefPopolSerializer,CertificateSerializer, EduAndCareerSerializer, ProjectSerializer
 from rest_framework import status
 
 from users.models import *
@@ -54,8 +54,12 @@ def portfolio_view_detail(request, pk):
 
     projects = Projects.objects.filter(portfolio= Popol)
     serializer_projects = ProjectSerializer(projects, many=True)
-
-    
+    print(
+        {
+            'projects' : serializer_projects.data ,
+        }
+          
+    )
     return Response(
         {
             'portfolio' : serializer_popol.data , 

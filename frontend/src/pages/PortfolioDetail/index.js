@@ -126,7 +126,7 @@ const PortfolioDetail = () => {
                 <img
                     width={272}
                     alt="logo"
-                    src={`http://localhost:8000${item.image}`}
+                    src={`http://localhost:8000${item?.small_image}`}
                 />
                 }
             >

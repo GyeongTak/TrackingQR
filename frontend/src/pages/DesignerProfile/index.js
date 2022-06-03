@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import MainMenu from '../../components/MainMenu';
 import { container,UserInfoForm, SubTitle, userInfoContent, editButtonWrapper, MessageWrapper} from './style';
-import Avartar from '../../components/Avatar';
+import Avatar from '../../components/Avatar';
 import { useRecoilState } from 'recoil';
 import userState from '../../store/user';
 import { List, Rate, Button, Tabs, Table, Card } from 'antd';
@@ -92,9 +92,9 @@ const DesignerProfile = () => {
         <div css={container}>
 
         <UserInfoForm>
-            {userInfo?.profile_image &&
-            <Avartar
-            src={`http://localhost:8000${userInfo.profile_image}`} />
+            {userInfo?.user?.profile_image &&
+            <Avatar
+            src={`http://localhost:8000${userInfo?.user?.profile_image}`} />
             }
             <div css={userInfoContent}>
             <h2>{userInfo?.user?.username}님</h2>

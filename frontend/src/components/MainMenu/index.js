@@ -61,7 +61,7 @@ const MainMenu = () => {
                         <Button style={{fontWeight:'500', fontFamily: 'Noto Sans KR, sans-serif', color:'black', marginLeft:'-15px'}}> 의뢰서 </Button>
                     </Link></div>
                 </div>
-            <Input.Search placeholder="디자이너, 커미션 검색" onSearch={onSearch} style={{width:'30%'}}/>
+            {/* <Input.Search placeholder="디자이너, 커미션 검색" onSearch={onSearch} style={{width:'30%'}}/> */}
             <div style={{display: 'flex', alignItems: 'center'}}>
                 {
                     localStorage.getItem('userId') ? 
