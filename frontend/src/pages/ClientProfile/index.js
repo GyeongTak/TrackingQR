@@ -6,7 +6,7 @@ import { UserInfoForm, container, MessageWrapper, userInfoContent, editButtonWra
 import Avatar from '../../components/Avatar';
 import { useRecoilState } from 'recoil';
 import userState from '../../store/user';
-import { List, Button, Modal, Input, Rate, Space, Tabs, Tag } from 'antd';
+import { List, Button, Modal, Input, Rate, Space, Tabs, Tag, Badge } from 'antd';
 import { MailOutlined, PhoneOutlined, HomeOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.min.css';
 import { useNavigate, useLocation, useParams} from 'react-router-dom';
@@ -138,7 +138,7 @@ const ClientProfile = () => {
                 <List
                 itemLayout="vertical"
                 size="large"
-                dataSource={clientInfo.commissions_not_started}
+                dataSource={clientInfo?.commissions_not_started}
                 renderItem={item => (
                     <List.Item
                     key={item.title}
@@ -204,6 +204,7 @@ const ClientProfile = () => {
                         actions={[
                             <div>{item.budget} 만원</div>,
                             <div>작업기간  {item.finish_date}개월</div>,
+                            item.current_status === 3 && <Button onClick={()=>navigate(`/WriteReview/${item.id}`)}>리뷰 작성하기</Button>,
                         ]}
                     extra={
                         <img
@@ -214,30 +215,18 @@ const ClientProfile = () => {
                     }
                 >
                 <List.Item.Meta
-                    title={<Link to={`/request/${item.id}`}>{item.title}</Link>}
+                    title={<><Link to={`/portfolio/${item.id}`}>{item.title}</Link>
+                    {
+                        item.current_status === 3 ? 
+                        <Badge status="success" text="작업완료" style={{margin:'0 15px'}}/> : 
+                        <Badge status="processing" text="진행중" style={{margin:'0 15px'}}/>
+                    }
+                    <span style={{backgroundColor: '#f0f0f1', borderRadius: '5%', padding:'5px'}}>{item.designer_username}님과 진행중</span></>}
                     description={<div>작업기한  {item.deadline} </div>}
                 />
-                {item.brief_description}
-
+                {item.brief_description} 
             {
                 item?.request_designer?.length === 0 && <div style={{fontWeight:'500',padding:'10px', marginTop:'20px', border:'1px solid #f0f0f1'}}>아직 지원한 디자이너가 없어요!</div>
-            }
-            {
-                item?.request_designer?.length > 0 && 
-                <fieldset style={{border:'1px solid #f0f0f1', marginTop: '15px', padding: '10px'}}>
-                <legend style={{fontSize: '16px', margin:'0', padding:'1px'}}>거래중인 디자이너</legend>
-                <div style={{display: 'flex', alignItems: 'center'}}>
-                    <div key={item.designer_id} 
-                    onClick={()=>navigate(`/portfolio/${parseInt(item.designer_id, 10)}`)} 
-                    style={{display: 'flex',  alignItems: 'center', margin:'0', padding:'0', cursor:"pointer"}}>
-                    <Avatar style={{width:'50px', height:'50px', marginRight:'10px'}}
-                    onClick={()=>onClickDesigner(item.designer_id, item.id)}
-                    src={`http://localhost:8000${item.designer_profile_image}`}/>
-                    {item.designer_username}
-                    <Rate style={{marginLeft:'10px'}} disabled defaultValue={item.designer_average_stars} />
-                    </div>
-                </div>
-                </fieldset>
             }
             
             </List.Item>
