@@ -65,7 +65,7 @@ const HomePage = () => {
             <div className={'client-container'} style={{width:'100%', marginTop:'50px', fontSize:'20px', fontWeight:'500',fontFamily: 'Noto Sans KR, sans-serif'}}> 
                 <div style={{display: 'flex',justifyContent: "space-between"}}>
                     <div>고객 후기를 둘러보세요</div>
-                    <button onClick={()=>navigate('/review')}style={{cursor: 'pointer',border: 0, outline:0,width:'70px',fontSize:'12px', backgroundColor:'#F5D5CB',appearance: "none", borderRadius:'5px', }}>더보기+</button> 
+                    <button onClick={()=>navigate('/reviews')}style={{cursor: 'pointer',border: 0, outline:0,width:'70px',fontSize:'12px', backgroundColor:'#F5D5CB',appearance: "none", borderRadius:'5px', }}>더보기+</button> 
                 </div>
                 <div className='portfolio-container' style={{width: '100%', display: 'flex', flexWrap: "wrap"}}>
                     {requests.map((request)=>

@@ -14,5 +14,15 @@ const postReview = async (data) => {
     }
 }
 
+const getReview = async (id) => {
 
-export { postReview };
+    try {
+        const result = await instance.post(`/api/review/${id}/review_view_detail/`);//
+        return result.data;
+    } catch (error) {
+        console.error(error);
+        window.alert(error.response.data);
+    }
+}
+
+export { postReview, getReview };

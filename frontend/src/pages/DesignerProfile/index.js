@@ -91,24 +91,32 @@ const DesignerProfile = () => {
         <MainMenu />
         <div css={container}>
 
+        <div style={{display:'flex', justifyContent: 'space-evenly', alignItems: 'center'}}>
         <UserInfoForm>
             {userInfo?.user?.profile_image &&
+<<<<<<< HEAD
             <Avatar
             src={`http://localhost:8000${userInfo?.user?.profile_image}`} />
             }
+=======
+            <Avartar
+            src={`http://localhost:8000${userInfo?.user?.profile_image}`} />}
+>>>>>>> 9fed89ce551c2b5ce99b30302ae10b1ec8677b04
             <div css={userInfoContent}>
-            <h2>{userInfo?.user?.username}님</h2>
+            <h2>{userInfo?.user?.username}님</h2> 
+            <Rate disabled defaultValue={userInfo?.user?.average_stars} />
             
             <div><MailOutlined style={{marginRight:'5px'}}/>{userInfo?.user?.email}</div>
             <div><PhoneOutlined style={{marginRight:'5px'}}/>{userInfo?.user?.phone}</div>
             <div>{userInfo?.user?.skills} 전문</div>
-            <div><Rate disabled defaultValue={userInfo?.user?.average_stars} /></div>
+            
             <div>{userInfo?.user?.description}</div>
-            </div>
             <Button onClick={onClickEditButton} css={editButtonWrapper}>프로필 수정</Button>
+            </div>
+            
         </UserInfoForm> 
         
-        <div style={{position:'absolute', marginTop:'-375px', marginLeft:'780px', width:'500px', height:'295px', border:'2px solid rgb(251, 240, 213)',
+        <div style={{width: '40%', height:'300px', border:'2px solid rgb(251, 240, 213)',
         borderRadius:'10px', backgroundColor:'rgb(251, 240, 213)', textAlign:"center"}}>
             <br></br>
             <span style={{fontSize:'17px', fontWeight:'500', color:'orange'}}>도착한 알림</span>
@@ -121,12 +129,15 @@ const DesignerProfile = () => {
             }
             </div>
         </div>
-
+        </div>
 
         <Tabs defaultActiveKey="1" onChange={onChangeTab}>
             <Tabs.TabPane tab="포트폴리오" key="portfolio">
+            
+            <div style={{marginBottom: '50px'}}>
             <SubTitle>Description</SubTitle>
             <div>{userInfo?.portfolio?.description}</div>
+            </div>
 
             <SubTitle>자격증</SubTitle>
             {
