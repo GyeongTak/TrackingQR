@@ -9,6 +9,6 @@ urlpatterns = [
     path('<int:pk>/commission_view_detail/',views.commission_view_detail),
     # path('commission_designer_selected_by_client',views.commission_designer_selected_by_client),
     path('<int:pk>/commission_select_for_designer',views.commission_select_for_designer),
-    path('<int:pk>/endCommission',views.endCommission)
+    path('<int:pk>/end_commission',views.end_commission)
 ]
 

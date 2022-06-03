@@ -252,7 +252,7 @@ const ClientProfile = () => {
         dataSource={clientInfo?.reviews}
         renderItem={item => (
             <List.Item
-                key={item.title}
+                key={item.brief_title}
                 extra={
                 <img
                     width={272}
@@ -262,8 +262,8 @@ const ClientProfile = () => {
                 }
             >
                 <List.Item.Meta
-                title={<Link to={`/review/${item.id}`}>{item.title}</Link>}
-                description={<><div>Desinger {item.desinger_name}</div><Rate disabled defaultValue={item.score} /></>}
+                title={<Link to={`/review/${item.id}`}>{item.brief_title}</Link>}
+                description={<><div>담당자 {item.designer_username} 님</div><Rate disabled defaultValue={item.score} /></>}
                 />
                 {item.brief_description}
                 
