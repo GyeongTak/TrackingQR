@@ -7,4 +7,6 @@ admin.site.register(Designer)
 
 admin.site.register(Client)
 
+admin.site.register(Message)
+
 

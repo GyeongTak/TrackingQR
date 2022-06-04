@@ -20,13 +20,15 @@ title: "fsdfsdfds"*
  */
 const ProjectCard = ({ project }) => {
 
+    console.log(project);
     useEffect(()=>{
-        const projectContent = document.querySelector('.projectContent');
+        const projectContent = document.querySelector(`#project-${project.id}`);
+        console.log(projectContent);
         projectContent.innerHTML = project?.description;
     }, []);
     
     return (
-        <CardWrapper id={`project-${project.id}`}>
+        <CardWrapper >
             <h2>프로젝트 상세</h2>
             <div style={{display: 'flex', justifyContent: 'space-between', marginBottom:'100px'}}>
                 <div style={{fontSize: '20px'}}>
@@ -39,7 +41,7 @@ const ProjectCard = ({ project }) => {
                     <img src={`http://localhost:8000${project.small_image}`} width="300px"/>
                 </div>
             </div>
-            <div className="projectContent" style={{border: '2px solid #f1f0f5', borderRadius: '5%', padding: '40px'}}></div>
+            <div id={`project-${project.id}`} style={{border: '2px solid #f1f0f5', borderRadius: '5%', padding: '40px'}}></div>
         </CardWrapper>
     );
 }

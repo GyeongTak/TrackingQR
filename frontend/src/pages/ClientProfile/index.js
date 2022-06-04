@@ -35,33 +35,22 @@ const ClientProfile = () => {
 
     //console.log(messages);
 
+    const loadClientInfo = async () => {
+        const result = await getProfileInfo();
+        setClientInfo(result);
+
+        setMessages(result?.messages);
+        console.log(result);//array
+    }
+
     useEffect(()=>{
         
-        const loadClientInfo = async () => {
-            const result = await getProfileInfo();
-            setClientInfo(result);
-
-            const request_designer = result?.commissions_not_started?.map((commission)=>{return commission.request_designer});
-            console.log(result);//array
-            request_designer?.map((designerList)=>{
-                
-                if (designerList.length) {
-                    designerList.map(designer => {
-                        //console.log(`message ${designer.message}`);
-                        setMessages(prev=>[...prev, 
-                            {designerMsg : designer.message,
-                            desingerName : designer.designer_username,
-                            designerProfileImg : designer.designer_profile_image,
-                            designerId : designer.designer_id}])});
-                }
-            });
-        }
+        
         loadClientInfo();
         
        
     },[]);
 
-    console.log(clientInfo?.commissions?.request_designer?.length);
     const onClickTab = (key) => {
         setActiveTab(key);
     }
@@ -85,6 +74,7 @@ const ClientProfile = () => {
 
     const onClickComplete = async(id) => {
         await patchEndCommission(id);
+        loadClientInfo();
     };
     
     return (
@@ -117,15 +107,13 @@ const ClientProfile = () => {
             <span style={{fontSize:'17px', fontWeight:'500', color:'orange'}}>도착한 알림</span>
             <div style={{height: '200px', overflowY:'scroll'}}>
             {
-                messages?.map((message)=>{
+                messages?.map((msg)=>{
                 
                     return (
-                    <MessageWrapper onClick={()=>navigate(`/designer/${message.designerId}`)}>
+                    <MessageWrapper>
                         <div>
-                        <Avatar style={{width:'50px', height:'50px'}} src={`http://localhost:8000${message.designerProfileImg}`}></Avatar>
-                        {message.desingerName}
+                        {msg.message}
                         </div>
-                        {message.designerMsg}
                         </MessageWrapper>);
                 })
             }
@@ -217,8 +205,8 @@ const ClientProfile = () => {
                         ]}
                     extra={
                         <img
-                            width={'300px'}
-                            height={'300px'}
+                            width={'200px'}
+                            height={'200px'}
                             alt="logo"
                             style={{objectFit: 'cover'}}
                             src={`http://localhost:8000${item.small_image}`}
@@ -252,18 +240,19 @@ const ClientProfile = () => {
         dataSource={clientInfo?.reviews}
         renderItem={item => (
             <List.Item
-                key={item.title}
+                key={item.brief_title}
                 extra={
                 <img
                     width={272}
+                    height={250}
                     alt="logo"
                     src={`http://localhost:8000${item.small_image}`}
                 />
                 }
             >
                 <List.Item.Meta
-                title={<Link to={`/review/${item.id}`}>{item.title}</Link>}
-                description={<><div>Desinger {item.desinger_name}</div><Rate disabled defaultValue={item.score} /></>}
+                title={<Link to={`/review/${item.id}`}>{item.brief_title}</Link>}
+                description={<><div>담당자 {item.designer_username} 님</div><Rate disabled defaultValue={item.score} /></>}
                 />
                 {item.brief_description}
                 

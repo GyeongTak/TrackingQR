@@ -51,6 +51,7 @@ class Message(models.Model) :
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     message = models.CharField(max_length=200)
     created = models.DateTimeField(auto_now_add = True)
+    count = models.IntegerField(default = 0, blank =True, null=True)
 
 
 class DesignerReview(models.Model) :

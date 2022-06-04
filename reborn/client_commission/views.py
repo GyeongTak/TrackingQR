@@ -10,7 +10,7 @@ from django.core.exceptions import ImproperlyConfigured
 from client_commission.models import Commission
 from client_commission.models import RequestedDesigner
 from portfolio.models import DesignerPopol
-from users.models import Designer,Client
+from users.models import Designer,Client,Message
 from .serializers import EmptySerializer,CommissionSerializer,CommissionViewDetailSerializer,CommissionViewSerializer
 
 from datetime import datetime
@@ -127,14 +127,25 @@ def commission_select_for_designer(request,pk) :
         commission = Commission.objects.get(id = pk)
         designer = Designer.objects.get(id = request.user.id)
         portfolio = DesignerPopol.objects.get(designer = designer)
-        newRequestedDesigner = RequestedDesigner(
-            commission = commission,
-            designer = designer,
-            message = request.data['message'],
-            portfolio= portfolio
-        )
-        newRequestedDesigner.save()
-        return Response(status=status.HTTP_200_OK)
+
+        tmprequestedDesigner = RequestedDesigner.objects.filter(commission= commission, designer = designer)
+        if not tmprequestedDesigner : 
+            newRequestedDesigner = RequestedDesigner(
+                commission = commission,
+                designer = designer,
+                message = request.data['message'],
+                portfolio= portfolio
+            )
+            client = User.objects.get(id= commission.client.id)
+            newMessage = Message(
+                user = client,
+                message = designer.username + '님이 ' + commission.title +' 의뢰의 협업을 제안했습니다.'
+            )
+            newMessage.save()
+            newRequestedDesigner.save()
+            return Response(status=status.HTTP_200_OK)
+        else :
+            return Response({'messages' : '이미 지원한 의뢰서입니다.'},status= status.HTTP_204_NO_CONTENT)
     return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -151,7 +162,22 @@ def commission_view_detail(request,pk) :
         'request_count':request_count
         }, status= status.HTTP_200_OK)
 
+@api_view(['POST'])
+@permission_classes([AllowAny, ])
+def end_commission(request,pk) :
+    commission = Commission.objects.get(id = pk)
+    commission.current_status =3
 
+    tmpdesigner = User.objects.get(id = commission.designer.id)
+    newMessage = Message(
+        user =tmpdesigner,
+        message = commission.title + '이 완료 처리 되었습니다. 고생하셨습니다.'
+    )
+    newMessage.save()
+    commission.save()
+    
+   
+    return Response( status= status.HTTP_200_OK)
 
 # @api_view(['POST'])
 # @permission_classes([IsAuthenticated, ])

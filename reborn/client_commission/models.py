@@ -38,6 +38,7 @@ class CommissionStatus(models.IntegerChoices):
     not_started_not_selected = 1 # 마감기한 종료 후 디자이너 셀렉트 단계
     proceeding = 2 # 진행중
     finished = 3 # 끝
+    finished_review = 4 # 리뷰까지 작성 완료
 
 class Commission(models.Model) :
     client = models.ForeignKey(Client,on_delete=models.CASCADE)

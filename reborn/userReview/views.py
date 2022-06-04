@@ -26,7 +26,7 @@ from imutils import paths
 import cv2
 import math
 import os
-
+import shutil
 from reborn import settings
 
 MEDIA_ROOT = settings.MEDIA_ROOT
@@ -44,9 +44,9 @@ def create_review(request):
     tmpdesigner = Designer.objects.get(id = tmpcommission.designer.id)
     user = Designer.objects.get(id = tmpcommission.designer.id)
 
-    if request.user.is_client == True and tmpcommission.status == 2:
+    if request.user.is_client == True and tmpcommission.current_status == 3:
         if request.data['is_panorama'] == 'true' :
-            image = request.data.getlist('images')[0]
+            path = request.data.getlist('images')[0]
             # print(image)
         else :
             images = []
@@ -68,32 +68,35 @@ def create_review(request):
                 
             print("[INFO] switching images...")
             stitcher = cv2.createStitcher() if imutils.is_cv3() else cv2.Stitcher_create()
-            (tmpstatus, stitched) = stitcher.stitch(raw_images)
+            (tmpstatus, image) = stitcher.stitch(raw_images)
             if tmpstatus == 0:
+                path = '/client_committion/committion_image/image.jpg'
+                cv2.imwrite(MEDIA_ROOT + path,image)
+                cv2.waitKey(0)
                 # write the output stitched image to disk
 
                 # display the output stitched image to our screen
-                cv2.imshow("Stitched", stitched)
-                cv2.waitKey(0)
+                # cv2.imshow("Stitched", image)
+                # cv2.waitKey(0)
             else:
                 if tmpstatus == cv2.STITCHER_ERR_NEED_MORE_IMGS:
                     print("[INFO] image stitching failed (1: STITCHER_ERR_NEED_MORE_IMGS)")
                     raise Exception("[INFO] image stitching failed (1: STITCHER_ERR_NEED_MORE_IMGS)")
-                elif tmpstatus == cv2.STITCHER_ERR_HOMOGRAPHY_EST_FAIL:
+                elif status == cv2.STITCHER_ERR_HOMOGRAPHY_EST_FAIL:
                     print("[INFO] image stitching failed (2: STITCHER_ERR_HOMOGRAPHY_EST_FAIL)")
                     raise Exception("[INFO] image stitching failed (2: STITCHER_ERR_HOMOGRAPHY_EST_FAIL)")        
                 else:
                     print("[INFO] image stitching failed (3: STITCHER_ERR_CAMERA_PARAMETERS_ADJUSTMENT_FAIL)")
                     raise Exception("[INFO] image stitching failed (3: STITCHER_ERR_CAMERA_PARAMETERS_ADJUSTMENT_FAIL)")
+            shutil.rmtree(MEDIA_ROOT +'/temp'+str(request.user.id))
 
-        image = ContentFile(stitched)
-        
+        client = Client.objects.get(id = request.user.id)
         newReview = customerReview(
-            client = request.user,
+            client = client,
             small_image = request.data['small_image'],
-            panorama_image = image,
+            panorama_image = path,
             designer = tmpcommission.designer,
-            Commission = tmpcommission,
+            commission = tmpcommission,
             score = request.data['score'],
             title = tmpcommission.title,
             description=request.data['description'],
@@ -104,17 +107,19 @@ def create_review(request):
             review_text = request.data['designer_review'],
             score = request.data['designer_score']
         )
-        
+        tmpcommission.current_status = 4
 
         newMessage = Message(
             user = user,
             message = "'" + str(newReview.title) +"'" + '의뢰에 대한 후기가 작성되었습니다.', 
         )
-
+        tmpcommission.save()
         newReview.save()
         newDesignerReview.save()
         newMessage.save()
         return Response(status=status.HTTP_200_OK)
+    else :
+        return Response(status=status.HTTP_204_NO_CONTENT)
             
 @api_view(['GET'])
 @permission_classes([AllowAny, ])
