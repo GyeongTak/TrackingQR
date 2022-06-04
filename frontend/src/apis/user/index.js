@@ -15,7 +15,7 @@ const login = async (data) =>{
 const logout = async () =>{
     try {
         const token = localStorage.getItem('token');
-        await instance.post('http://localhost:8000/api/auth/logout', {
+        await instance.post('/api/auth/logout', {
             headers: { 
                 "Content-Type": `application/json`,
                 Authorization : "Token" + token,
@@ -63,7 +63,7 @@ const getProfileInfo = async () => {
 export const postDeleteMessage = async (data) => { //디자이너가 메세지를 확인했을때 {commission_id: id, msg: message}
     const token = localStorage.getItem('token');
     try {
-        const res = await instance.post(`api/mypage/delete_message`, data,
+        const res = await instance.post(`/api/mypage/delete_message`, data,
         {headers: { 
             "Content-Type": `application/json`,
             Authorization : "Token " + token
