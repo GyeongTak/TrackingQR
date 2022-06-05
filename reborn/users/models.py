@@ -1,6 +1,5 @@
 from django.db import models
 
-from django.db.models.signals import post_save
 from django.core.validators import MinValueValidator, MaxValueValidator
 
 
@@ -32,7 +31,7 @@ class Designer(User) :
     phone = models.CharField(max_length=100, blank=True)
     skills = models.CharField(max_length=100,blank=True)
     description = models.TextField(null=True, blank=True)
-    average_stars = models.FloatField(default = 0)
+    average_stars = models.FloatField(blank=True, null=True)
 
     USERNAME_FIELD: User.username
 

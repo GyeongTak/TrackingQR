@@ -1,4 +1,3 @@
-from jupyter_client import protocol_version_info
 from rest_framework.authtoken.models import Token
 
 from rest_framework import viewsets,status

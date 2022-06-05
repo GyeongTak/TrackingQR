@@ -97,7 +97,7 @@ const ClientProfile = () => {
                     return (
                     <MessageWrapper>
                         <div>
-                        {msg.message}
+                        {msg.message}  {msg.time}
                         </div>
                         </MessageWrapper>);
                 })

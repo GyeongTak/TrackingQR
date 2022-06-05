@@ -1,7 +1,5 @@
-from distutils.command.upload import upload
 import os
 from django.db import models
-from django.forms import JSONField
 from users.models import Client,Designer
 from portfolio.models import DesignerPopol
 from uuid import uuid4

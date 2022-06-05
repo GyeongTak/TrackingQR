@@ -1,11 +1,8 @@
-from asyncio.windows_events import NULL
 import os
 from django.db import models
 from uuid import uuid4
 from django.core.validators import MinValueValidator, MaxValueValidator
-from numpy import source
 
-from torch import maximum
 from client_commission.models import Commission
 from users.models import Designer, Client
 

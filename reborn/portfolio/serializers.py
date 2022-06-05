@@ -1,12 +1,6 @@
-from dataclasses import field
-import fileinput
-from pydoc import describe
 from django.forms import ValidationError
-from matplotlib import projections
-from nbformat import read
 from numpy import source
 from rest_framework import serializers
-from sklearn.metrics import average_precision_score
 from . models import Certificate, DesignerPopol, EducationAndCareer,Projects
 from users.models import User,Designer,Client
 

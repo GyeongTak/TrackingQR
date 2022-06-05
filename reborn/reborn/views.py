@@ -1,16 +1,10 @@
-
-
-from django.core.exceptions import ImproperlyConfigured
-from django.db.models import  Count
 from rest_framework import viewsets, status
 
 from rest_framework.decorators import action, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
-from django.contrib.auth import get_user_model, logout, login
 
 from rest_framework.decorators import api_view
-from portfolio.models import Projects
 
 from users.models import Designer,Message,User
 from portfolio.models import DesignerPopol
@@ -49,3 +43,16 @@ def menu(request):
              flag = 1
 
       Response({'flag': flag})
+
+# @api_view(['GET'])
+# @permission_classes([AllowAny])
+# def menu_serarch(request):
+#       r
+#       user = User.objects.get(id = request.user.id)
+#       messages = Message.objects.filter(user = user)
+#       flag =0
+#       if messages.count() == 0 :
+#              flag = 1
+
+#       Response({'flag': flag})
+

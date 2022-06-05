@@ -1,13 +1,8 @@
-from array import ArrayType
-from asyncio.windows_events import NULL
-from distutils.command.upload import upload
-from multiprocessing.dummy import Array
 import os
 from django.db import models
 from uuid import uuid4
 from django.core.validators import MinValueValidator, MaxValueValidator
 
-from torch import DictType
 from users.models import Designer
 
 

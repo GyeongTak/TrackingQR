@@ -28,6 +28,7 @@ import math
 import os
 import shutil
 from reborn import settings
+from portfolio.models import Projects
 
 MEDIA_ROOT = settings.MEDIA_ROOT
 #from .serializer import BriefReviewSerializer
@@ -113,6 +114,27 @@ def create_review(request):
             user = user,
             message = "'" + str(newReview.title) +"'" + '의뢰에 대한 후기가 작성되었습니다.', 
         )
+        tmpPortfolio = DesignerPopol.objects.get(designer = tmpdesigner)
+
+        newProjects = Projects(
+            title = tmpcommission.title ,
+            small_image = tmpcommission.small_image,
+            description = tmpcommission.description,
+            participation_data = tmpcommission.finish_date,
+            portfolio = tmpPortfolio,
+            client = client,
+            score = request.data['score']
+        )
+        
+        if not tmpdesigner.average_stars :
+            tmpdesigner.average_stars = request.data['score']
+        else :
+            tmpdesigner.average_stars = tmpdesigner.average_stars + request.data['score']
+            tmpdesigner.average_stars = tmpdesigner.average_stars / 2.0
+            tmpdesigner.average_stars = round(tmpdesigner.average_stars ,1)
+
+        tmpdesigner.save()
+        newProjects.save()
         tmpcommission.save()
         newReview.save()
         newDesignerReview.save()
@@ -135,10 +157,15 @@ def review_view(request) :
 def review_view_detail(request,pk):
     review = customerReview.objects.get(id = pk)
     reviewSerializer = ReviewDetailSerializer(review, many=False)
+    try :
+        designerReview = DesignerReview.objects.get(designer = review.designer, commission=review.commission)
+        designerReviewSerializer = DesignerReviewSerializer(designerReview,many=False)
+    except :
+        return Response({
+        'reveiw':  reviewSerializer.data,
+        }, status=status.HTTP_200_OK)
 
-    designerReview = DesignerReview.objects.get(designer = review.designer, commission=review.commission)
-    designerReviewSerializer = DesignerReviewSerializer(designerReview,many=False)
-   
+        
     return Response({
         'reveiw':  reviewSerializer.data,
         'designer_review' : designerReviewSerializer.data
