@@ -122,10 +122,10 @@ function WriteReviewPage() {
     return (
         <>
         <MainMenu />
-        <Wrap>
+        <div style={{display:'flex', flexDirection:'column', alignItems:'center', paddingTop: '20px'}}>
           <RatingText style={{marginTop:'40px', textAlign:'center', fontSize:'30px', fontWeight:'bold'}}>이번 의뢰는 어떠셨나요?</RatingText>
-          <span style={{marginLeft:'610px', color:'gray', fontWeight:'bold'}}>(디자이너 후기는 아래쪽에 있습니다!)</span>
-          <Stars style={{marginLeft:'640px', marginTop:'20px'}}>
+          <div style={{color:'gray', fontWeight:'bold'}}>(디자이너 후기는 아래쪽에 있습니다!)</div>
+          <Stars style={{marginTop:'20px'}}>
             {ARRAY.map((el, idx) => { //map은 배열을 받아 새로운 배열로 리턴하는 함수 -> 인덱스 값이 el로 찍히게 됨
               return (
                 <FaStar //svg로 나타냄
@@ -137,8 +137,8 @@ function WriteReviewPage() {
               );
             })}
           </Stars>
-        </Wrap>
-        <hr style={{width:'1000px', marginTop:'50px', marginLeft:'260px'}}></hr>
+        
+        <hr style={{width:'1000px', marginTop:'50px'}}></hr>
         <div style={{marginTop:'30px', textAlign:'center'}}>
           <span style={{fontSize:'18px', fontWeight:'bold'}}>평점에 따른 이유를 작성해주세요</span><br/>
           <span style={{fontSize:'18px', fontWeight:'bold'}}>어떤 점이 좋았나요?</span><br/>
@@ -163,24 +163,24 @@ function WriteReviewPage() {
         </div>
 
         <div style={{marginTop:'50px', fontWeight:'bold'}}>
-          <span style={{marginLeft:'290px'}}>[ 썸네일용 이미지를 첨부해주세요 ]</span>
+          <span >[ 썸네일용 이미지를 첨부해주세요 ]</span>
         </div>
-        <div style={{textAlign:'center', marginTop:'10px', marginLeft:'290px', width:'940px', height:'200px', borderRadius: 10,
+        <div style={{textAlign:'center', marginTop:'10px',  width:'940px', height:'200px', borderRadius: 10,
         border:'2px solid skyblue'}}>
             <input type="file" multiple onChange={saveFileImage} style={{marginTop:'20px'}}/>
         </div>
 
-        <div style={{marginTop:'50px', fontWeight:'bold'}}>
-          <span style={{marginLeft:'290px'}}>[ 리뷰 이미지를 첨부해주세요 ]</span>
-          <div style={{marginLeft:'290px'}}>
+        
+
+      
+          <div style={{marginTop:'50px', fontWeight:'bold'}}>[ 리뷰 이미지를 첨부해주세요 ]</div>
+
           <Radio.Group onChange={onChangeIsPanorama} value={isPanorama}>
             <Radio value={true}>파노라마 사진으로 등록하기</Radio>
             <Radio value={false}>이미지 스티칭 하기</Radio>
           </Radio.Group>
-          </div>
-        </div>
-        
-        <div style={{textAlign:'center', marginTop:'10px', marginLeft:'290px', width:'940px', height:'200px', borderRadius: 10,
+          
+        <div style={{textAlign:'center', marginTop:'10px', width:'940px', height:'200px', borderRadius: 10,
         border:'2px solid skyblue'}}>
             <input type="file" multiple onChange={onChangeFile} style={{marginTop:'20px'}}/>
             <div style={{display: 'flex'}}>
@@ -191,41 +191,42 @@ function WriteReviewPage() {
             </div>
         </div>
 
-        <div style={{marginTop:'30px', textAlign:'left', marginLeft:'290px'}}>
-          <span style={{ fontWeight:'bold'}}>[ 디자이너에 대한 평점과 한줄평을 남겨주세요! ]</span><br/>
-          <Wrap>
-          <Stars style={{marginLeft:'0px', marginTop:'0px'}}>
-            {ARRAY.map((el, idx) => { //map은 배열을 받아 새로운 배열로 리턴하는 함수 -> 인덱스 값이 el로 찍히게 됨
-              return (
-                <FaStar //svg로 나타냄
-                  key={idx}
-                  size="30"
-                  onClick={() => handleStarClick2(el)}
-                  className={clicked2[el] && 'redStar'}
-                />
-              );
-            })}
-          </Stars>
-        </Wrap>
-          <textarea
-            onChange={onChangeContent2}
-            maxLength={100} //200자 제한
-            style={{
-              padding:20,
-              fontSize:15,
-              marginTop: 10,
-              paddingHorizontal: 10,
-              width:940,
-              height: 70,
-              borderRadius: 10,
-              borderWidth: 1,
-              border: '2px solid skyblue'
-            }}
-            placeholder="디자이너가 어땠는지 한 줄로 평가해주세요:)"
-          />
+        <span style={{ fontWeight:'bold',marginTop:'60px'}}>[ 디자이너에 대한 평점과 한줄평을 남겨주세요! ]</span><br/>
+        
+        <Stars style={{marginLeft:'0px', marginTop:'0px'}}>
+          {ARRAY.map((el, idx) => { //map은 배열을 받아 새로운 배열로 리턴하는 함수 -> 인덱스 값이 el로 찍히게 됨
+            return (
+              <FaStar //svg로 나타냄
+                key={idx}
+                size="30"
+                onClick={() => handleStarClick2(el)}
+                className={clicked2[el] && 'redStar'}
+              />
+            );
+          })}
+        </Stars>
+        <textarea
+          onChange={onChangeContent2}
+          maxLength={100} //200자 제한
+          style={{
+            padding:20,
+            fontSize:15,
+            marginTop: '30px',
+            paddingHorizontal: 10,
+            width:940,
+            height: 70,
+            borderRadius: 10,
+            borderWidth: 1,
+            border: '2px solid skyblue'
+          }}
+          placeholder="디자이너가 어땠는지 한 줄로 평가해주세요:)"
+        />
+
+        <div><button style={{width:'120px', border:'none',height: '40px', marginTop: '50px', borderRadius:'10px', backgroundColor:'rgb(200, 242, 221)'}} type='submit' onClick={onSubmit}>등록</button></div>
+
+
         </div>
 
-        <button className='submit' type='submit' onClick={onSubmit}>등록</button><br/><br/><br/><br/>
         
         <Footer />
         </>
