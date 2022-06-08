@@ -120,7 +120,7 @@ def create_review(request):
             title = tmpcommission.title ,
             small_image = tmpcommission.small_image,
             description = tmpcommission.description,
-            participation_data = tmpcommission.finish_date,
+            participation_date = tmpcommission.finish_date,
             portfolio = tmpPortfolio,
             client = client,
             score = request.data['score']

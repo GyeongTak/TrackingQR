@@ -51,11 +51,7 @@ const HomePage = () => {
                             <Card
                             style={{width: '300px', margin:'15px'}}
                             hoverable
-<<<<<<< HEAD
                             cover={<img width={'300px'} height ={'300px'} style={{objectFit: 'cover'}} alt="example" src={`${SERVER_BASE_URL}${portfolio.profile_image}`} />}>
-=======
-                            cover={<img width='100px' height ='200px' style={{objectFit: 'cover'}} alt="example" src={`http://localhost:8000${portfolio.profile_image}`} />}>
->>>>>>> 1aa75cf1 (no message)
                             <Card.Meta 
                             title={<div style={{position: 'relative', top:'2px'}}>{portfolio.username} 님</div>}
                             description={<Rate defaultValue={portfolio.average_stars} disabled/>}
@@ -77,7 +73,6 @@ const HomePage = () => {
                 <ul style={{display:'flex', flexWrap: "wrap", listStyle:"none", paddingLeft: '0px'}}>
                 
                     {requests.map((request)=>
-<<<<<<< HEAD
                     <li>
                     <Card
                     style={{width: '300px',margin:'15px'}}
@@ -93,21 +88,6 @@ const HomePage = () => {
                         )}
                 </ul>
                 
-=======
-                        <Card
-                        hoverable
-                        cover={<img width='200px' height ='300px' style={{objectFit: 'cover'}}alt="example" src={`http://localhost:8000${request.small_image}`} />}
-                        >
-                        <Card.Meta 
-                        avatar={<Avatar src={`http://localhost:8000${request.userProfileImage}`} />} 
-                        title={<div style={{position: 'relative', top:'2px'}}>{request.brief_description}</div>} 
-                        description={
-                            <><Rate defaultValue={request.score} disabled/>
-                            <div>{request.companyName} : {request.username} 님</div></>
-                        } />
-                    </Card>)}
-                </div>
->>>>>>> 1aa75cf1 (no message)
             </div>
         </div>
         <Footer />

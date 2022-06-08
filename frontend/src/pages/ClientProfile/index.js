@@ -170,9 +170,10 @@ const ClientProfile = () => {
       )}
     />
         
-        </Tabs.TabPane>
+                </Tabs.TabPane>
 
-            <Tabs.TabPane tab="진행 중인 의뢰서" key="request-processing">
+                    <Tabs.TabPane tab="진행 중인 의뢰서" key="request-processing">
+                    {clientInfo?.commissions_started && 
                     <List
                     itemLayout="vertical"
                     size="large"
@@ -216,6 +217,8 @@ const ClientProfile = () => {
             </List.Item>
         )}
         />
+                    }
+                    
             </Tabs.TabPane>
 
             <Tabs.TabPane tab="리뷰" key="review">
